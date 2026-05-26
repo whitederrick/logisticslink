@@ -17,7 +17,7 @@ The default database is PostgreSQL. The local Docker database uses the same
 credentials as `.env.example`:
 
 ```text
-postgresql://forwardlink:forwardlink@localhost:5432/forwardlink?schema=public
+postgresql://forwardlink:forwardlink@localhost:5433/forwardlink?schema=public
 ```
 
 Useful database commands:
