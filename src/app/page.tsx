@@ -1,19 +1,19 @@
-﻿import { Anchor, Boxes, Gavel, ShieldCheck } from "lucide-react";
+import { Anchor, Boxes, Gavel, ShieldCheck } from "lucide-react";
 
 const cards = [
   {
-    title: "怨듬룞援щℓ ?",
-    body: "?숈씪 援ш컙, ?쇱젙, 臾쇱꽦 議곌굔???붿＜ 臾쇰웾??釉붾씪?몃뱶濡?吏묎퀎?⑸땲??",
+    title: "공동구매 풀",
+    body: "같은 항로, 일정, 화물 조건의 물량을 하나의 풀로 묶어 운임 협상력을 높입니다.",
     icon: Boxes
   },
   {
-    title: "?좎궗 ??꼍留?,
-    body: "D-14遺??D-7源뚯? ?좎궗媛 吏묎퀎 臾쇰웾??????댁엫???ъ같?⑸땲??",
+    title: "선사 역경매",
+    body: "모집이 끝난 물량을 기준으로 선사가 경쟁 입찰하고 가장 적합한 운임을 제안합니다.",
     icon: Gavel
   },
   {
-    title: "?뺣낫 鍮꾨?移?,
-    body: "李몄뿬???좎썝怨?媛쒕퀎 臾쇰웾? ?④린怨??꾩슂??吏묎퀎 ?뺣낫留??쒓났?⑸땲??",
+    title: "정보 비공개",
+    body: "참여사의 신원과 개별 물량은 보호하고, 운영에 필요한 집계 정보만 노출합니다.",
     icon: ShieldCheck
   }
 ];
@@ -33,7 +33,8 @@ export default function Home() {
             </div>
           </div>
           <a className="rounded bg-ink px-4 py-2 text-sm font-medium text-white" href="/dashboard">
-            ??쒕낫??          </a>
+            대시보드
+          </a>
         </header>
 
         <div className="grid flex-1 items-center gap-10 py-12 lg:grid-cols-[1.05fr_0.95fr]">
@@ -42,10 +43,11 @@ export default function Home() {
               Demand aggregation marketplace
             </p>
             <h1 className="max-w-3xl text-5xl font-semibold leading-tight">
-              以묒냼??臾쇰웾??臾띠뼱 ?좎궗 ?댁엫 寃쎌웳??留뚮뱶???뚮옯??            </h1>
+              중소 물량을 묶어 선사 운임 경쟁을 만드는 플랫폼
+            </h1>
             <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600">
-              ForwardLink???붿＜? ?ъ썙?붿쓽 ?뚰렪?붾맂 臾쇰웾??怨듬룞援щℓ ?濡?吏묎퀎?섍퀬,
-              ?좎궗????꼍留??낆같???듯빐 ???섏? ?댁엫怨??ㅽ뻾 ?먮쫫???쒓났?⑸땲??
+              ForwardLink는 화주와 포워더의 분산된 국제운송 수요를 공동구매 풀로 집계하고,
+              선사 역경매를 통해 더 나은 운임과 실행 흐름을 제공합니다.
             </p>
           </div>
 
