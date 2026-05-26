@@ -13,6 +13,8 @@ npm run seed
 npm run dev
 ```
 
+The local web app runs at `http://localhost:3001`.
+
 The default database is PostgreSQL. The local Docker database uses the same
 credentials as `.env.example`:
 
