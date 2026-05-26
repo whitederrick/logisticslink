@@ -1,0 +1,225 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  SHIPPER
+  FORWARDER
+  CARRIER
+  ADMIN
+}
+
+enum UserStatus {
+  PENDING_PROFILE
+  PENDING_APPROVAL
+  ACTIVE
+  RESTRICTED
+  LOCKED
+  SUSPENDED
+}
+
+enum QuoteStatus {
+  DRAFT
+  SUBMITTED
+  MATCHED_TO_POOL
+  STANDALONE
+  CANCELLED
+}
+
+enum PoolStatus {
+  AGGREGATING
+  AUCTION
+  AWARDED
+  FAILED
+  SHIPMENT_IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+enum ParticipantStatus {
+  JOINED
+  CANCELLED
+  CONFIRMED
+  NO_SHOW
+}
+
+enum FreightMode {
+  OCEAN_FCL
+  OCEAN_LCL
+}
+
+model User {
+  id                    Int                 @id @default(autoincrement())
+  email                 String              @unique
+  username              String              @unique
+  passwordHash          String
+  role                  UserRole
+  status                UserStatus          @default(ACTIVE)
+  companyNameKr         String?
+  companyNameEn         String
+  companyRegion         String
+  businessNumber        String
+  phone                 String?
+  nameKr                String?
+  nameEn                String?
+  businessType          String?
+  ecommerceStatus       Boolean             @default(false)
+  monthlyLogisticsBudget String?
+  logisticsModes        String[]            @default([])
+  trustScore            Int                 @default(100)
+  membershipLevel       String?
+  createdAt             DateTime            @default(now())
+  updatedAt             DateTime            @updatedAt
+
+  quotes                Quote[]
+  createdPools          CoBuyPool[]         @relation("PoolCreator")
+  poolParticipants      PoolParticipant[]
+  carrierBids           AuctionBid[]
+  wonPools              CoBuyPool[]         @relation("WinningCarrier")
+  notifications         Notification[]
+}
+
+model Port {
+  code        String      @id
+  name        String
+  countryCode String
+  timezone    String
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  originQuotes Quote[]    @relation("QuotePol")
+  destQuotes   Quote[]    @relation("QuotePod")
+  originPools  CoBuyPool[] @relation("PoolPol")
+  destPools    CoBuyPool[] @relation("PoolPod")
+}
+
+model Quote {
+  id               Int          @id @default(autoincrement())
+  requesterId      Int
+  requesterRole    UserRole
+  mode             FreightMode
+  polCode          String
+  podCode          String
+  targetEtd        DateTime
+  cargoType        String
+  containerType    String?
+  quantity         Int?
+  weightTon        Decimal?     @db.Decimal(10, 2)
+  volumeCbm        Decimal?     @db.Decimal(10, 2)
+  packageType      String?
+  unitSystem       String?
+  isHeavy          Boolean      @default(false)
+  isHazardous      Boolean      @default(false)
+  isReefer         Boolean      @default(false)
+  cargoDescription String?
+  guideRateUsd     Decimal?     @db.Decimal(10, 2)
+  status           QuoteStatus  @default(SUBMITTED)
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+
+  requester        User         @relation(fields: [requesterId], references: [id])
+  pol              Port         @relation("QuotePol", fields: [polCode], references: [code])
+  pod              Port         @relation("QuotePod", fields: [podCode], references: [code])
+  participants     PoolParticipant[]
+}
+
+model CoBuyPool {
+  id               Int          @id @default(autoincrement())
+  createdById      Int
+  polCode          String
+  podCode          String
+  targetEtd        DateTime
+  cargoType        String
+  containerType    String?
+  isHazardous      Boolean      @default(false)
+  isReefer         Boolean      @default(false)
+  isHeavy          Boolean      @default(false)
+  totalVolumeTeu   Decimal      @default(0) @db.Decimal(10, 2)
+  totalVolumeCbm   Decimal      @default(0) @db.Decimal(10, 2)
+  totalWeightTon   Decimal      @default(0) @db.Decimal(10, 2)
+  status           PoolStatus   @default(AGGREGATING)
+  auctionStartUtc  DateTime
+  auctionEndUtc    DateTime
+  scfiBaseRateUsd  Decimal      @db.Decimal(10, 2)
+  finalRateUsd     Decimal?     @db.Decimal(10, 2)
+  winningCarrierId Int?
+  limitOverride    Boolean      @default(false)
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+
+  createdBy        User         @relation("PoolCreator", fields: [createdById], references: [id])
+  winningCarrier   User?        @relation("WinningCarrier", fields: [winningCarrierId], references: [id])
+  pol              Port         @relation("PoolPol", fields: [polCode], references: [code])
+  pod              Port         @relation("PoolPod", fields: [podCode], references: [code])
+  participants     PoolParticipant[]
+  bids             AuctionBid[]
+
+  @@index([status, auctionStartUtc, auctionEndUtc])
+  @@index([polCode, podCode, targetEtd, cargoType])
+}
+
+model PoolParticipant {
+  id              Int               @id @default(autoincrement())
+  poolId          Int
+  userId          Int
+  quoteId         Int?
+  role            UserRole
+  volumeTeu       Decimal           @default(0) @db.Decimal(10, 2)
+  volumeCbm       Decimal           @default(0) @db.Decimal(10, 2)
+  weightTon       Decimal           @default(0) @db.Decimal(10, 2)
+  depositRequired Boolean           @default(false)
+  depositAmount   Decimal           @default(0) @db.Decimal(12, 2)
+  status          ParticipantStatus @default(JOINED)
+  joinedAt        DateTime          @default(now())
+  cancelledAt     DateTime?
+
+  pool            CoBuyPool         @relation(fields: [poolId], references: [id])
+  user            User              @relation(fields: [userId], references: [id])
+  quote           Quote?            @relation(fields: [quoteId], references: [id])
+
+  @@unique([poolId, userId])
+}
+
+model AuctionBid {
+  id              Int       @id @default(autoincrement())
+  poolId          Int
+  carrierId       Int
+  proposedRateUsd Decimal   @db.Decimal(10, 2)
+  bidTime         DateTime  @default(now())
+  isWinningAtTime Boolean   @default(false)
+
+  pool            CoBuyPool @relation(fields: [poolId], references: [id])
+  carrier         User      @relation(fields: [carrierId], references: [id])
+
+  @@index([poolId, proposedRateUsd])
+}
+
+model Notification {
+  id                Int       @id @default(autoincrement())
+  userId            Int
+  type              String
+  title             String
+  message           String
+  relatedEntityType String?
+  relatedEntityId   Int?
+  readAt            DateTime?
+  createdAt         DateTime  @default(now())
+
+  user              User      @relation(fields: [userId], references: [id])
+}
+
+model AuditLog {
+  id          Int      @id @default(autoincrement())
+  actorId     Int?
+  action      String
+  entityType  String
+  entityId    Int?
+  beforeJson  Json?
+  afterJson   Json?
+  createdAt   DateTime @default(now())
+}
