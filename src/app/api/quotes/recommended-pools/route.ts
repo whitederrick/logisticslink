@@ -3,6 +3,6 @@
 export async function POST() {
   return NextResponse.json({
     recommendedPools: [],
-    note: "Matching endpoint scaffold. Connect Prisma query in Sprint 1."
+    note: "Use GET /api/quotes/:id/recommended-pools for database-backed recommendations."
   });
 }
