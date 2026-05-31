@@ -1,57 +1,69 @@
 import { getPageLanguage, PageSearchParams, withLanguage } from "@/lib/i18n";
-import { Anchor, Boxes, Gavel, ShieldCheck, UserPlus } from "lucide-react";
+import { Anchor, Boxes, CheckCircle2, ClipboardList, Gavel, LogIn, PackageCheck, UserPlus } from "lucide-react";
 import Link from "next/link";
 
 const text = {
   en: {
     cards: [
       {
-        body: "Shippers and forwarders aggregate compatible demand by route, schedule, cargo type, and container profile.",
+        body: "Shippers and forwarders register freight demand with route, ETD, cargo, and container details.",
+        icon: ClipboardList,
+        title: "1. Register cargo"
+      },
+      {
+        body: "Compatible demand is grouped into blind co-buy pools without exposing participant identities.",
         icon: Boxes,
-        title: "Blind co-buy pools"
+        title: "2. Aggregate pools"
       },
       {
-        body: "Carriers compete after the D-14 lock opens, with bids validated against the SCFI ceiling and current lowest price.",
+        body: "Carriers bid after the time-lock opens, and admin closes the auction to award the best valid rate.",
         icon: Gavel,
-        title: "Carrier reverse auctions"
+        title: "3. Auction and award"
       },
       {
-        body: "Participant identities and individual cargo details stay hidden outside the admin control room.",
-        icon: ShieldCheck,
-        title: "Role-scoped access"
+        body: "Awarded shipments move through in-progress and completed follow-up states.",
+        icon: PackageCheck,
+        title: "4. Shipment follow-up"
       }
     ],
-    cta: "Open MVP",
+    cta: "View MVP scenario",
     eyebrow: "Demand aggregation marketplace",
     headline: "Freight co-buying with controlled data access for every logistics role.",
+    login: "Login",
     signup: "Create account",
     subtitle:
-      "ForwardLink groups compatible cargo demand into blind pools, opens carrier reverse auctions at the time-lock, and keeps each actor inside the data boundary they need."
+      "ForwardLink is organized as one operating flow: register cargo, aggregate demand, open a reverse auction, award the shipment, and track follow-up."
   },
   ko: {
     cards: [
       {
-        body: "화주와 포워더의 물량을 구간, 일정, 화물 유형, 컨테이너 조건 기준으로 묶습니다.",
+        body: "화주와 포워더가 항로, ETD, 화물, 컨테이너 조건을 입력해 운송 수요를 등록합니다.",
+        icon: ClipboardList,
+        title: "1. 화물 등록"
+      },
+      {
+        body: "조건이 맞는 수요를 블라인드 공동구매 풀로 묶고 참여자 신원은 숨깁니다.",
         icon: Boxes,
-        title: "블라인드 공동구매 풀"
+        title: "2. 공동구매 집계"
       },
       {
-        body: "D-14 타임락 이후 선사가 역경매로 입찰하며, SCFI 상한과 현재 최저가 기준으로 검증합니다.",
+        body: "타임락 이후 선사가 낮은 운임으로 입찰하고, 관리자가 최저 유효 입찰을 낙찰합니다.",
         icon: Gavel,
-        title: "선사 역경매"
+        title: "3. 역경매와 낙찰"
       },
       {
-        body: "참여자 신원과 개별 화물 정보는 관리자 화면 밖에서는 노출되지 않습니다.",
-        icon: ShieldCheck,
-        title: "역할별 데이터 접근"
+        body: "낙찰된 건은 운송 시작과 완료 상태로 후속 관리합니다.",
+        icon: PackageCheck,
+        title: "4. 운송 후속"
       }
     ],
-    cta: "MVP 열기",
+    cta: "MVP 시나리오 보기",
     eyebrow: "수요 집계형 물류 마켓플레이스",
-    headline: "물류 역할별 데이터 접근을 통제하는 블라인드 공동구매 플랫폼.",
+    headline: "화물 등록부터 낙찰 이후 운송 후속까지 한 흐름으로 보는 MVP.",
+    login: "로그인",
     signup: "회원가입",
     subtitle:
-      "ForwardLink는 조건이 맞는 화물 수요를 블라인드 풀로 집계하고, 타임락에 맞춰 선사 역경매를 열며, 각 역할에 필요한 데이터만 보여줍니다."
+      "ForwardLink는 화물 등록, 공동구매 집계, 타임락, 선사 역경매, 낙찰 확정, 운송 후속 관리를 하나의 운영 절차로 묶습니다."
   }
 } as const;
 
@@ -80,6 +92,10 @@ export default async function Home({ searchParams }: { searchParams: PageSearchP
               <UserPlus size={16} />
               {t.signup}
             </Link>
+            <Link className="inline-flex items-center gap-2 rounded border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-700" href={withLanguage("/login", language)}>
+              <LogIn size={16} />
+              {t.login}
+            </Link>
             <Link className="rounded bg-ink px-4 py-2 text-sm font-medium text-white" href={withLanguage("/dashboard", language)}>
               {t.cta}
             </Link>
@@ -91,9 +107,19 @@ export default async function Home({ searchParams }: { searchParams: PageSearchP
             <p className="mb-4 text-sm font-semibold uppercase tracking-wide text-harbor">{t.eyebrow}</p>
             <h1 className="max-w-3xl text-5xl font-semibold leading-tight">{t.headline}</h1>
             <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600">{t.subtitle}</p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Link className="inline-flex items-center gap-2 rounded bg-ink px-5 py-3 text-sm font-semibold text-white" href={withLanguage("/dashboard", language)}>
+                <CheckCircle2 size={17} />
+                {t.cta}
+              </Link>
+              <Link className="inline-flex items-center gap-2 rounded border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700" href={withLanguage("/login", language)}>
+                <LogIn size={17} />
+                {t.login}
+              </Link>
+            </div>
           </div>
 
-          <div className="grid gap-4">
+          <div className="grid gap-4 sm:grid-cols-2">
             {t.cards.map((card) => {
               const Icon = card.icon;
               return (
