@@ -1,21 +1,18 @@
 import { NextResponse } from "next/server";
-import { z } from "zod";
+import { joinPoolRequestSchema, parsePositiveRouteId, validatePoolJoinRequest } from "@/lib/api-contract";
+import { getCurrentUser, operationalAccessError } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { calculateQuoteVolumes } from "@/lib/quote-volume";
 
-const joinPoolSchema = z.object({
-  quoteId: z.number().int().positive()
-});
-
 export async function POST(request: Request, context: { params: Promise<{ poolId: string }> }) {
   const { poolId } = await context.params;
-  const numericPoolId = Number(poolId);
+  const numericPoolId = parsePositiveRouteId(poolId);
 
-  if (!Number.isInteger(numericPoolId) || numericPoolId <= 0) {
+  if (!numericPoolId) {
     return NextResponse.json({ error: "INVALID_POOL_ID" }, { status: 400 });
   }
 
-  const parsed = joinPoolSchema.safeParse(await request.json());
+  const parsed = joinPoolRequestSchema.safeParse(await request.json());
 
   if (!parsed.success) {
     return NextResponse.json(
@@ -37,33 +34,24 @@ export async function POST(request: Request, context: { params: Promise<{ poolId
     return NextResponse.json({ error: "QUOTE_NOT_FOUND" }, { status: 404 });
   }
 
-  if (pool.status !== "AGGREGATING") {
-    return NextResponse.json({ error: "POOL_NOT_AGGREGATING" }, { status: 409 });
+  const user = await getCurrentUser();
+  if (!user) {
+    return NextResponse.json({ error: "LOGIN_REQUIRED" }, { status: 401 });
   }
 
-  if (quote.participants.length > 0) {
-    return NextResponse.json({ error: "QUOTE_ALREADY_IN_POOL" }, { status: 409 });
+  const accessError = operationalAccessError(user);
+  if (accessError) {
+    return NextResponse.json({ error: accessError }, { status: 403 });
   }
 
   const existingParticipant = await prisma.poolParticipant.findUnique({
     where: { poolId_userId: { poolId: pool.id, userId: quote.requesterId } }
   });
 
-  if (existingParticipant) {
-    return NextResponse.json({ error: "PARTICIPANT_ALREADY_IN_POOL" }, { status: 409 });
-  }
-
-  const matches =
-    pool.polCode === quote.polCode &&
-    pool.podCode === quote.podCode &&
-    pool.cargoType === quote.cargoType &&
-    pool.containerType === quote.containerType &&
-    pool.isHeavy === quote.isHeavy &&
-    pool.isHazardous === quote.isHazardous &&
-    pool.isReefer === quote.isReefer;
-
-  if (!matches) {
-    return NextResponse.json({ error: "QUOTE_DOES_NOT_MATCH_POOL" }, { status: 422 });
+  const joinError = validatePoolJoinRequest({ existingParticipant, pool, quote, user });
+  if (joinError) {
+    const status = joinError === "QUOTE_ACCESS_DENIED" ? 403 : joinError === "QUOTE_DOES_NOT_MATCH_POOL" ? 422 : 409;
+    return NextResponse.json({ error: joinError }, { status });
   }
 
   const volumes = calculateQuoteVolumes(quote);

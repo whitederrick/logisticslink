@@ -53,6 +53,35 @@ enum FreightMode {
   OCEAN_LCL
 }
 
+enum RateBenchmarkSource {
+  SCFI
+  FBX
+  DREWRY_WCI
+  CARRIER_FAK
+  CARRIER_PUBLIC_TARIFF
+  XENETA_SPOT
+  XENETA_CONTRACT
+  COMMERCIAL_API
+  INTERNAL_MASTER
+}
+
+enum RateBenchmarkTier {
+  PUBLIC
+  PARTNER
+  PAID
+  INTERNAL
+  LEGACY
+}
+
+enum RateBenchmarkType {
+  MARKET_INDEX
+  SPOT_RATE
+  CONTRACT_RATE
+  FAK
+  PUBLIC_TARIFF
+  INTERNAL_MASTER
+}
+
 model User {
   id                    Int                 @id @default(autoincrement())
   email                 String              @unique
@@ -96,6 +125,31 @@ model Port {
   destQuotes   Quote[]    @relation("QuotePod")
   originPools  CoBuyPool[] @relation("PoolPol")
   destPools    CoBuyPool[] @relation("PoolPod")
+}
+
+model FreightRateBenchmark {
+  id             Int                 @id @default(autoincrement())
+  source         RateBenchmarkSource
+  sourceTier     RateBenchmarkTier   @default(PUBLIC)
+  benchmarkType  RateBenchmarkType   @default(MARKET_INDEX)
+  sourceLabel    String
+  provider       String?
+  externalRef    String?
+  polCode        String
+  podCode        String
+  containerGroup String
+  currency       String              @default("USD")
+  rateUsd        Decimal             @db.Decimal(10, 2)
+  confidenceScore Int                @default(70)
+  validFrom      DateTime
+  validTo        DateTime?
+  collectedAt    DateTime            @default(now())
+  createdAt      DateTime            @default(now())
+  updatedAt      DateTime            @updatedAt
+
+  @@unique([source, polCode, podCode, containerGroup, validFrom])
+  @@index([polCode, podCode, containerGroup, validFrom])
+  @@index([sourceTier, benchmarkType])
 }
 
 model Quote {

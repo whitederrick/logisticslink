@@ -1,4 +1,6 @@
 import { NextResponse } from "next/server";
+import { canReadQuote } from "@/lib/access-policy";
+import { getCurrentUser } from "@/lib/auth";
 import { isPoolMatch } from "@/lib/matching";
 import { prisma } from "@/lib/prisma";
 
@@ -15,6 +17,11 @@ function calculateExpectedDiscountRate(totalVolumeTeu: number, totalVolumeCbm: n
 }
 
 export async function GET(_request: Request, context: { params: Promise<{ id: string }> }) {
+  const user = await getCurrentUser();
+  if (!user) {
+    return NextResponse.json({ error: "LOGIN_REQUIRED" }, { status: 401 });
+  }
+
   const { id } = await context.params;
   const quoteId = Number(id);
 
@@ -26,6 +33,10 @@ export async function GET(_request: Request, context: { params: Promise<{ id: st
 
   if (!quote) {
     return NextResponse.json({ error: "QUOTE_NOT_FOUND" }, { status: 404 });
+  }
+
+  if (!canReadQuote(user, quote)) {
+    return NextResponse.json({ error: "QUOTE_ACCESS_DENIED" }, { status: 403 });
   }
 
   const candidatePools = await prisma.coBuyPool.findMany({

@@ -1,21 +1,18 @@
 import { NextResponse } from "next/server";
-import { z } from "zod";
+import { bidRequestSchema, parsePositiveRouteId } from "@/lib/api-contract";
+import { validateCarrierBid } from "@/lib/bid-validation";
+import { getCurrentUser, operationalAccessError } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-
-const createBidSchema = z.object({
-  carrierId: z.number().int().positive().optional(),
-  proposedRateUsd: z.number().positive()
-});
 
 export async function POST(request: Request, context: { params: Promise<{ poolId: string }> }) {
   const { poolId } = await context.params;
-  const numericPoolId = Number(poolId);
+  const numericPoolId = parsePositiveRouteId(poolId);
 
-  if (!Number.isInteger(numericPoolId) || numericPoolId <= 0) {
+  if (!numericPoolId) {
     return NextResponse.json({ error: "INVALID_POOL_ID" }, { status: 400 });
   }
 
-  const parsed = createBidSchema.safeParse(await request.json());
+  const parsed = bidRequestSchema.safeParse(await request.json());
 
   if (!parsed.success) {
     return NextResponse.json(
@@ -33,28 +30,35 @@ export async function POST(request: Request, context: { params: Promise<{ poolId
     return NextResponse.json({ error: "POOL_NOT_FOUND" }, { status: 404 });
   }
 
-  if (pool.status !== "AUCTION") {
-    return NextResponse.json({ error: "POOL_NOT_IN_AUCTION" }, { status: 409 });
-  }
+  const now = new Date();
 
-  const carrier =
-    parsed.data.carrierId == null
-      ? await prisma.user.findFirst({ where: { username: "carrier", role: "CARRIER" } })
-      : await prisma.user.findUnique({ where: { id: parsed.data.carrierId } });
+  const carrier = await getCurrentUser();
 
   if (!carrier || carrier.role !== "CARRIER") {
-    return NextResponse.json({ error: "CARRIER_NOT_FOUND" }, { status: 404 });
+    return NextResponse.json({ error: "CARRIER_ROLE_REQUIRED" }, { status: carrier ? 403 : 401 });
+  }
+
+  const accessError = operationalAccessError(carrier);
+  if (accessError) {
+    return NextResponse.json({ error: accessError }, { status: 403 });
   }
 
   const currentLowestRate = pool.bids[0]?.proposedRateUsd == null ? null : Number(pool.bids[0].proposedRateUsd);
-  const isCurrentLowest = currentLowestRate == null || parsed.data.proposedRateUsd < currentLowestRate;
+  const bidError = validateCarrierBid({
+    auctionEndUtc: pool.auctionEndUtc,
+    auctionStartUtc: pool.auctionStartUtc,
+    carrierStatus: carrier.status,
+    currentLowestRate,
+    limitOverride: pool.limitOverride,
+    now,
+    proposedRateUsd: parsed.data.proposedRateUsd,
+    scfiBaseRateUsd: Number(pool.scfiBaseRateUsd),
+    status: pool.status
+  });
 
-  if (!pool.limitOverride && parsed.data.proposedRateUsd >= Number(pool.scfiBaseRateUsd)) {
-    return NextResponse.json({ error: "BID_MUST_BE_BELOW_BASE_RATE" }, { status: 422 });
-  }
-
-  if (!isCurrentLowest) {
-    return NextResponse.json({ error: "BID_MUST_BE_LOWER_THAN_CURRENT_LOWEST" }, { status: 422 });
+  if (bidError) {
+    const status = bidError === "CARRIER_NOT_ALLOWED_TO_BID" ? 403 : bidError.includes("LOCK") || bidError === "POOL_NOT_IN_AUCTION" ? 409 : 422;
+    return NextResponse.json({ error: bidError }, { status });
   }
 
   const bid = await prisma.$transaction(async (tx) => {

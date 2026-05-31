@@ -1,6 +1,7 @@
 import { FreightMode } from "@prisma/client";
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import { getCurrentUser, operationalAccessError } from "@/lib/auth";
 import { isHeavyCargo } from "@/lib/freight";
 import { prisma } from "@/lib/prisma";
 
@@ -46,13 +47,19 @@ export async function POST(request: Request) {
   }
 
   const input = parsed.data;
-  const requester =
-    input.requesterId == null
-      ? await prisma.user.findFirst({ where: { username: "shipper" } })
-      : await prisma.user.findUnique({ where: { id: input.requesterId } });
+  const requester = await getCurrentUser();
 
   if (!requester) {
-    return NextResponse.json({ error: "REQUESTER_NOT_FOUND" }, { status: 404 });
+    return NextResponse.json({ error: "LOGIN_REQUIRED" }, { status: 401 });
+  }
+
+  const accessError = operationalAccessError(requester);
+  if (accessError) {
+    return NextResponse.json({ error: accessError }, { status: 403 });
+  }
+
+  if (requester.role !== "SHIPPER" && requester.role !== "FORWARDER") {
+    return NextResponse.json({ error: "QUOTE_REQUESTER_ROLE_NOT_ALLOWED" }, { status: 403 });
   }
 
   const isHeavy = isHeavyCargo(input.containerType, input.weightTon);
