@@ -1,0 +1,831 @@
+Total slides: 59
+================================================================================
+
+--- Slide 1 ---
+
+--- Slide 2 ---
+Index
+1. Business Model
+2. Business Flowchart (Process)
+3. UML Diagram (Scenario)
+4. 화면 설계 (UI/UX)
+5. 메뉴 구성도
+6. ERD
+
+--- Slide 3 ---
+Basic Business Model
+1. Business Model
+New Business Model : 화주의 운임 공동구매와 선사의 운임 경쟁 입찰에 기반한 통합 국제 운송 중개 플랫폼 
+
+--- Slide 4 ---
+Basic Business Model
+1. Business Model
+화주는 무료 회원 가입 및 포워더는 멤버십 가입 구조를 유지하고, 선사는 가입비와 물량 낙찰 기반 수수료 부과를 검토 
+플랫폼
+서비스
+선사
+ 안정적 물량 제공
+ 데이터 분석 결과 제공
+ 저렴한 수수료 보장
+ 운임 입찰 결과 기반 수수료
+    ※ 물량 / 결정 운임 기반 자동 수수료 산정
+    ※ 거래 물량에 비례하여 수수료율 차등 적용
+         (물량이 늘어날수록 수수료가 낮아지는 구조)
+멤버십 가입비
+    ① 무료 가입 가능(서비스 체험 가능)
+    ② 멤버십 가입 후, 정상 서비스 이용 가능
+멤버십 (3레벨 구성) 가입비
+    - 멤버십 등급별 활용 기능 / 서비스 기능 제한
+멤버십 등급에 따라, 공동구매 참여 차별화
+    ① 하위 멤버십은 운임 공동구매만 참여 가능
+    ② 상위 멤버십은 물량 공동구매도 참여 가능
+물량 기반 포워딩 경매 참여
+운임 공동구매 참여
+무료 회원 가입
+    - 운임공동 구매 무료
+서비스 이용 요금
+    - 물류 중계 서비스 이용 시   
+      비용 실비 청구(행정 처리 등)
+무료 회원 가입
+    - 운임공동 구매 무료
+서비스 이용 요금
+    - 물류 중계 서비스 이용 시   
+      비용 실비 청구(행정 처리 등)
+물량 기반 포워딩 경매 참여를 진행해야만, 운임 공동구매 참여 가능
+   ※ B2C의 경우에는 물량 규모가 작아 플랫폼 참여 여부에 대한 추가 검토가 필요
+   ※ 플랫폼 Player 참여가 필요하다면, 운임 공동구매 보다 포워더 입찰 형태로 고민이 필요
+
+--- Slide 5 ---
+Index
+1. Business Model
+2. Business Flowchart (Process)
+3. UML Diagram (Scenario)
+4. 화면 설계 (UI/UX)
+5. 메뉴 구성도
+6. ERD
+
+--- Slide 6 ---
+01. 전체 프로세스
+2. Business Flowchart (Process)
+화주 회원 가입
+운임 견적 필수
+요청 내용 입력
+운임 공동구매
+신청
+운임 공동구매
+현황 조회
+운임 업데이트 시
+자동 견적 완료
+공동구매 
+참여
+운임 공동구매
+목록 조회
+선사 회원 가입
+운임 존재 여부 
+운임 견적 완료
+운임 견적 
+현황 조회
+선사 운임
+경매 입찰
+Y
+N
+운임 견적
+신청 완료
+매주/매월 구간별
+운임표 등록
+Y
+예상 
+운임 견적 제공
+※ 예상 운임을 명시하고,
+     운임 업데이트 시 자동 
+     재 견적 및 알림 안내
+※ 매주/매월 구간별 운임표 3회 업데이트 
+     미수행 시 운임 공동구매 입찰 제한 
+     가능 여부 검토
+운임 갱신
+여부 
+Y
+운임 견적 불가
+N
+N
+※ D-7일 운임 미 확정 시 
+    운임 견적 불가 안내
+※ 운임 견적 업데이트 시 
+     알림 안내
+N
+Y
+운임 공동구매
+경매 낙찰 완료
+선사 운임
+경매 낙찰
+※ 현재 입찰에 참여한 선사 목록 및 입찰 가격 표시
+※ 입찰 최저가 금액 갱신 시, 참여 선사에게 알람 안내
+※ 입찰이 유찰될 경우에는
+     해당 운임 공동구매 견적 
+     불가로 알림 안내
+Y
+운임 공동구매
+경매 미낙찰
+N
+※ 경매 종료 후, 
+     참여 화주에게 
+     알람 안내
+운임 공동구매
+낙찰 현황 조회
+종료
+종료
+※ 경매 종료 후, 
+     참여 화주에게 알람 안내
+※ 운임 견적 요청
+     실패 건 분석
+※ 운임 공동구매 
+     실패 건 분석
+화주 – 포워더 – 선사가 각각의 목적에 맞게 플랫폼을 활용할 수 있도록 구성하는 것을 목적으로 함.
+단, 화주의 물량을 포워더가 모으는 기능은 현재 프로세스가 아닌 별도 프로세스로 구현을 고민함.
+
+--- Slide 7 ---
+02-01. 회원 가입 : 공통 (화주, 포워더, 선사)
+2. Business Flowchart (Process)
+※ 기본 정보로만 회원 가입 시, 접근 가능한 서비스 범위
+    - 홈 화면
+    - 플랫폼 및 서비스 소개
+    - 포워딩 견적(일부 회사 정보 추가 입력 시)
+    - FAQ
+    - Q&A
+회원 가입은 화주, 포워더, 선사가 동일 내용(국가 선택, 사업자 번호, 이메일, 약관 동의)을 기반으로 가능하며, 
+추가 정보 입력 전까지 플랫폼 전체 서비스의 접근 및 활용을 제한함. (활용 가능 서비스 별도 정의) 
+
+--- Slide 8 ---
+02-02. 화주 상세 정보 입력
+1. Business Flowchart (Process)
+
+--- Slide 9 ---
+02-03. 포워더 상세 정보 입력
+2. Business Flowchart (Process)
+
+--- Slide 10 ---
+02-04. 선사 상세 정보 입력
+2. Business Flowchart (Process)
+
+--- Slide 11 ---
+03-01. 화주 운임 견적
+2. Business Flowchart (Process)
+
+--- Slide 12 ---
+03-02. 포워더 운임 견적
+2. Business Flowchart (Process)
+
+--- Slide 13 ---
+04-01. 화주 운임 공동구매 신청
+2. Business Flowchart (Process)
+
+--- Slide 14 ---
+04-02. 포워더 운임 공동구매 신청
+2. Business Flowchart (Process)
+
+--- Slide 15 ---
+05-01. 선사 운임 입찰
+2. Business Flowchart (Process)
+
+--- Slide 16 ---
+06-01. //
+2. Business Flowchart (Process)
+
+--- Slide 17 ---
+Index
+1. Business Model
+2. Business Flowchart (Process)
+3. UML Diagram (Scenario)
+4. 화면 설계 (UI/UX)
+5. 메뉴 구성도
+6. ERD
+
+--- Slide 18 ---
+① 화주는 플랫폼에 가입하고 로그인 후에, 물량 정보를 입력하여 운임 견적을 요청함
+일반 운임 견적
+3. UML Diagram (Scenario)
+견적 정보 입력
+회원가입
+(추가 정보 입력)
+로그인
+운임 견적 요청
+상세 운임 견적 결과 출력
+② 화주는 플랫폼에 가입하지 않고, 기업 정보 및 물량 정보를 입력하여 운임 견적을 요청함
+견적 정보 입력
+개인 정보 입력
+운임 견적 요청
+간단 운임 견적 결과 출력
+※ 성명, 이메일, 전화번호, 회사명, 약관 동의
+※ 운송 모드(해운, 항공, 특송)
+     출발지, 도착지
+     [해운]
+     컨테이너 운송 방식(FCL, LCL),
+     물량(20’, 40’ 컨테이너 기준)
+     [항공] [특송]
+     화물 정보(KG 기준)      
+※ 터미널 화물 처리 비용, 항만 사용료 등 모든 부대비용이 포함된 금액
+- 이용 약관(필수)
+- 개인정보 수집 및 이용 동의(필수)
+- 개인정보 국외이전에 동의(필수)
+- 만 14세 이상 확인하고 동의(필수)
+- 개인정보 제3자 제공에 동의(필수)
+- 마케팅 활용에 동의(선택)
+- 마케팅 정보 수신에 동의(선택)
+※ 운송 모드(해운, 항공, 특송),
+     출발지, 도착지, 출발 요청일
+[해운] 컨테이너 운송 방식(FCL, LCL)
+           컨테이너 종류 및 수량, 중량 화물(20’ 16Ton↑, 40’ 20Ton↑)
+            - 20 FT Normal Dry, High Cubic, Reefer, High Cubic Reefer, 
+                         Tanker, Dangerous Cargo
+            - 22 FT Tanker
+            - 40 FT Normal Dry, High Cubic, Reefer, High Cubic Reefer, 
+                         Tanker
+            - 45 FT High Cubic Reefer
+[해운] 컨테이너 운송 방식(FCL, LCL), [항공], [특송]
+※ [해운 LCL], [항공] 패키지 종류(박스, 카톤박스, 팔레트, 피스), [특송] 패키지 분류 없음
+※ 사업자등록증,대표자, 주소 등
+
+--- Slide 19 ---
+① 화주는 회원 가입 시 모든 추가 정보를 입력한 경우, 운임 공동구매 신청이 가능함 
+운임 공동구매 신청
+3. UML Diagram (Scenario)
+운임 공동구매 신청
+회원가입
+(추가 정보 포함)
+로그인
+운임 공동구매 신청 내역 출력
+② 포워더는 회원 가입 시 모든 추가를 정보 입력하고, 
+     화주들의 통합 물류 서비스 요청 건에 대한 입찰에 성공할 경우 경우, 운임 공동구매 신청이 가능함 
+※ 운송 모드(해운, 항공, 특송),
+     출발지, 도착지, 출발 요청일 구간(신청 기준일 설정 필요)
+[해운] 컨테이너 운송 방식(FCL, LCL), [항공], [특송]
+※ [해운 LCL], [항공] 패키지 종류(박스, 카톤박스, 팔레트, 피스), [특송] 패키지 분류 없음
+※ 사업자등록증,대표자, 주소 등
+운임 공동구매 신청
+회원가입
+(추가 정보 포함)
+로그인
+운임 공동구매 신청 내역 출력
+※ 사업자등록증,대표자, 주소 등
+화주의 통합 물류 서비스 요청 낙찰
+※ 운송 모드(해운, 항공, 특송),
+     출발지, 도착지, 출발 요청일 구간(신청 기준일 설정 필요)
+     * 공동구매 종료 이후의 계약, 화물 이동, 행정처리, 선적 등을 고려한 기준일 설정이 중요
+[해운] 컨테이너 운송 방식(FCL, LCL)
+           컨테이너 종류 및 수량, 중량 화물(20’ 16Ton↑, 40’ 20Ton↑)
+            - 20 FT Normal Dry, High Cubic, Reefer, High Cubic Reefer 
+            - 40 FT Normal Dry, High Cubic, Reefer, High Cubic Reefer
+            - 45 FT High Cubic Reefer
+※ 화주의 운임 공동구매와 동일 방식으로 진행
+※ 화주의 운임 공동구매에 참여 가능
+※ 화주의 통합 물류 서비스 요청 건은
+    동일한 운송 모드와 컨테이너 종류로만 
+    구성되어, 운임 공동구매 신청 시
+    자동으로 운송 모드 및 컨테이너 운송 
+    방식이 결정됨 
+
+--- Slide 20 ---
+운임 공동구매 참여
+3. UML Diagram (Scenario)
+① 회원 가입 시 모든 추가 정보를 입력한 화주가 일반 운임을 신청할 때, 
+     플랫폼은 해당 운임 견적 요청과 관련성이 높은 현재 진행 중인 운임 공동구매를 화주에게 추천 또는 확인하고,
+     화주는 작성 중인 운임 견적 요청 정보를 기반으로 운임 공동구매에 참여 가능함
+견적 정보 입력
+회원가입
+(추가 정보 입력)
+로그인
+운임 견적 요청
+운임 공동구매
+참여 결과 출력
+운임 공동구매 진행 건 추천
+운임 공동구매 참여
+운임 공동구매 진행 건
+ 확인 후, 참여 결정
+해당 운임 공동구매
+업데이트
+화주가 신청한 운임 견적 요청과 동일 물성, 컨테이너 종류의 운임 공동구매 진행 건 중, 선적 일자가 중복되는 운임 공동구매 건 매칭
+① 회원 가입 시 모든 추가 정보를 입력한 화주가 일반 운임을 신청할 때, 
+     플랫폼은 해당 운임 견적 요청과 관련성이 높은 현재 진행 중인 운임 공동구매를 화주에게 추천 또는 확인하고,
+     화주는 작성 중인 운임 견적 요청 정보를 기반으로 운임 공동구매에 참여 가능함
+
+--- Slide 21 ---
+Index
+1. Business Model
+2. Business Flowchart (Process)
+3. UML Diagram (Scenario)
+4. 화면 설계 (UI/UX)
+5. 메뉴 구성도
+6. ERD
+
+--- Slide 22 ---
+기본 메뉴
+4. 화면 설계 (UI/UX)
+①
+②
+③
+④
+⑤
+⑥
+⑦
+⑧
+화면 NO.
+화면 설명
+화면명
+
+--- Slide 23 ---
+기본 메뉴
+4. 화면 설계 (UI/UX)
+①
+②
+③
+④
+⑤
+⑥
+⑦
+⑧
+화면 NO.
+화면 설명
+화면명
+[회사 소속 국가 혹은 지역]
+AUSTRALIA
+BRAZIL
+CHILE
+China Mainland
+COLOMBIA
+EGYPT
+GERMANY
+HUNGARY
+INDIA
+KOREA, REPUBLIC OF
+MALAYSIA
+MEXICO
+NETHERLANDS
+PANAMA
+PERU
+PHILIPPINES
+POLAND
+SINGAPORE
+SLOVAKIA
+SWEDEN
+THAILAND
+TURKIYE
+UNITED ARAB EMIRATES
+UNITED STATES
+VIETNAM
+[언어 선택]
+한국어
+English
+
+--- Slide 24 ---
+기본 메뉴
+4. 화면 설계 (UI/UX)
+①
+②
+③
+④
+⑤
+⑥
+⑦
+⑧
+화면 NO.
+화면 설명
+화면명
+
+--- Slide 25 ---
+기본 메뉴
+4. 화면 설계 (UI/UX)
+①
+②
+③
+④
+⑤
+⑥
+⑦
+⑧
+화면 NO.
+화면 설명
+화면명
+
+--- Slide 26 ---
+기본 메뉴
+4. 화면 설계 (UI/UX)
+①
+②
+③
+④
+⑤
+⑥
+⑦
+⑧
+화면 NO.
+화면 설명
+화면명
+
+--- Slide 27 ---
+기본 메뉴
+4. 화면 설계 (UI/UX)
+①
+②
+③
+④
+⑤
+⑥
+⑦
+⑧
+화면 NO.
+화면 설명
+화면명
+
+--- Slide 28 ---
+기본 메뉴
+4. 화면 설계 (UI/UX)
+①
+②
+③
+④
+⑤
+⑥
+⑦
+⑧
+화면 NO.
+화면 설명
+화면명
+[업종  선택]
+가구/인테리어자재
+산업장비
+식음료/소비재
+자동차부품
+전기/전자
+철강/금속
+패션/악세서리
+화장품미용
+화학/제약
+물류
+기타
+[월 예상 물류비]
+1,000만원 이하
+1,000만원 ~ 5,000만원
+5,000만원 ~ 1억원
+1억원 이상
+[유입 경로]
+TV광고
+박람회/전시
+웨비나/세미나/컨퍼런스
+디지털광고/SNS/검색
+이벤트/프로모션
+엘리베이터/옥외/지면광고
+영업/업체/지인소개
+기타
+
+--- Slide 29 ---
+기본 메뉴
+4. 화면 설계 (UI/UX)
+①
+②
+③
+④
+⑤
+⑥
+⑦
+⑧
+화면 NO.
+화면 설명
+화면명
+[언어 선택]
+한국어
+English
+中文
+Deutsch
+Español
+Tiếng Việt
+Português
+Hungarian
+Polski
+slovenský
+
+--- Slide 30 ---
+기본 메뉴
+4. 화면 설계 (UI/UX)
+①
+②
+③
+④
+⑤
+⑥
+⑦
+⑧
+화면 NO.
+화면 설명
+화면명
+
+--- Slide 31 ---
+기본 메뉴
+4. 화면 설계 (UI/UX)
+①
+②
+③
+④
+⑤
+⑥
+⑦
+⑧
+화면 NO.
+화면 설명
+화면명
+
+--- Slide 32 ---
+기본 메뉴
+4. 화면 설계 (UI/UX)
+①
+②
+③
+④
+⑤
+⑥
+⑦
+⑧
+화면 NO.
+화면 설명
+화면명
+
+--- Slide 33 ---
+03.로그인 후, 홈 화면 상세 (2/5) – 추가 Dashboard 기능 (4/4)
+
+--- Slide 34 ---
+03.로그인 후, 홈 화면 상세 (3/5)
+
+--- Slide 35 ---
+03.로그인 후, 홈 화면 상세 (4/5)
+
+--- Slide 36 ---
+03.로그인 후, 홈 화면 상세 (5/5) – 나의 현황 (1/4)
+동일한 내역
+(유효한 견적 현황 = 새로운 예약 대상 건)
+
+--- Slide 37 ---
+03.로그인 후, 홈 화면 상세 (5/5) – 나의 현황 (2/4)
+
+--- Slide 38 ---
+03.로그인 후, 홈 화면 상세 (5/5) – 나의 현황 (3/4)
+[선적 구분]
+첼로스퀘어 선적
+타사 선적
+첼로스퀘어 선적_파트너
+
+--- Slide 39 ---
+03.로그인 후, 홈 화면 상세 (5/5) – 나의 현황 (4/4)
+
+--- Slide 40 ---
+기본 메뉴
+4. 화면 설계 (UI/UX)
+①
+②
+③
+④
+⑤
+⑥
+⑦
+⑧
+화면 NO.
+화면 설명
+화면명
+
+--- Slide 41 ---
+04.개인 설정 – 추가 정보 입력
+03.로그인 후, 홈 화면 상세 (4/5)과 동일 화면
+
+--- Slide 42 ---
+04.개인 설정 – 개인 정보
+
+--- Slide 43 ---
+04.개인 설정 – 비밀번호 재설정
+약관 확인 가능
+동의 철회 가능
+
+--- Slide 44 ---
+04.개인 설정
+[업종  선택]
+가구/인테리어자재
+산업장비
+식음료/소비재
+자동차부품
+전기/전자
+철강/금속
+패션/악세서리
+화장품미용
+화학/제약
+물류
+기타
+
+--- Slide 45 ---
+04.개인 설정
+
+--- Slide 46 ---
+04.개인 설정
+
+--- Slide 47 ---
+기본 메뉴
+4. 화면 설계 (UI/UX)
+①
+②
+③
+④
+⑤
+⑥
+⑦
+⑧
+화면 NO.
+화면 설명
+화면명
+
+--- Slide 48 ---
+기본 메뉴
+4. 화면 설계 (UI/UX)
+①
+②
+③
+④
+⑤
+⑥
+⑦
+⑧
+화면 NO.
+화면 설명
+화면명
+
+--- Slide 49 ---
+기본 메뉴
+4. 화면 설계 (UI/UX)
+①
+②
+③
+④
+⑤
+⑥
+⑦
+⑧
+화면 NO.
+화면 설명
+화면명
+
+--- Slide 50 ---
+기본 메뉴
+4. 화면 설계 (UI/UX)
+①
+②
+③
+④
+⑤
+⑥
+⑦
+⑧
+화면 NO.
+화면 설명
+화면명
+
+--- Slide 51 ---
+Index
+1. Business Model
+2. Business Flowchart (Process)
+3. UML Diagram (Scenario)
+4. 화면 설계 (UI/UX)
+5. 메뉴 구성도
+6. ERD
+
+--- Slide 52 ---
+로그인 전 홈 화면 메뉴
+5. 메뉴 구성도
+Level 1 | Level 2 | Level 3 | Type | Description
+상단 메뉴 | 공지 사항 |  | Text Button | Rolling Banner로 공지 사항 출력 → 선택 시 상세 공지 내용으로 이동
+ | 로그인 |  | Text Button | 로그인 페이지로 이동
+ | 회원 가입 |  | Text Button | 회원 가입 페이지로 이동
+ | 언어 선택 |  | Drop Down List | 한국어 / English / Chinses / Español /Tiếng Việt / Deutsch
+ | 검색 |  | Image Button | 검색 화면으로 이동
+중간 메뉴 | 운임 견적 |  | Text Button | 국제운송 운임 견적 서비스에 대한 설명 화면으로 이동
+ | 공동 운임 |  | Text Button | 공동 운임 제공 서비스에 대한 설명 화면으로 이동
+ | 주요 정보 |  | Text Button | 하위 메뉴 출력
+ |  | 물류 뉴스 | Text Button | 물류 뉴스 화면으로 이동
+ |  | 플랫폼 뉴스(공지 사항) | Text Button | 플랫폼 뉴스(공지 사항) 화면으로 이동
+ |  | 물류 용어 사전 | Text Button | 물류 용어 사전 화면으로 이동
+ | 고객 지원 |  | Text Button | 하위 메뉴 출력
+ |  | 문의하기 | Text Button | 문의하기 화면으로 이동
+ |  | FAQ | Text Button | FAQ 화면으로 이동
+ |  | 가이드 | Text Button | 플랫폼 이용 가이드 화면으로 이동
+ | 회사 소개 |  |  | 
+ |  | Platforest 소개 | Text Button | Platfores 소개 화면으로 이동
+ |  | 플랫폼 소개 | Text Button | 플랫폼 소개 화면으로 이동
+ |  | 파트너십 | Text Button | 파트너십 화면으로 이동
+ |  | 언론 보도 | Text Button | 언론보도 화면으로 이동
+ |  | 이벤트 / 프로모션 | Text Button | 이벤트 / 프로모션 화면으로 이동
+하단 메뉴 | 전체 메뉴 |  | Text Button | 플랫폼 전체 메뉴를 Spread 하여 제공
+ | 기업 정보 제공 |  | Text Button | 기업 정보 및 이용약관, 개인정보처리방침, 이메일무단수집거부 표시
+
+--- Slide 53 ---
+로그인 메뉴
+5. 메뉴 구성도
+Level 1 | Level 2 | Level 3 | Type | Description
+로그인 | ID 입력 |  | Text Input Box | 
+ | Password 입력 |  | Text Input Box | 
+ | 로그인 버튼 |  | Image Button | 
+ | ID 찾기 버튼 |  | Text Button | 
+ |  | 이름 입력 | Text Input Box | 
+ |  | 이메일 주소 입력 | Text Input Box | 
+ |  | 인증코드 받기 | Image Button | 
+ | Password  찾기 버튼 |  | Text Button | 
+ |  | 이름 입력 | Text Input Box | 
+ |  | 이메일 주소 입력 | Text Input Box | 
+ |  | 인증코드 받기 | Image Button | 
+ | 회원가입 버튼 |  | Text Button | 
+ | 언어 선택 |  | Drop Down List | 한국어 / English / Chinses / Español /Tiếng Việt / Deutsch
+ | 개인정보 
+처리방침  버튼 |  | Text Button | 
+ |  | History | Drop Down List | 
+ |  | PDF 다운로드 | Image Button | 
+ |  | 확인 | Image Button | 
+ | 서비스 
+이용약관 버튼 |  | Text Button | 
+ |  | History | Drop Down List | 
+ |  | PDF 다운로드 | Image Button | 
+ |  | 확인 | Image Button | 
+
+--- Slide 54 ---
+회원 가입 메뉴(1/2)
+5. 메뉴 구성도
+Level 1 | Level 2 | Level 3 | Type | Description
+기초 정보 입력 | 회사 소속 국가 및 지역 입력 |  | Drop Down List | AUSTRALIA / BRAZIL / CHILE / China Mainland / COLOMBIA / EGYPT / GERMANY / HUNGARY / INDIA / KOREA, REPUBLIC OF / MALAYSIA / MEXICO / NETHERLANDS / PANAMA / PERU / PHILIPPINES /  POLAND / SINGAPORE / SLOVAKIA / SWEDEN / THAILAND / TURKIYE / UNITED ARAB EMIRATES / UNITED STATES / VIETNAM
+ | 사업자 번호 입력 |  | Text Input Box | 개인사업자 번호, 법인사업자 번호
+ | 이메일 주소 입력 |  | Image Button | 
+ | 인증 코드 발송 버튼 |  | Image Button | 
+ | 인증 코드 입력 |  | Text Input Box | 
+ | 인증하기 버튼 |  | Image Button | 
+ | 약관 동의 |  |  | 
+ |  | 서비스 이용약관 | Check Box | (필수 사항), 내용 보기를 통해 상세 약관 Pop-Up 확인 및 동의 가능
+ |  | 필수 개인정보 수집/이용 동의 | Check Box | (필수 사항), 내용 보기를 통해 상세 약관 Pop-Up 확인 및 동의 가능
+ |  | 선택 개인정보 수집/이용 동의 | Check Box | (선택 사항), 내용 보기를 통해 상세 약관 Pop-Up 확인 및 동의 가능
+ |  | 개인정보 제3자 제공 동의 | Check Box | (필수 사항), 내용 보기를 통해 상세 약관 Pop-Up 확인 및 동의 가능
+ |  | 마케팅 정보 제공 동의 | Check Box | (선택 사항), 내용 보기를 통해 상세 약관 Pop-Up 확인 및 동의 가능
+ |  | 이메일 마케팅 수신 동의 | Check Box | (선택 사항), 내용 보기를 통해 상세 약관 Pop-Up 확인 및 동의 가능
+ |  | 만 14세 이상 동의 | Check Box | (필수 사항), 내용 보기를 통해 상세 약관 Pop-Up 확인 및 동의 가능
+
+--- Slide 55 ---
+회원 가입 메뉴(2/2)
+5. 메뉴 구성도
+Level 1 | Level 2 | Level 3 | Type | Description
+기본 정보 입력 | ID 입력 |  | Text Button | ID 입력 값이 중복일 때, 신규 값 입력 요청 및 회원 가입 완료 제한
+ | Password 입력 |  | Text Input Box | 
+ | Password 확인 |  | Text Input Box | Password 입력 값과 확인 값이 다를 경우, 회원 가입 완료 제한
+ | 국문 성명 |  | Text Input Box | 
+ | 영문 성명 |  | Text Input Box | 
+ | 휴대폰 번호 입력 |  | Text Input Box | 
+ | 명함 입력 |  | Image Input Box | 
+ | 회사 소속 국가 혹은 지역 |  | Text | 기초 정보 입력 시의 값으로 자동 입력(수정 불가)
+ | 사업자 번호 |  | Text | 기초 정보 입력 시의 값으로 자동 입력(수정 불가)
+ | 업종 선택 |  | Drop Down List | 가구/인테리어자재, 산업장비, 식음료/소비재, 자동차부품, 전기/전자, 철강/금속, 패션/악세서리, 화장품미용, 화학/제약, 물류, 기타
+ | 온라인(이커머스) 판매 여부 |  | Option Box | Yes or No
+ | 회사명 국문 입력 |  | Text Input Box | 회사명 입력 값이 중복일 때, 신규 값 입력 요청 및 회원 가입 완료 제한
+ | 회사명 영문 입력 |  | Text Input Box | 회사명 입력 값이 중복일 때, 신규 값 입력 요청 및 회원 가입 완료 제한
+ | 월 예상 물류비 |  | Drop Down List | 1,000만원 이하, 1,000만원 ~ 5,000만원, 5,000만원 ~ 1억원, 1억원 이상
+ | 주요 물류 모드 |  | Check Box | 해운, 항공, 특송 중 중복 선택 가능
+
+--- Slide 56 ---
+홈 화면
+5. 메뉴 구성도
+ |  |  | Type | 
+홈 화면 | 로그인 | ID 입력 | Text Input Box | 
+ |  | Password 입력 | Text Input Box | 
+ |  | 로그인 | Image Button | 
+ |  | ID 찾기 | Text Button | 
+ |  | Password  찾기 | Text Button | 
+ |  | 회원가입 | Text Button | 
+ | 회원가입 |  |  | 
+ | 언어 선택 | Korea/한국어 |  | 
+ |  | China/中文 |  | 
+ |  | Europe/English |  | 
+ |  | Singapore/English |  | 
+ |  | USA/English |  | 
+ |  | Mexico/Español |  | 
+ |  | Vietnam/Tiếng Việt |  | 
+ |  | Indonesia/English |  | 
+ | 회사 소개 | 회사 설명 |  | 
+ |  | 플랫폼 설명 |  | 
+ |  | 파트너십 |  | 
+ |  | 언론 홍보 |  | 
+ |  | 이벤트 |  | 
+ |  | 프로모션 |  | 
+ |  |  |  | 
+
+--- Slide 57 ---
+Index
+1. Business Model
+2. Business Flowchart (Process)
+3. UML Diagram (Scenario)
+4. 화면 설계 (UI/UX)
+5. 메뉴 구성도
+6. ERD
+
+--- Slide 58 ---
+기본 메뉴
+6. ERD
+
+--- Slide 59 ---
+EOD

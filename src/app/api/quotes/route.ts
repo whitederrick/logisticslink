@@ -12,7 +12,7 @@ const createQuoteSchema = z.object({
   polCode: z.string().min(3),
   podCode: z.string().min(3),
   targetEtd: z.coerce.date(),
-  cargoType: z.string().min(1),
+  cargoType: z.string().min(1).nullable().optional(),
   containerType: z.string().min(1).nullable().optional(),
   quantity: z.number().int().positive().optional(),
   weightTon: z.number().positive().optional(),

@@ -31,7 +31,7 @@ type JoinUser = {
 
 type JoinPool = {
   serviceCode?: string;
-  cargoType: string;
+  cargoType?: string | null;
   containerType?: string | null;
   isHazardous: boolean;
   isHeavy: boolean;
@@ -43,7 +43,7 @@ type JoinPool = {
 
 type JoinQuote = {
   serviceCode?: string;
-  cargoType: string;
+  cargoType?: string | null;
   containerType?: string | null;
   isHazardous: boolean;
   isHeavy: boolean;

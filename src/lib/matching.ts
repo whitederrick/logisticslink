@@ -3,7 +3,7 @@
   polCode: string;
   podCode: string;
   targetEtd: Date;
-  cargoType: string;
+  cargoType?: string | null;
   containerType?: string | null;
   isHeavy: boolean;
   isHazardous: boolean;
