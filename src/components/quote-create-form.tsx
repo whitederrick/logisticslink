@@ -59,7 +59,7 @@ const text = {
     scrollRequired: "Scroll through the terms to continue",
     scrollWarning: "Scroll to the end of the blind pool terms before submitting.",
     terms:
-      "ForwardLink blind pool terms. Participant company names, quote details, and individual volumes are not disclosed to other shippers, forwarders, or carriers. Auction participation follows the D-14 to D-7 time-lock and carrier bids must remain below the applicable freight benchmark unless an administrator enables a market override. Scroll to the end to confirm these terms. End.",
+      "ForwardLink Ocean blind pool terms. Participant company names, quote details, and individual volumes are not disclosed to other shippers, forwarders, or carriers. Auction participation follows the D-14 to D-7 time-lock and carrier bids must remain below the applicable freight benchmark unless a LogisticsLink administrator enables a market override. Scroll to the end to confirm these terms. End.",
     title: "Create quote",
     totalCbm: "Total CBM",
     volume: "Current volume",
@@ -99,7 +99,7 @@ const text = {
     scrollRequired: "약관을 끝까지 확인해야 합니다",
     scrollWarning: "블라인드 공동구매 약관을 끝까지 스크롤한 뒤 제출해 주세요.",
     terms:
-      "ForwardLink 블라인드 공동구매 약관입니다. 참여 회사명, 견적 상세, 개별 물량은 다른 화주, 포워더, 선사에게 공개되지 않습니다. 역경매는 D-14부터 D-7까지의 타임락을 따르며, 선사 입찰가는 관리자 예외 승인 없이는 적용 운임 기준보다 낮아야 합니다. 약관 확인을 위해 끝까지 스크롤해 주세요. 끝.",
+      "ForwardLink Ocean 블라인드 공동구매 약관입니다. 참여 회사명, 견적 상세, 개별 물량은 다른 화주, 포워더, 선사에게 공개되지 않습니다. 역경매는 D-14부터 D-7까지의 타임락을 따르며, 선사 입찰가는 LogisticsLink 관리자 예외 승인 없이는 적용 운임 기준보다 낮아야 합니다. 약관 확인을 위해 끝까지 스크롤해 주세요. 끝.",
     title: "견적 생성",
     totalCbm: "총 CBM",
     volume: "현재 물량",

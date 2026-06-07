@@ -4,6 +4,7 @@ import { z } from "zod";
 import { getCurrentUser, operationalAccessError } from "@/lib/auth";
 import { isHeavyCargo } from "@/lib/freight";
 import { prisma } from "@/lib/prisma";
+import { activeService } from "@/lib/product";
 
 const createQuoteSchema = z.object({
   requesterId: z.number().int().positive().optional(),
@@ -68,6 +69,7 @@ export async function POST(request: Request) {
   try {
     const quote = await prisma.quote.create({
       data: {
+        serviceCode: activeService.code,
         requesterId: requester.id,
         requesterRole: requester.role,
         mode: input.mode,

@@ -3,6 +3,7 @@ import { joinPoolRequestSchema, parsePositiveRouteId, validatePoolJoinRequest } 
 import { getCurrentUser, operationalAccessError } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { calculateQuoteVolumes } from "@/lib/quote-volume";
+import { activeService } from "@/lib/product";
 
 export async function POST(request: Request, context: { params: Promise<{ poolId: string }> }) {
   const { poolId } = await context.params;
@@ -26,11 +27,11 @@ export async function POST(request: Request, context: { params: Promise<{ poolId
     prisma.quote.findUnique({ where: { id: parsed.data.quoteId }, include: { participants: true } })
   ]);
 
-  if (!pool) {
+  if (!pool || pool.serviceCode !== activeService.code) {
     return NextResponse.json({ error: "POOL_NOT_FOUND" }, { status: 404 });
   }
 
-  if (!quote) {
+  if (!quote || quote.serviceCode !== activeService.code) {
     return NextResponse.json({ error: "QUOTE_NOT_FOUND" }, { status: 404 });
   }
 
@@ -42,6 +43,10 @@ export async function POST(request: Request, context: { params: Promise<{ poolId
   const accessError = operationalAccessError(user);
   if (accessError) {
     return NextResponse.json({ error: accessError }, { status: 403 });
+  }
+
+  if (pool.serviceCode !== quote.serviceCode) {
+    return NextResponse.json({ error: "SERVICE_MISMATCH" }, { status: 422 });
   }
 
   const existingParticipant = await prisma.poolParticipant.findUnique({

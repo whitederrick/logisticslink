@@ -6,6 +6,7 @@ import { resolveAuctionCeilingFromBenchmarks } from "@/lib/rate-benchmark";
 import { calculateAuctionWindow } from "@/lib/time-lock";
 import { prisma } from "@/lib/prisma";
 import { calculateQuoteVolumes } from "@/lib/quote-volume";
+import { activeService } from "@/lib/product";
 
 const createPoolSchema = z.object({
   quoteId: z.number().int().positive(),
@@ -27,7 +28,7 @@ export async function POST(request: Request) {
     include: { participants: true, pol: true }
   });
 
-  if (!quote) {
+  if (!quote || quote.serviceCode !== activeService.code) {
     return NextResponse.json({ error: "QUOTE_NOT_FOUND" }, { status: 404 });
   }
 
@@ -66,6 +67,7 @@ export async function POST(request: Request) {
   const result = await prisma.$transaction(async (tx) => {
     const pool = await tx.coBuyPool.create({
       data: {
+        serviceCode: quote.serviceCode,
         createdById: quote.requesterId,
         polCode: quote.polCode,
         podCode: quote.podCode,

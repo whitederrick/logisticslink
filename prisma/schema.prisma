@@ -154,6 +154,7 @@ model FreightRateBenchmark {
 
 model Quote {
   id               Int          @id @default(autoincrement())
+  serviceCode      String       @default("forwardlink-ocean")
   requesterId      Int
   requesterRole    UserRole
   mode             FreightMode
@@ -180,10 +181,13 @@ model Quote {
   pol              Port         @relation("QuotePol", fields: [polCode], references: [code])
   pod              Port         @relation("QuotePod", fields: [podCode], references: [code])
   participants     PoolParticipant[]
+
+  @@index([serviceCode, status])
 }
 
 model CoBuyPool {
   id               Int          @id @default(autoincrement())
+  serviceCode      String       @default("forwardlink-ocean")
   createdById      Int
   polCode          String
   podCode          String
@@ -213,7 +217,7 @@ model CoBuyPool {
   participants     PoolParticipant[]
   bids             AuctionBid[]
 
-  @@index([status, auctionStartUtc, auctionEndUtc])
+  @@index([serviceCode, status, auctionStartUtc, auctionEndUtc])
   @@index([polCode, podCode, targetEtd, cargoType])
 }
 

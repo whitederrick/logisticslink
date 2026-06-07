@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Anchor, Boxes, CheckCircle2, ClipboardList, Gavel, LockKeyhole, LogIn, PackageCheck, Users } from "lucide-react";
 import { getCurrentUser } from "@/lib/auth";
 import { Language, withLanguage } from "@/lib/i18n";
+import { activeService, platform } from "@/lib/product";
 
 const roleNavItems = [
   ["/dashboard", { en: "Overview", ko: "전체 현황" }],
@@ -20,32 +21,32 @@ const roleLabels = {
 
 const workflowItems = [
   {
+    href: "/login",
+    icon: LockKeyhole,
+    paths: ["/login", "/signup", "/admin"],
+    title: { en: "1. Entry control", ko: "1. 진입 제어" },
+    body: { en: "Account state decides who can operate.", ko: "계정 상태로 운영 가능 여부를 제어합니다." }
+  },
+  {
     href: "/shipper",
     icon: ClipboardList,
     paths: ["/shipper", "/forwarder"],
-    title: { en: "1. Register cargo", ko: "1. 화물 등록" },
+    title: { en: "2. Register cargo", ko: "2. 화물 등록" },
     body: { en: "Shipper or forwarder submits freight demand.", ko: "화주 또는 포워더가 운송 수요를 등록합니다." }
   },
   {
     href: "/shipper",
     icon: Users,
     paths: ["/shipper", "/forwarder"],
-    title: { en: "2. Aggregate pool", ko: "2. 공동구매 집계" },
+    title: { en: "3. Aggregate pool", ko: "3. 공동구매 집계" },
     body: { en: "Compatible cargo is grouped into blind pools.", ko: "조건이 맞는 화물을 블라인드 풀로 묶습니다." }
-  },
-  {
-    href: "/admin",
-    icon: LockKeyhole,
-    paths: ["/admin"],
-    title: { en: "3. Time-lock", ko: "3. 타임락 전환" },
-    body: { en: "D-14 opens auction, D-7 closes bidding.", ko: "D-14에 경매를 열고 D-7에 마감합니다." }
   },
   {
     href: "/carrier",
     icon: Gavel,
-    paths: ["/carrier"],
-    title: { en: "4. Reverse auction", ko: "4. 역경매" },
-    body: { en: "Carriers compete with lower validated rates.", ko: "선사가 검증된 낮은 운임으로 경쟁합니다." }
+    paths: ["/admin", "/carrier"],
+    title: { en: "4. Time-lock auction", ko: "4. 타임락 경매" },
+    body: { en: "D-14 opens bidding under rate ceilings.", ko: "D-14에 기준 운임 안에서 입찰을 엽니다." }
   },
   {
     href: "/admin",
@@ -86,9 +87,10 @@ export async function AppShell({
             <div>
               <Link className="inline-flex items-center gap-2 text-sm font-semibold uppercase text-harbor" href={withLanguage("/", language)}>
                 <Anchor size={16} />
-                ForwardLink MVP
+                {platform.name}
               </Link>
-              <h1 className="mt-2 text-3xl font-semibold">{title}</h1>
+              <p className="mt-2 text-xs font-semibold uppercase tracking-wide text-slate-500">{activeService.name} · Ocean MVP</p>
+              <h1 className="mt-1 text-3xl font-semibold">{title}</h1>
               <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-600">{subtitle}</p>
             </div>
             <div className="flex flex-col gap-3 lg:items-end">

@@ -32,6 +32,7 @@ test("isPoolMatch accepts compatible pools within plus or minus three days", () 
     isReefer: false,
     podCode: "USLGB",
     polCode: "KRPUS",
+    serviceCode: "forwardlink-ocean",
     targetEtd: new Date("2026-06-15T00:00:00.000Z")
   };
 
@@ -51,6 +52,16 @@ test("isPoolMatch accepts compatible pools within plus or minus three days", () 
       id: 2,
       status: "AGGREGATING",
       targetEtd: new Date("2026-06-19T00:00:00.000Z")
+    }),
+    false
+  );
+
+  assert.equal(
+    isPoolMatch(quote, {
+      ...quote,
+      id: 3,
+      serviceCode: "air",
+      status: "AGGREGATING"
     }),
     false
   );
@@ -260,6 +271,7 @@ test("validatePoolJoinRequest mirrors pool join API conflict and mismatch rules"
     isReefer: false,
     podCode: "USLGB",
     polCode: "KRPUS",
+    serviceCode: "forwardlink-ocean",
     status: "AGGREGATING"
   };
   const quote = {
@@ -273,6 +285,7 @@ test("validatePoolJoinRequest mirrors pool join API conflict and mismatch rules"
   assert.equal(validatePoolJoinRequest({ existingParticipant: { id: 1 }, pool, quote, user }), "PARTICIPANT_ALREADY_IN_POOL");
   assert.equal(validatePoolJoinRequest({ existingParticipant: null, pool, quote: { ...quote, participants: [{ id: 1 }] }, user }), "QUOTE_ALREADY_IN_POOL");
   assert.equal(validatePoolJoinRequest({ existingParticipant: null, pool, quote: { ...quote, podCode: "USLAX" }, user }), "QUOTE_DOES_NOT_MATCH_POOL");
+  assert.equal(validatePoolJoinRequest({ existingParticipant: null, pool, quote: { ...quote, serviceCode: "air" }, user }), "QUOTE_DOES_NOT_MATCH_POOL");
   assert.equal(validatePoolJoinRequest({ existingParticipant: null, pool, quote: { ...quote, requesterId: 99 }, user }), "QUOTE_ACCESS_DENIED");
 });
 

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getCurrentUser } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { getAvailableRateBenchmarks } from "@/lib/rate-benchmark";
+import { activeService } from "@/lib/product";
 
 export async function GET() {
   const carrier = await getCurrentUser();
@@ -12,7 +13,7 @@ export async function GET() {
 
   const [auctionPools, myBids] = await Promise.all([
     prisma.coBuyPool.findMany({
-      where: { status: "AUCTION" },
+      where: { serviceCode: activeService.code, status: "AUCTION" },
       include: {
         bids: { orderBy: [{ proposedRateUsd: "asc" }, { bidTime: "asc" }], take: 1 },
         _count: { select: { bids: true, participants: true } }
@@ -21,7 +22,7 @@ export async function GET() {
       take: 12
     }),
     prisma.auctionBid.findMany({
-      where: { carrierId: carrier.id },
+      where: { carrierId: carrier.id, pool: { serviceCode: activeService.code } },
       include: { pool: true },
       orderBy: { bidTime: "desc" },
       take: 8

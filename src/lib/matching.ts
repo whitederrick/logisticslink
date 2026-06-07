@@ -1,4 +1,5 @@
 ﻿type QuoteLike = {
+  serviceCode?: string;
   polCode: string;
   podCode: string;
   targetEtd: Date;
@@ -23,6 +24,7 @@ export function isPoolMatch(quote: QuoteLike, pool: PoolLike) {
 
   return (
     pool.status === "AGGREGATING" &&
+    pool.serviceCode === quote.serviceCode &&
     pool.polCode === quote.polCode &&
     pool.podCode === quote.podCode &&
     pool.cargoType === quote.cargoType &&

@@ -11,6 +11,7 @@ import { requireUserRole } from "@/lib/auth";
 import { dateOnly, money } from "@/lib/format";
 import { PageSearchParams, resolveLanguage } from "@/lib/i18n";
 import { prisma } from "@/lib/prisma";
+import { activeService } from "@/lib/product";
 import type { Prisma } from "@prisma/client";
 
 const text = {
@@ -160,6 +161,7 @@ export default async function AdminPage({ searchParams }: { searchParams: PageSe
   const [users, pools, rateBenchmarks, auditLogs] = await Promise.all([
     prisma.user.findMany({ orderBy: [{ role: "asc" }, { id: "asc" }] }),
     prisma.coBuyPool.findMany({
+      where: { serviceCode: activeService.code },
       include: {
         participants: { include: { user: true, quote: true } },
         bids: { include: { carrier: true }, orderBy: [{ proposedRateUsd: "asc" }, { bidTime: "asc" }] },

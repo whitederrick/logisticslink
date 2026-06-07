@@ -1,10 +1,10 @@
 {
-    "name":  "forwardlink",
+    "name":  "logisticslink",
     "version":  "0.1.0",
     "private":  true,
     "scripts":  {
                     "dev":  "next dev -p 3001",
-                    "build":  "prisma generate && next build",
+                    "build":  "prisma generate && prisma migrate deploy && next build",
                     "env:check":  "tsx scripts/check-production-env.ts",
                     "rate-sources:check":  "tsx scripts/check-rate-sources.ts",
                     "start":  "next start -p 3001",
@@ -15,6 +15,7 @@
                     "db:reset":  "docker compose down -v && docker compose up -d postgres",
                     "prisma:generate":  "prisma generate",
                     "prisma:migrate":  "prisma migrate dev",
+                    "prisma:deploy":  "prisma migrate deploy",
                     "prisma:studio":  "prisma studio",
                     "seed":  "tsx prisma/seed-bootstrap.ts",
                     "seed:bootstrap":  "tsx prisma/seed-bootstrap.ts",

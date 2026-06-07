@@ -1,9 +1,11 @@
 import { PoolStatus, Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
+import { activeService } from "@/lib/product";
 
 export async function runGlobalTimelineBatch(now = new Date()) {
   const switched = await prisma.coBuyPool.updateMany({
     where: {
+      serviceCode: activeService.code,
       status: PoolStatus.AGGREGATING,
       auctionStartUtc: { lte: now }
     },
@@ -12,6 +14,7 @@ export async function runGlobalTimelineBatch(now = new Date()) {
 
   const failedPools = await prisma.coBuyPool.findMany({
     where: {
+      serviceCode: activeService.code,
       status: PoolStatus.AUCTION,
       auctionEndUtc: { lte: now },
       winningCarrierId: null,
@@ -32,6 +35,7 @@ export async function runGlobalTimelineBatch(now = new Date()) {
 
   const awardedCandidates = await prisma.coBuyPool.findMany({
     where: {
+      serviceCode: activeService.code,
       status: PoolStatus.AUCTION,
       auctionEndUtc: { lte: now },
       winningCarrierId: null,

@@ -30,6 +30,7 @@ type JoinUser = {
 };
 
 type JoinPool = {
+  serviceCode?: string;
   cargoType: string;
   containerType?: string | null;
   isHazardous: boolean;
@@ -41,6 +42,7 @@ type JoinPool = {
 };
 
 type JoinQuote = {
+  serviceCode?: string;
   cargoType: string;
   containerType?: string | null;
   isHazardous: boolean;
@@ -69,6 +71,7 @@ export function validatePoolJoinRequest({
   if (existingParticipant) return "PARTICIPANT_ALREADY_IN_POOL";
 
   const matches =
+    pool.serviceCode === quote.serviceCode &&
     pool.polCode === quote.polCode &&
     pool.podCode === quote.podCode &&
     pool.cargoType === quote.cargoType &&

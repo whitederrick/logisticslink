@@ -11,7 +11,7 @@ const text = {
     email: "Email",
     failed: "Login failed",
     errors: {
-      ACCOUNT_NOT_ALLOWED: "This account is locked or suspended. Contact the ForwardLink administrator.",
+      ACCOUNT_NOT_ALLOWED: "This account is locked or suspended. Contact the LogisticsLink administrator.",
       INVALID_EMAIL_OR_PASSWORD: "Email or password is incorrect.",
       INVALID_LOGIN_REQUEST: "Enter a valid email and password.",
       USER_NOT_ACTIVE: "This account is not active yet. Please wait for administrator approval."
@@ -32,7 +32,7 @@ const text = {
     email: "이메일",
     failed: "로그인 실패",
     errors: {
-      ACCOUNT_NOT_ALLOWED: "잠김 또는 정지된 계정입니다. ForwardLink 관리자에게 문의해 주세요.",
+      ACCOUNT_NOT_ALLOWED: "잠김 또는 정지된 계정입니다. LogisticsLink 관리자에게 문의해 주세요.",
       INVALID_EMAIL_OR_PASSWORD: "이메일 또는 비밀번호가 올바르지 않습니다.",
       INVALID_LOGIN_REQUEST: "올바른 이메일과 비밀번호를 입력해 주세요.",
       USER_NOT_ACTIVE: "아직 활성화되지 않은 계정입니다. 관리자 승인을 기다려 주세요."

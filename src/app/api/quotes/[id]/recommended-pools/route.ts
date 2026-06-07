@@ -3,6 +3,7 @@ import { canReadQuote } from "@/lib/access-policy";
 import { getCurrentUser } from "@/lib/auth";
 import { isPoolMatch } from "@/lib/matching";
 import { prisma } from "@/lib/prisma";
+import { activeService } from "@/lib/product";
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 
@@ -31,7 +32,7 @@ export async function GET(_request: Request, context: { params: Promise<{ id: st
 
   const quote = await prisma.quote.findUnique({ where: { id: quoteId } });
 
-  if (!quote) {
+  if (!quote || quote.serviceCode !== activeService.code) {
     return NextResponse.json({ error: "QUOTE_NOT_FOUND" }, { status: 404 });
   }
 
@@ -41,6 +42,7 @@ export async function GET(_request: Request, context: { params: Promise<{ id: st
 
   const candidatePools = await prisma.coBuyPool.findMany({
     where: {
+      serviceCode: quote.serviceCode,
       status: "AGGREGATING",
       polCode: quote.polCode,
       podCode: quote.podCode,

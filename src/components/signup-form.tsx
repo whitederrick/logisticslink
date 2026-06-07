@@ -39,7 +39,7 @@ const text = {
     submitting: "Submitting",
     taken: "Already in use",
     terms:
-      "ForwardLink verifies company accounts before activation. Submitted company information may be reviewed by administrators for identity, compliance, and service eligibility. Blind co-buy pool data exposes only route, schedule, cargo class, and aggregate volume to other participants. Carrier auction access is limited to auction-ready pools, aggregate demand, and bid status. Individual company identities and quote details are not shared outside authorized admin views. Scroll to the end and agree before submitting. End.",
+      "LogisticsLink verifies company accounts before activation. Submitted company information may be reviewed by administrators for identity, compliance, and service eligibility. ForwardLink Ocean blind co-buy pool data exposes only route, schedule, cargo class, and aggregate volume to other participants. Carrier auction access is limited to auction-ready pools, aggregate demand, and bid status. Individual company identities and quote details are not shared outside authorized admin views. Scroll to the end and agree before submitting. End.",
     termsAgree: "I agree to the terms",
     termsRequired: "Read the terms to the end before agreeing."
   },
@@ -72,7 +72,7 @@ const text = {
     submitting: "요청 중",
     taken: "이미 사용 중",
     terms:
-      "ForwardLink는 기업 계정 활성화 전에 회사 정보를 검토합니다. 제출된 회사 정보는 신원 확인, 컴플라이언스, 서비스 이용 자격 검토를 위해 관리자가 확인할 수 있습니다. 블라인드 공동구매 풀에서는 다른 참여자에게 항로, 일정, 화물 유형, 집계 물량만 공개됩니다. 선사의 경매 접근은 경매 상태의 풀, 집계 수요, 입찰 상태로 제한됩니다. 개별 회사명과 견적 상세는 승인된 관리자 화면 밖에서 공유되지 않습니다. 끝까지 스크롤한 뒤 동의해 주세요. 끝.",
+      "LogisticsLink는 기업 계정 활성화 전에 회사 정보를 검토합니다. 제출된 회사 정보는 신원 확인, 컴플라이언스, 서비스 이용 자격 검토를 위해 관리자가 확인할 수 있습니다. ForwardLink Ocean 블라인드 공동구매 풀에서는 다른 참여자에게 항로, 일정, 화물 유형, 집계 물량만 공개됩니다. 선사의 경매 접근은 경매 상태의 풀, 집계 수요, 입찰 상태로 제한됩니다. 개별 회사명과 견적 상세는 승인된 관리자 화면 밖에서 공유되지 않습니다. 끝까지 스크롤한 뒤 동의해 주세요. 끝.",
     termsAgree: "약관에 동의합니다",
     termsRequired: "약관을 끝까지 읽어야 동의할 수 있습니다."
   }

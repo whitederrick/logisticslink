@@ -76,10 +76,10 @@ const freightRateBenchmarks: SeedRateBenchmark[] = [
     containerGroup: "DRY",
     podCode: "USLGB",
     polCode: "KRPUS",
-    provider: "ForwardLink",
+    provider: "ForwardLink Ocean",
     rateUsd: 3210,
     source: "INTERNAL_MASTER",
-    sourceLabel: "ForwardLink internal rate master",
+    sourceLabel: "ForwardLink Ocean internal rate master",
     sourceTier: "INTERNAL",
     validFrom: new Date("2026-05-22T00:00:00.000Z")
   },
@@ -128,10 +128,10 @@ const freightRateBenchmarks: SeedRateBenchmark[] = [
     containerGroup: "REEFER",
     podCode: "USLAX",
     polCode: "KRPUS",
-    provider: "ForwardLink",
+    provider: "ForwardLink Ocean",
     rateUsd: 4110,
     source: "INTERNAL_MASTER",
-    sourceLabel: "ForwardLink internal reefer master",
+    sourceLabel: "ForwardLink Ocean internal reefer master",
     sourceTier: "INTERNAL",
     validFrom: new Date("2026-05-22T00:00:00.000Z")
   }
@@ -183,7 +183,7 @@ async function seedRateBenchmarks() {
 async function seedUsers() {
   const passwordHash = await bcrypt.hash("ForwardLink!123", 10);
   const users = [
-    ["admin@forward-link.co.kr", "admin", UserRole.ADMIN, "ForwardLink Admin", "ForwardLink 관리자"],
+    ["admin@forward-link.co.kr", "admin", UserRole.ADMIN, "LogisticsLink Admin", "LogisticsLink 관리자"],
     ["shipper@forward-link.co.kr", "shipper", UserRole.SHIPPER, "Demo Shipper", "데모 화주"],
     ["forwarder@forward-link.co.kr", "forwarder", UserRole.FORWARDER, "Demo Forwarder", "데모 포워더"],
     ["carrier@forward-link.co.kr", "carrier", UserRole.CARRIER, "Demo Carrier", "데모 선사"]

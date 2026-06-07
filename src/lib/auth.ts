@@ -5,7 +5,8 @@ import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { Language } from "@/lib/i18n";
 
-const SESSION_COOKIE = "forwardlink_session";
+const SESSION_COOKIE = "logisticslink_session";
+const LEGACY_SESSION_COOKIE = "forwardlink_session";
 const SESSION_MAX_AGE_SECONDS = 60 * 60 * 8;
 
 type SessionPayload = {
@@ -70,11 +71,12 @@ export async function setSessionCookie(userId: number) {
 export async function clearSessionCookie() {
   const cookieStore = await cookies();
   cookieStore.delete(SESSION_COOKIE);
+  cookieStore.delete(LEGACY_SESSION_COOKIE);
 }
 
 export async function getCurrentUser(): Promise<User | null> {
   const cookieStore = await cookies();
-  const session = verifySessionToken(cookieStore.get(SESSION_COOKIE)?.value);
+  const session = verifySessionToken(cookieStore.get(SESSION_COOKIE)?.value ?? cookieStore.get(LEGACY_SESSION_COOKIE)?.value);
   if (!session) return null;
 
   try {

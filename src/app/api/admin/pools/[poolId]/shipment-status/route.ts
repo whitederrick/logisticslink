@@ -4,6 +4,7 @@ import { getCurrentUser } from "@/lib/auth";
 import { isShipmentStatus, nextShipmentStatus } from "@/lib/shipment-workflow";
 import { recordAuditLog } from "@/lib/audit-log";
 import { prisma } from "@/lib/prisma";
+import { activeService } from "@/lib/product";
 
 export async function PATCH(request: Request, context: { params: Promise<{ poolId: string }> }) {
   const { poolId } = await context.params;
@@ -27,10 +28,10 @@ export async function PATCH(request: Request, context: { params: Promise<{ poolI
 
   const pool = await prisma.coBuyPool.findUnique({
     where: { id: numericPoolId },
-    select: { id: true, status: true, winningCarrierId: true }
+    select: { id: true, serviceCode: true, status: true, winningCarrierId: true }
   });
 
-  if (!pool) {
+  if (!pool || pool.serviceCode !== activeService.code) {
     return NextResponse.json({ error: "POOL_NOT_FOUND" }, { status: 404 });
   }
 

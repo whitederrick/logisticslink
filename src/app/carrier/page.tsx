@@ -6,6 +6,7 @@ import { StatusBadge } from "@/components/status-badge";
 import { isOperationalUser, requireUserRole } from "@/lib/auth";
 import { getPageLanguage, PageSearchParams } from "@/lib/i18n";
 import { prisma } from "@/lib/prisma";
+import { activeService } from "@/lib/product";
 import { getAvailableRateBenchmarks } from "@/lib/rate-benchmark";
 
 const text = {
@@ -40,7 +41,7 @@ export default async function CarrierPage({ searchParams }: { searchParams: Page
 
   const [auctionPools, myBids, shipmentPools] = await Promise.all([
     prisma.coBuyPool.findMany({
-      where: { status: "AUCTION" },
+      where: { serviceCode: activeService.code, status: "AUCTION" },
       include: {
         bids: { orderBy: [{ proposedRateUsd: "asc" }, { bidTime: "asc" }], take: 1 },
         _count: { select: { bids: true, participants: true } }
@@ -49,13 +50,14 @@ export default async function CarrierPage({ searchParams }: { searchParams: Page
       take: 12
     }),
     prisma.auctionBid.findMany({
-      where: { carrierId: carrier.id },
+      where: { carrierId: carrier.id, pool: { serviceCode: activeService.code } },
       include: { pool: true },
       orderBy: { bidTime: "desc" },
       take: 8
     }),
     prisma.coBuyPool.findMany({
       where: {
+        serviceCode: activeService.code,
         status: { in: ["AWARDED", "SHIPMENT_IN_PROGRESS", "COMPLETED"] },
         winningCarrierId: carrier.id
       },

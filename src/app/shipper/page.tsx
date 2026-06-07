@@ -8,6 +8,7 @@ import { isOperationalUser, requireUserRole } from "@/lib/auth";
 import { dateOnly, money } from "@/lib/format";
 import { getPageLanguage, PageSearchParams } from "@/lib/i18n";
 import { prisma } from "@/lib/prisma";
+import { activeService } from "@/lib/product";
 
 type QuoteForPool = Awaited<ReturnType<typeof prisma.quote.findMany>>[number] & {
   participants: Array<{ pool: unknown }>;
@@ -23,6 +24,7 @@ function quoteMatchesPool(quote: QuoteForPool, pool: PoolForBoard) {
 
   return (
     quote.participants.length === 0 &&
+    quote.serviceCode === pool.serviceCode &&
     quote.polCode === pool.polCode &&
     quote.podCode === pool.podCode &&
     quote.cargoType === pool.cargoType &&
@@ -84,19 +86,20 @@ export default async function ShipperPage({ searchParams }: { searchParams: Page
 
   const [quotes, openPools, shipmentPools] = await Promise.all([
     prisma.quote.findMany({
-      where: { requesterId: user.id },
+      where: { requesterId: user.id, serviceCode: activeService.code },
       include: { participants: { include: { pool: true } } },
       orderBy: { createdAt: "desc" },
       take: 10
     }),
     prisma.coBuyPool.findMany({
-      where: { status: "AGGREGATING" },
+      where: { serviceCode: activeService.code, status: "AGGREGATING" },
       include: { participants: true },
       orderBy: { auctionStartUtc: "asc" },
       take: 8
     }),
     prisma.coBuyPool.findMany({
       where: {
+        serviceCode: activeService.code,
         participants: { some: { userId: user.id } },
         status: { in: ["AWARDED", "SHIPMENT_IN_PROGRESS", "COMPLETED"] }
       },

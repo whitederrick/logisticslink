@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getCurrentUser } from "@/lib/auth";
 import { recordAuditLog } from "@/lib/audit-log";
 import { prisma } from "@/lib/prisma";
+import { activeService } from "@/lib/product";
 
 export async function POST(_request: Request, context: { params: Promise<{ poolId: string }> }) {
   const { poolId } = await context.params;
@@ -22,7 +23,7 @@ export async function POST(_request: Request, context: { params: Promise<{ poolI
     include: { _count: { select: { participants: true } } }
   });
 
-  if (!pool) {
+  if (!pool || pool.serviceCode !== activeService.code) {
     return NextResponse.json({ error: "POOL_NOT_FOUND" }, { status: 404 });
   }
 

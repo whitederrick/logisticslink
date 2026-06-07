@@ -3,6 +3,7 @@ import { bidRequestSchema, parsePositiveRouteId } from "@/lib/api-contract";
 import { validateCarrierBid } from "@/lib/bid-validation";
 import { getCurrentUser, operationalAccessError } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { activeService } from "@/lib/product";
 
 export async function POST(request: Request, context: { params: Promise<{ poolId: string }> }) {
   const { poolId } = await context.params;
@@ -26,7 +27,7 @@ export async function POST(request: Request, context: { params: Promise<{ poolId
     include: { bids: { orderBy: { proposedRateUsd: "asc" }, take: 1 } }
   });
 
-  if (!pool) {
+  if (!pool || pool.serviceCode !== activeService.code) {
     return NextResponse.json({ error: "POOL_NOT_FOUND" }, { status: 404 });
   }
 

@@ -1,7 +1,9 @@
+name: logisticslink
+
 services:
   postgres:
     image: postgres:16-alpine
-    container_name: forwardlink-postgres
+    container_name: logisticslink-postgres
     restart: unless-stopped
     environment:
       POSTGRES_USER: forwardlink
@@ -19,3 +21,5 @@ services:
 
 volumes:
   postgres-data:
+    name: forwardlink_postgres-data
+    external: true

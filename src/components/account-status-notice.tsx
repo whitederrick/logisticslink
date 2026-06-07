@@ -9,7 +9,7 @@ const text = {
       title: "Account active"
     },
     LOCKED: {
-      body: "This account is locked. Contact the ForwardLink administrator before using operational features.",
+      body: "This account is locked. Contact the LogisticsLink administrator before using operational features.",
       title: "Account locked"
     },
     PENDING_APPROVAL: {
@@ -25,7 +25,7 @@ const text = {
       title: "Account restricted"
     },
     SUSPENDED: {
-      body: "This account is suspended. Contact the ForwardLink administrator before using operational features.",
+      body: "This account is suspended. Contact the LogisticsLink administrator before using operational features.",
       title: "Account suspended"
     }
   },
@@ -35,7 +35,7 @@ const text = {
       title: "계정 활성"
     },
     LOCKED: {
-      body: "잠긴 계정입니다. 운영 기능을 사용하기 전에 ForwardLink 관리자에게 문의해 주세요.",
+      body: "잠긴 계정입니다. 운영 기능을 사용하기 전에 LogisticsLink 관리자에게 문의해 주세요.",
       title: "계정 잠김"
     },
     PENDING_APPROVAL: {
@@ -51,7 +51,7 @@ const text = {
       title: "계정 제한"
     },
     SUSPENDED: {
-      body: "정지된 계정입니다. 운영 기능을 사용하기 전에 ForwardLink 관리자에게 문의해 주세요.",
+      body: "정지된 계정입니다. 운영 기능을 사용하기 전에 LogisticsLink 관리자에게 문의해 주세요.",
       title: "계정 정지"
     }
   }
