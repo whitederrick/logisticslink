@@ -67,6 +67,12 @@ taskkill //PID <PID> //F
 | 선사 | `carrier@forward-link.co.kr` | `/carrier` |
 | 관리자 | `admin@forward-link.co.kr` | `/admin` |
 
+## 첫 가입자 부트스트랩
+
+운영 DB에 `role = ADMIN` 계정이 한 명도 없을 때, `/api/signup`으로 들어오는 첫 번째 가입 요청은 사용자가 어떤 역할(화주/포워더/선사)을 골랐든 강제로 `ADMIN + ACTIVE`로 승격됩니다. 폼 상단에는 "첫 번째 운영자 부트스트랩" 안내 배너가 뜨고, 가입 완료 메시지도 부트스트랩 적용 버전으로 분기됩니다. 두 번째 가입자부터는 일반 `PENDING_APPROVAL` 흐름이 적용됩니다. 부트스트랩이 적용된 사실은 `AuditLog`에 `FIRST_ADMIN_BOOTSTRAP` 액션으로 남습니다.
+
+운영 배포 시 CI/CD에서 어드민을 미리 시드하고 싶다면 `prisma/seed-bootstrap.ts`가 환경변수(`BOOTSTRAP_ADMIN_EMAIL`, `BOOTSTRAP_ADMIN_PASSWORD`, 선택적으로 `BOOTSTRAP_ADMIN_NAME_EN/KR`)를 감지해 첫 어드민을 만들어 줍니다. 환경변수 없이 실행하면 평소처럼 포트 마스터만 적재됩니다.
+
 ## 핵심 흐름
 
 1. 화주 또는 포워더가 운송 수요를 등록합니다.

@@ -2,17 +2,27 @@
 
 import { Language } from "@/lib/i18n";
 import { businessTypes, countries } from "@/lib/master-data";
-import { CheckCircle2, Loader2, XCircle } from "lucide-react";
+import { CheckCircle2, Loader2, ShieldAlert, XCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 type Availability = "idle" | "checking" | "available" | "taken" | "invalid";
 type SignupLabels = (typeof text)[Language];
+
+type BootstrapStatus = {
+  adminCount: number;
+  needsBootstrap: boolean;
+};
 
 const text = {
   en: {
     account: "Account",
     available: "Available",
+    bootstrapBannerBody:
+      "No administrator exists in this environment yet. The first signup is automatically promoted to ADMIN with ACTIVE status so the platform can be operated immediately. Subsequent signups will return to the standard PENDING_APPROVAL flow.",
+    bootstrapBannerTitle: "First operator bootstrap",
+    bootstrapSuccess:
+      "Signup completed. You are the first administrator and can log in right away to operate LogisticsLink.",
     businessNumber: "Business registration number",
     businessType: "Business category",
     check: "Check",
@@ -46,6 +56,11 @@ const text = {
   ko: {
     account: "계정 정보",
     available: "사용 가능",
+    bootstrapBannerBody:
+      "현재 환경에 등록된 관리자가 없습니다. 첫 번째 가입자는 운영을 즉시 시작할 수 있도록 ADMIN/ACTIVE 권한으로 자동 승격됩니다. 이후 가입자는 표준 PENDING_APPROVAL 흐름으로 돌아갑니다.",
+    bootstrapBannerTitle: "첫 번째 운영자 부트스트랩",
+    bootstrapSuccess:
+      "가입이 완료되었습니다. 첫 번째 관리자(ADMIN)로 즉시 로그인하여 LogisticsLink를 운영할 수 있습니다.",
     businessNumber: "사업자등록번호",
     businessType: "업종",
     check: "확인",
@@ -100,6 +115,18 @@ function AvailabilityMessage({ labels, state }: { labels: SignupLabels; state: A
   );
 }
 
+function BootstrapBanner({ labels }: { labels: SignupLabels }) {
+  return (
+    <div className="grid gap-2 rounded-md border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
+      <div className="flex items-center gap-2 font-semibold">
+        <ShieldAlert size={16} className="text-amber-700" />
+        {labels.bootstrapBannerTitle}
+      </div>
+      <p className="leading-6 text-amber-800">{labels.bootstrapBannerBody}</p>
+    </div>
+  );
+}
+
 export function SignupForm({ language }: { language: Language }) {
   const labels = text[language];
   const router = useRouter();
@@ -109,6 +136,27 @@ export function SignupForm({ language }: { language: Language }) {
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [isPending, setIsPending] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
+  const [bootstrapStatus, setBootstrapStatus] = useState<BootstrapStatus | null>(null);
+  const [bootstrapApplied, setBootstrapApplied] = useState(false);
+
+  // 폼이 마운트되면 부트스트랩 필요 여부를 한 번 조회한다.
+  // ADMIN이 한 명도 없으면 첫 가입자가 운영자가 된다는 안내를 상단에 띄운다.
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const response = await fetch("/api/signup/bootstrap", { cache: "no-store" });
+        if (!response.ok) return;
+        const data = (await response.json()) as BootstrapStatus;
+        if (!cancelled) setBootstrapStatus(data);
+      } catch {
+        // 네트워크 실패는 무시: 안내 배너가 없더라도 가입 자체에는 영향이 없다.
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const canSubmit = useMemo(
     () => emailState === "available" && businessNumberState === "available" && termsScrolled && termsAccepted && !isPending,
@@ -148,6 +196,7 @@ export function SignupForm({ language }: { language: Language }) {
     const form = new FormData(event.currentTarget);
     setIsPending(true);
     setMessage(null);
+    setBootstrapApplied(false);
 
     const payload = {
       businessNumber: form.get("businessNumber"),
@@ -177,7 +226,10 @@ export function SignupForm({ language }: { language: Language }) {
         throw new Error(result.error ?? labels.failed);
       }
 
-      setMessage(labels.created);
+      const result = await response.json();
+      const applied = Boolean(result.bootstrapApplied);
+      setBootstrapApplied(applied);
+      setMessage(applied ? labels.bootstrapSuccess : labels.created);
       router.refresh();
     } catch (error) {
       setMessage(error instanceof Error ? error.message : labels.failed);
@@ -186,8 +238,12 @@ export function SignupForm({ language }: { language: Language }) {
     }
   }
 
+  const showBanner = bootstrapStatus?.needsBootstrap === true;
+
   return (
     <form className="grid gap-6 rounded-lg border border-slate-200 bg-white p-5 shadow-sm" onSubmit={submit}>
+      {showBanner ? <BootstrapBanner labels={labels} /> : null}
+
       <section>
         <h2 className="text-lg font-semibold">{labels.company}</h2>
         <div className="mt-4 grid gap-4 md:grid-cols-2">
@@ -331,7 +387,13 @@ export function SignupForm({ language }: { language: Language }) {
         >
           {isPending ? labels.submitting : labels.submit}
         </button>
-        {message ? <p className="text-sm text-slate-600">{message}</p> : null}
+        {message ? (
+          <p
+            className={`text-sm ${bootstrapApplied ? "text-emerald-700" : "text-slate-600"}`}
+          >
+            {message}
+          </p>
+        ) : null}
       </div>
     </form>
   );

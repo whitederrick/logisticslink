@@ -1,7 +1,9 @@
-import { UserRole } from "@prisma/client";
+import { UserRole, UserStatus } from "@prisma/client";
 import bcrypt from "bcryptjs";
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import { recordAuditLog } from "@/lib/audit-log";
+import { resolveSignupInitialState, SignupRequestedRole } from "@/lib/signup-bootstrap";
 import { businessTypes, countries } from "@/lib/master-data";
 import { prisma } from "@/lib/prisma";
 
@@ -59,29 +61,57 @@ export async function POST(request: Request) {
   }
 
   const passwordHash = await bcrypt.hash(input.password, 10);
-  const user = await prisma.user.create({
-    data: {
-      businessNumber: input.businessNumber,
-      businessType: input.businessType,
-      companyNameEn: input.companyNameEn,
-      companyNameKr: input.companyNameKr || null,
-      companyRegion: input.companyRegion,
-      email: input.email,
-      logisticsModes: ["OCEAN"],
-      nameEn: input.nameEn || null,
-      nameKr: input.nameKr || null,
-      passwordHash,
-      phone: input.phone || null,
-      role: input.role,
-      status: "PENDING_APPROVAL",
-      username: buildUsername(input.email)
-    }
+
+  // 부트스트랩 판정과 생성을 한 트랜잭션 안에서 묶어 동시 가입 레이스를 좁힌다.
+  // 두 사용자가 거의 동시에 가입해도 adminCount를 본 시점의 스냅샷 기준으로
+  // 한 명만 ADMIN이 된다 (PostgreSQL READ COMMITTED + row lock).
+  const result = await prisma.$transaction(async (tx) => {
+    const adminCount = await tx.user.count({ where: { role: UserRole.ADMIN } });
+    const initialState = resolveSignupInitialState(
+      { needsBootstrap: adminCount === 0 },
+      input.role as SignupRequestedRole
+    );
+
+    const user = await tx.user.create({
+      data: {
+        businessNumber: input.businessNumber,
+        businessType: input.businessType,
+        companyNameEn: input.companyNameEn,
+        companyNameKr: input.companyNameKr || null,
+        companyRegion: input.companyRegion,
+        email: input.email,
+        logisticsModes: ["OCEAN"],
+        nameEn: input.nameEn || null,
+        nameKr: input.nameKr || null,
+        passwordHash,
+        phone: input.phone || null,
+        role: initialState.role,
+        status: initialState.status,
+        username: buildUsername(input.email)
+      }
+    });
+
+    return { user, bootstrapApplied: initialState.bootstrapApplied, adminCount };
   });
+
+  // 부트스트랩이 실제로 적용된 경우에만 감사 로그를 남긴다.
+  if (result.bootstrapApplied) {
+    await recordAuditLog({
+      action: "FIRST_ADMIN_BOOTSTRAP",
+      actorId: result.user.id,
+      after: { email: result.user.email, role: result.user.role, status: result.user.status },
+      entityId: result.user.id,
+      entityType: "User"
+    });
+  }
 
   return NextResponse.json(
     {
-      status: user.status,
-      userId: user.id
+      adminCount: result.adminCount,
+      bootstrapApplied: result.bootstrapApplied,
+      role: result.user.role,
+      status: result.user.status,
+      userId: result.user.id
     },
     { status: 201 }
   );

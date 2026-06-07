@@ -12,6 +12,7 @@ import { parseRateBenchmarkCsv } from "./rate-benchmark-input";
 import { rateBenchmarkSyncAction } from "./rate-benchmark-sync-audit";
 import { parseRateBenchmarkSourceConfig } from "./rate-benchmark-sync";
 import { getRateBenchmarks, resolveAuctionCeiling } from "./rate-benchmark";
+import { resolveSignupInitialState } from "./signup-bootstrap";
 import { nextShipmentStatus, shipmentProgress } from "./shipment-workflow";
 import { calculateAuctionWindow } from "./time-lock";
 
@@ -312,4 +313,30 @@ test("role access policy isolates shipper, forwarder, carrier, and admin data", 
   assert.equal(canReadBid(carrier, carrierBid), true);
   assert.equal(canReadBid(shipper, carrierBid), false);
   assert.equal(canReadBid(admin, carrierBid), true);
+});
+
+test("resolveSignupInitialState grants ADMIN/ACTIVE to the first signup when no admin exists", () => {
+  const state = resolveSignupInitialState({ needsBootstrap: true }, "SHIPPER");
+
+  assert.equal(state.bootstrapApplied, true);
+  assert.equal(state.role, "ADMIN");
+  assert.equal(state.status, "ACTIVE");
+});
+
+test("resolveSignupInitialState overrides role choice for bootstrap regardless of requested role", () => {
+  for (const requested of ["SHIPPER", "FORWARDER", "CARRIER"] as const) {
+    const state = resolveSignupInitialState({ needsBootstrap: true }, requested);
+    assert.equal(state.bootstrapApplied, true);
+    assert.equal(state.role, "ADMIN", `requested=${requested}`);
+    assert.equal(state.status, "ACTIVE", `requested=${requested}`);
+  }
+});
+
+test("resolveSignupInitialState preserves the requested role and PENDING_APPROVAL when an admin exists", () => {
+  for (const requested of ["SHIPPER", "FORWARDER", "CARRIER"] as const) {
+    const state = resolveSignupInitialState({ needsBootstrap: false }, requested);
+    assert.equal(state.bootstrapApplied, false);
+    assert.equal(state.role, requested, `requested=${requested}`);
+    assert.equal(state.status, "PENDING_APPROVAL", `requested=${requested}`);
+  }
 });
