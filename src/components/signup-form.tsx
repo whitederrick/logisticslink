@@ -4,7 +4,7 @@ import { Language } from "@/lib/i18n";
 import { businessTypes, countries } from "@/lib/master-data";
 import { CheckCircle2, Loader2, ShieldAlert, XCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 type Availability = "idle" | "checking" | "available" | "taken" | "invalid";
 type SignupLabels = (typeof text)[Language];
@@ -138,6 +138,7 @@ export function SignupForm({ language }: { language: Language }) {
   const [message, setMessage] = useState<string | null>(null);
   const [bootstrapStatus, setBootstrapStatus] = useState<BootstrapStatus | null>(null);
   const [bootstrapApplied, setBootstrapApplied] = useState(false);
+  const termsRef = useRef<HTMLDivElement | null>(null);
 
   // 폼이 마운트되면 부트스트랩 필요 여부를 한 번 조회한다.
   // ADMIN이 한 명도 없으면 첫 가입자가 운영자가 된다는 안내를 상단에 띄운다.
@@ -157,6 +158,35 @@ export function SignupForm({ language }: { language: Language }) {
       cancelled = true;
     };
   }, []);
+
+  // 약관 동의 잠금 해제 로직:
+  //   * 컨테이너에 스크롤이 필요하지 않는 짧은 텍스트(현재는 한글/영문 모두 이 경우에 해당)면
+  //     onScroll이 한 번도 발화하지 않으므로 사용자가 영원히 동의할 수 없다.
+  //   * 마운트 시 그리고 컨테이너 크기/콘텐츠가 변할 때마다(언어 전환, 폰트 로드 등)
+  //     scrollHeight - clientHeight 를 측정해, 스크롤이 필요 없거나 이미 끝에 도달한
+  //     상태면 즉시 termsScrolled 를 true 로 설정한다.
+  //   * 콘텐츠가 컨테이너보다 길면 사용자의 onScroll 이벤트를 그대로 신뢰한다.
+  const measureTermsScrolled = useCallback((element: HTMLElement) => {
+    if (element.scrollHeight - element.clientHeight <= 1) return true;
+    return element.scrollTop + element.clientHeight >= element.scrollHeight - 4;
+  }, []);
+
+  useEffect(() => {
+    const element = termsRef.current;
+    if (!element) return;
+
+    if (measureTermsScrolled(element)) {
+      setTermsScrolled(true);
+    }
+
+    const observer = new ResizeObserver(() => {
+      if (measureTermsScrolled(element)) {
+        setTermsScrolled(true);
+      }
+    });
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, [language, measureTermsScrolled]);
 
   const canSubmit = useMemo(
     () => emailState === "available" && businessNumberState === "available" && termsScrolled && termsAccepted && !isPending,
@@ -364,6 +394,7 @@ export function SignupForm({ language }: { language: Language }) {
               setTermsScrolled(true);
             }
           }}
+          ref={termsRef}
         >
           {labels.terms}
         </div>
