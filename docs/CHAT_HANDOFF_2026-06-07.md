@@ -2,11 +2,11 @@
 
 ## Current State
 
-- Platform rename from ForwardLink to LogisticsLink is deployed.
-- Active ocean service is named `ForwardLink Ocean`.
+- Platform rename from LogisticsLink to LogisticsLink is deployed.
+- Active ocean service is named `LogisticsLink Ocean`.
 - GitHub repository: `whitederrick/logisticslink`
 - Vercel project and production domain: `https://logisticslink.vercel.app`
-- Old `forwardlink.vercel.app` domain was removed.
+- Old `logisticslink.vercel.app` domain was removed.
 - Production deployment commit `89e31a6` is Ready.
 - Production page visually confirmed with LogisticsLink branding and six MVP scenes.
 
@@ -29,7 +29,7 @@
   SCFI, carrier FAK, and public tariff HTTPS CSV sources are not yet available.
   Do not use placeholder URLs or weaken the source checker.
 - Docker Compose project/container names were changed to LogisticsLink.
-- Existing physical Docker volume `forwardlink_postgres-data` is preserved to
+- Existing physical Docker volume `logisticslink_postgres-data` is preserved to
   prevent local data loss.
 
 ## Code and Database State
@@ -56,10 +56,10 @@
 3. Confirm the new Vercel deployment is Ready.
 4. Verify `https://logisticslink.vercel.app/api/health` returns:
    - `platform: LogisticsLink`
-   - `service: forwardlink-ocean`
+   - `service: logisticslink-ocean`
 5. Perform production signup, login, and quote creation QA.
 6. Rename local folder last:
-   - `C:\myProjects\forwardlink`
+   - `C:\myProjects\logisticslink`
    - to `C:\myProjects\logisticslink`
    This must be done after ending the current Codex workspace/thread.
 

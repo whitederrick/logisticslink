@@ -133,7 +133,7 @@ interface NeedRequest {
   status: 'OPEN' | 'CLUSTERED' | 'EXPIRED' | 'WITHDRAWN'
   
   // 매칭 키
-  serviceCode: 'forwardlink-ocean'
+  serviceCode: 'logisticslink-ocean'
   cargoCategoryCode: string
   cargoSubTypeCode?: string
   polCode: string

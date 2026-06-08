@@ -12,8 +12,8 @@ const text = {
     pipelineTitle: "Reverse-auction operating pipeline",
     scenarioTitle: "MVP demo scenes",
     subtitle:
-      "ForwardLink Ocean collects shipper cargo demand, forms blind co-buy pools, and runs reverse auctions for forwarders or carriers.",
-    title: "ForwardLink Ocean operating overview",
+      "LogisticsLink Ocean collects shipper cargo demand, forms blind co-buy pools, and runs reverse auctions for forwarders or carriers.",
+    title: "LogisticsLink Ocean operating overview",
     workspacesTitle: "Role workspaces",
     steps: {
       quotes: {
@@ -125,8 +125,8 @@ const text = {
     offlineNotice: "운영 DB와 마이그레이션이 준비되기 전에는 실시간 지표를 불러오지 못할 수 있습니다. 아래 MVP 시나리오는 계속 확인할 수 있습니다.",
     pipelineTitle: "역경매 운영 파이프라인",
     scenarioTitle: "MVP 데모 장면",
-    subtitle: "ForwardLink Ocean은 화주의 해상 화물을 모아 블라인드 공동구매 풀을 만들고, 포워더 또는 선사를 대상으로 역경매를 진행합니다.",
-    title: "ForwardLink Ocean 운영 현황",
+    subtitle: "LogisticsLink Ocean은 화주의 해상 화물을 모아 블라인드 공동구매 풀을 만들고, 포워더 또는 선사를 대상으로 역경매를 진행합니다.",
+    title: "LogisticsLink Ocean 운영 현황",
     workspacesTitle: "역할별 작업 화면",
     steps: {
       quotes: {
@@ -250,8 +250,8 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pa
   const [quoteCount, aggregatingCount, auctionCount, awardedCount] = await Promise.all([
     safeCount(() => prisma.quote.count({ where: { serviceCode: activeService.code } })),
     safeCount(() => prisma.coBuyPool.count({ where: { serviceCode: activeService.code, status: "AGGREGATING" } })),
-    safeCount(() => prisma.coBuyPool.count({ where: { serviceCode: activeService.code, status: "AUCTION" } })),
-    safeCount(() => prisma.coBuyPool.count({ where: { serviceCode: activeService.code, status: { in: ["AWARDED", "SHIPMENT_IN_PROGRESS", "COMPLETED"] } } }))
+    safeCount(() => prisma.coBuyPool.count({ where: { serviceCode: activeService.code, status: "AUCTION_LIVE" } })),
+    safeCount(() => prisma.coBuyPool.count({ where: { serviceCode: activeService.code, status: { in: ["AWARDED", "IN_SHIPMENT", "COMPLETED"] } } }))
   ]);
   const hasLiveCounts = [quoteCount, aggregatingCount, auctionCount, awardedCount].every((count) => count !== null);
 

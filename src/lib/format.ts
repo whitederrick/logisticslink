@@ -13,7 +13,7 @@ const statusLabels = {
   en: {
     ACTIVE: "Active",
     AGGREGATING: "Aggregating",
-    AUCTION: "Auction",
+    AUCTION_LIVE: "Auction",
     AWARDED: "Awarded",
     CANCELLED: "Cancelled",
     COMPLETED: "Completed",
@@ -27,7 +27,7 @@ const statusLabels = {
     PENDING_APPROVAL: "Pending approval",
     PENDING_PROFILE: "Pending profile",
     RESTRICTED: "Restricted",
-    SHIPMENT_IN_PROGRESS: "Shipment in progress",
+    IN_SHIPMENT: "Shipment in progress",
     STANDALONE: "Standalone",
     SUBMITTED: "Submitted",
     SUSPENDED: "Suspended"
@@ -35,7 +35,7 @@ const statusLabels = {
   ko: {
     ACTIVE: "활성",
     AGGREGATING: "공동구매 집계",
-    AUCTION: "역경매 진행",
+    AUCTION_LIVE: "역경매 진행",
     AWARDED: "낙찰",
     CANCELLED: "취소",
     COMPLETED: "완료",
@@ -49,7 +49,7 @@ const statusLabels = {
     PENDING_APPROVAL: "승인 대기",
     PENDING_PROFILE: "프로필 대기",
     RESTRICTED: "제한",
-    SHIPMENT_IN_PROGRESS: "운송 진행",
+    IN_SHIPMENT: "운송 진행",
     STANDALONE: "단독 견적",
     SUBMITTED: "접수",
     SUSPENDED: "정지"
@@ -61,7 +61,7 @@ export function statusLabel(value: string, language: Language) {
 }
 
 export function statusTone(value: string) {
-  if (value === "AUCTION") return "border-amber-200 bg-amber-50 text-amber-700";
+  if (value === "AUCTION_LIVE") return "border-amber-200 bg-amber-50 text-amber-700";
   if (value === "AGGREGATING" || value === "SUBMITTED" || value === "PENDING_APPROVAL") {
     return "border-sky-200 bg-sky-50 text-sky-700";
   }

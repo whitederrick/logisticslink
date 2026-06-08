@@ -1,4 +1,4 @@
-# ForwardLink 작업 인수인계 메모
+# LogisticsLink 작업 인수인계 메모
 
 작성일: 2026-05-31
 
@@ -58,7 +58,7 @@ Cannot find module 'C:\Program Files\WindowsApps\OpenAI.Co...#type=action&action
 
 판단:
 
-- ForwardLink 앱 코드 오류가 아니다.
+- LogisticsLink 앱 코드 오류가 아니다.
 - OpenAI/Codex 데스크톱 앱의 내부 action/deeplink를 Windows가 Electron 앱 경로처럼 잘못 해석하는 문제로 보인다.
 - `#type=action&action=...` URL fragment가 앱 경로에 붙어 Electron이 module을 못 찾고 있다.
 - 이 스레드에서는 `Launch app` 버튼이나 브라우저 자동 실행을 더 건드리지 않는 것이 안전하다.

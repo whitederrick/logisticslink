@@ -101,7 +101,7 @@ export default async function ShipperPage({ searchParams }: { searchParams: Page
       where: {
         serviceCode: activeService.code,
         participants: { some: { userId: user.id } },
-        status: { in: ["AWARDED", "SHIPMENT_IN_PROGRESS", "COMPLETED"] }
+        status: { in: ["AWARDED", "IN_SHIPMENT", "COMPLETED"] }
       },
       include: { participants: true, winningCarrier: true },
       orderBy: { updatedAt: "desc" },

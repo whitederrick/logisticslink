@@ -6,20 +6,19 @@ services:
     container_name: logisticslink-postgres
     restart: unless-stopped
     environment:
-      POSTGRES_USER: forwardlink
-      POSTGRES_PASSWORD: forwardlink
-      POSTGRES_DB: forwardlink
+      POSTGRES_USER: logisticslink
+      POSTGRES_PASSWORD: logisticslink
+      POSTGRES_DB: logisticslink
     ports:
       - "5433:5432"
     volumes:
       - postgres-data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U forwardlink -d forwardlink"]
+      test: ["CMD-SHELL", "pg_isready -U logisticslink -d logisticslink"]
       interval: 5s
       timeout: 5s
       retries: 10
 
 volumes:
   postgres-data:
-    name: forwardlink_postgres-data
-    external: true
+    name: logisticslink_postgres-data

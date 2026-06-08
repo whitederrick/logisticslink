@@ -1,7 +1,7 @@
-# ForwardLink 작업 인수인계 메모
+# LogisticsLink 작업 인수인계 메모
 
 작성일: 2026-05-28  
-작업 위치: `C:\myProjects\forwardlink`
+작업 위치: `C:\myProjects\logisticslink`
 
 ## 현재 상태
 

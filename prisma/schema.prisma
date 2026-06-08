@@ -285,7 +285,7 @@ model FreightRateBenchmark {
 
 model Quote {
   id                Int         @id @default(autoincrement())
-  serviceCode       String      @default("forwardlink-ocean")
+  serviceCode       String      @default("logisticslink-ocean")
   requesterId       Int
   requesterRole     UserRole
   mode              FreightMode
@@ -324,7 +324,7 @@ model Quote {
 
 model CoBuyPool {
   id                Int        @id @default(autoincrement())
-  serviceCode       String     @default("forwardlink-ocean")
+  serviceCode       String     @default("logisticslink-ocean")
   createdById       Int
   polCode           String
   podCode           String

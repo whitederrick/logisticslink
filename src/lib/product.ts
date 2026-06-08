@@ -8,13 +8,13 @@ export const platform = {
 
 export const services = [
   {
-    code: "forwardlink-ocean",
+    code: "logisticslink-ocean",
     description: {
       en: "Blind demand aggregation, time-lock reverse auctions, award, and shipment follow-up for ocean freight.",
       ko: "해상 화물의 블라인드 수요 집계, 타임락 역경매, 낙찰, 운송 후속 관리."
     },
     modes: ["OCEAN_FCL", "OCEAN_LCL"],
-    name: "ForwardLink Ocean",
+    name: "LogisticsLink Ocean",
     status: "active"
   },
   {

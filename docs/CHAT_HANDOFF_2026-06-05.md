@@ -1,4 +1,4 @@
-# ForwardLink Chat Handoff - 2026-06-05
+# LogisticsLink Chat Handoff - 2026-06-05
 
 ## Current Context
 
@@ -47,11 +47,11 @@
 - User reported a recurring Windows dialog:
   - `powershell.exe - Application Error`
   - unknown software exception `0xe0434352`
-- Treat that as a tool/execution environment issue, not a ForwardLink app code issue.
+- Treat that as a tool/execution environment issue, not a LogisticsLink app code issue.
 - Prefer `apply_patch` for edits.
 - If execution is necessary, be very conservative and avoid PowerShell-based server/process workflows.
 
 ## Next Chat Notes
 
 - User mentioned a previous Cello Square screen, but that screenshot/content is not available in this chat context.
-- If Cello Square styling or layout should guide ForwardLink, ask the user to provide the screenshot/URL again in the new chat.
+- If Cello Square styling or layout should guide LogisticsLink, ask the user to provide the screenshot/URL again in the new chat.

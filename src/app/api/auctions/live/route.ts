@@ -13,7 +13,7 @@ export async function GET() {
 
   const [auctionPools, myBids] = await Promise.all([
     prisma.coBuyPool.findMany({
-      where: { serviceCode: activeService.code, status: "AUCTION" },
+      where: { serviceCode: activeService.code, status: "AUCTION_LIVE" },
       include: {
         bids: { orderBy: [{ proposedRateUsd: "asc" }, { bidTime: "asc" }], take: 1 },
         _count: { select: { bids: true, participants: true } }

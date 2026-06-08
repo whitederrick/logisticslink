@@ -34,7 +34,7 @@ export function canCreateOrJoinPoolWithQuote(user: UserLike, quote: QuoteOwnerLi
 
 export function canReadPool(user: UserLike, pool: PoolLike) {
   if (user.role === "ADMIN") return true;
-  if (user.role === "CARRIER") return pool.status === "AUCTION" || pool.winningCarrierId === user.id;
+  if (user.role === "CARRIER") return pool.status === "AUCTION_LIVE" || pool.winningCarrierId === user.id;
   return pool.createdById === user.id || Boolean(pool.participants?.some((participant) => participant.userId === user.id));
 }
 

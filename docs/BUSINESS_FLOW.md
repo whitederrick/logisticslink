@@ -1,12 +1,12 @@
 # LogisticsLink - 비즈니스 플로우 마스터 문서 (v2.0)
 
-> **문서 성격**: 본 문서는 기존 MVP PRD(`ForwardLink_Development_PRD.md`)를 **실제 운영 가능한 비즈니스 플랫폼** 관점으로 재설계한 **기준 문서**다.
+> **문서 성격**: 본 문서는 기존 MVP PRD(`LOGISTICSLINK_DEVELOPMENT_PRD.md`)를 **실제 운영 가능한 비즈니스 플랫폼** 관점으로 재설계한 **기준 문서**다.
 > 모든 도메인 모델, API, UI, 운영 정책은 본 문서를 따른다.
 >
 > **문서 버전**: v2.0
 > **최종 갱신**: 2026-06-07
 > **대상 독자**: 제품·운영·개발·세일즈 전 부서
-> **하위 호환**: 기존 `forwardlink-ocean` MVP와 데이터 호환을 유지하되, 물성 분류·복수 참여·수익 모델은 본 문서 기준으로 진화한다.
+> **하위 호환**: 기존 `logisticslink-ocean` MVP와 데이터 호환을 유지하되, 물성 분류·복수 참여·수익 모델은 본 문서 기준으로 진화한다.
 
 ---
 
@@ -273,7 +273,7 @@
 - `floorPriceUsd` (옵션, 입찰 최저가)
 - `takeRateBps` (베이시스 포인트, 화주 수수료 %)
 - `carrierTakeRateBps` (선사 수수료)
-- `serviceCode` (해상은 `forwardlink-ocean` 유지)
+- `serviceCode` (해상은 `logisticslink-ocean` 유지)
 
 #### `Quote` 확장
 - `cargoCategoryCode` (FK → CargoCategory.code)
@@ -851,7 +851,7 @@ D+51 : holdback 송금 (클레임 윈도우 종료)
 
 ### 13.2 코드 마이그레이션 (호환성 유지)
 
-- `forwardlink-ocean` 서비스 코드는 유지
+- `logisticslink-ocean` 서비스 코드는 유지
 - `cargoType` 컬럼은 **하위 호환을 위해 유지**하되, 신규 코드는 `cargoCategoryCode` 사용
 - 매칭 로직은 `cargoCategoryCode` 우선, `cargoType`은 fallback
 - API v1 (MVP 호환) + API v2 (비즈니스 룰 반영) 동시 운영 후 단계적 deprecate
@@ -903,7 +903,7 @@ D+51 : holdback 송금 (클레임 윈도우 종료)
 | **연장** | 미구현 | Anti-Sniping 자동 5분 연장 (최대 3회) |
 | **산업군 특화** | 없음 | 배터리·화학·식품·전자별 룰 |
 | **풀 임계치** | 없음 | minParticipants/minVolumeTeu |
-| **서비스 확장** | forwardlink-ocean 1개 | platform + 4 services (ocean/active, air/inland/warehouse/planned) |
+| **서비스 확장** | logisticslink-ocean 1개 | platform + 4 services (ocean/active, air/inland/warehouse/planned) |
 
 ---
 
@@ -927,5 +927,5 @@ D+51 : holdback 송금 (클레임 윈도우 종료)
 
 | 버전 | 일자 | 변경 |
 |------|------|------|
-| v1.0 | 2026-05-26 | ForwardLink 개발용 PRD (MVP) |
+| v1.0 | 2026-05-26 | LogisticsLink 개발용 PRD (MVP) |
 | v2.0 | 2026-06-07 | LogisticsLink 비즈니스 플로우 마스터 (본 문서). 산업군 분류, 복수 참여 룰 명문화, 수익 모델, KYC/Trust Score/정산 시스템 추가. |

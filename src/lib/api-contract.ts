@@ -11,7 +11,7 @@ export const joinPoolRequestSchema = z.object({
 });
 
 export const shipmentStatusRequestSchema = z.object({
-  status: z.enum(["AWARDED", "SHIPMENT_IN_PROGRESS", "COMPLETED"])
+  status: z.enum(["AWARDED", "IN_SHIPMENT", "COMPLETED"])
 });
 
 export const userStatusRequestSchema = z.object({

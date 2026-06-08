@@ -41,7 +41,7 @@ export default async function CarrierPage({ searchParams }: { searchParams: Page
 
   const [auctionPools, myBids, shipmentPools] = await Promise.all([
     prisma.coBuyPool.findMany({
-      where: { serviceCode: activeService.code, status: "AUCTION" },
+      where: { serviceCode: activeService.code, status: "AUCTION_LIVE" },
       include: {
         bids: { orderBy: [{ proposedRateUsd: "asc" }, { bidTime: "asc" }], take: 1 },
         _count: { select: { bids: true, participants: true } }
@@ -58,7 +58,7 @@ export default async function CarrierPage({ searchParams }: { searchParams: Page
     prisma.coBuyPool.findMany({
       where: {
         serviceCode: activeService.code,
-        status: { in: ["AWARDED", "SHIPMENT_IN_PROGRESS", "COMPLETED"] },
+        status: { in: ["AWARDED", "IN_SHIPMENT", "COMPLETED"] },
         winningCarrierId: carrier.id
       },
       include: { participants: true, winningCarrier: true },

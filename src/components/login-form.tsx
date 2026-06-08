@@ -19,7 +19,7 @@ const text = {
     login: "Login",
     loggingIn: "Logging in...",
     password: "Password",
-    passwordHint: "All demo accounts use ForwardLink!123",
+    passwordHint: "All demo accounts use LogisticsLink!123",
     rolePaths: {
       ADMIN: "/admin",
       CARRIER: "/carrier",
@@ -40,7 +40,7 @@ const text = {
     login: "로그인",
     loggingIn: "로그인 중...",
     password: "비밀번호",
-    passwordHint: "모든 데모 계정 비밀번호는 ForwardLink!123 입니다.",
+    passwordHint: "모든 데모 계정 비밀번호는 LogisticsLink!123 입니다.",
     rolePaths: {
       ADMIN: "/admin",
       CARRIER: "/carrier",
@@ -51,10 +51,10 @@ const text = {
 } as const;
 
 const demoAccounts = [
-  "shipper@forward-link.co.kr",
-  "forwarder@forward-link.co.kr",
-  "carrier@forward-link.co.kr",
-  "admin@forward-link.co.kr"
+  "shipper@logisticslink.co.kr",
+  "forwarder@logisticslink.co.kr",
+  "carrier@logisticslink.co.kr",
+  "admin@logisticslink.co.kr"
 ];
 
 function loginErrorMessage(error: string, labels: (typeof text)[Language]) {
@@ -65,7 +65,7 @@ export function LoginForm({ enableDemoLogin, language }: { enableDemoLogin: bool
   const labels = text[language];
   const router = useRouter();
   const [email, setEmail] = useState(enableDemoLogin ? demoAccounts[0] : "");
-  const [password, setPassword] = useState(enableDemoLogin ? "ForwardLink!123" : "");
+  const [password, setPassword] = useState(enableDemoLogin ? "LogisticsLink!123" : "");
   const [isPending, setIsPending] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
 
@@ -126,7 +126,7 @@ export function LoginForm({ enableDemoLogin, language }: { enableDemoLogin: bool
                 key={account}
                 onClick={() => {
                   setEmail(account);
-                  setPassword("ForwardLink!123");
+                  setPassword("LogisticsLink!123");
                 }}
                 type="button"
               >

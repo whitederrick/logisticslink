@@ -84,10 +84,10 @@ const benchmarkMaster: Array<RateBenchmark & { containerGroup: "DRY" | "REEFER" 
     benchmarkType: "INTERNAL_MASTER",
     confidenceScore: 85,
     currency: "USD",
-    provider: "ForwardLink Ocean",
+    provider: "LogisticsLink Ocean",
     rateUsd: 3210,
     source: "INTERNAL_MASTER",
-    sourceLabel: "ForwardLink Ocean internal rate master",
+    sourceLabel: "LogisticsLink Ocean internal rate master",
     sourceTier: "LEGACY",
     validFrom: "2026-05-22"
   },
@@ -140,10 +140,10 @@ const benchmarkMaster: Array<RateBenchmark & { containerGroup: "DRY" | "REEFER" 
     benchmarkType: "INTERNAL_MASTER",
     confidenceScore: 85,
     currency: "USD",
-    provider: "ForwardLink Ocean",
+    provider: "LogisticsLink Ocean",
     rateUsd: 4110,
     source: "INTERNAL_MASTER",
-    sourceLabel: "ForwardLink Ocean internal reefer master",
+    sourceLabel: "LogisticsLink Ocean internal reefer master",
     sourceTier: "LEGACY",
     validFrom: "2026-05-22"
   }

@@ -76,10 +76,10 @@ const freightRateBenchmarks: SeedRateBenchmark[] = [
     containerGroup: "DRY",
     podCode: "USLGB",
     polCode: "KRPUS",
-    provider: "ForwardLink Ocean",
+    provider: "LogisticsLink Ocean",
     rateUsd: 3210,
     source: "INTERNAL_MASTER",
-    sourceLabel: "ForwardLink Ocean internal rate master",
+    sourceLabel: "LogisticsLink Ocean internal rate master",
     sourceTier: "INTERNAL",
     validFrom: new Date("2026-05-22T00:00:00.000Z")
   },
@@ -128,10 +128,10 @@ const freightRateBenchmarks: SeedRateBenchmark[] = [
     containerGroup: "REEFER",
     podCode: "USLAX",
     polCode: "KRPUS",
-    provider: "ForwardLink Ocean",
+    provider: "LogisticsLink Ocean",
     rateUsd: 4110,
     source: "INTERNAL_MASTER",
-    sourceLabel: "ForwardLink Ocean internal reefer master",
+    sourceLabel: "LogisticsLink Ocean internal reefer master",
     sourceTier: "INTERNAL",
     validFrom: new Date("2026-05-22T00:00:00.000Z")
   }
@@ -181,12 +181,12 @@ async function seedRateBenchmarks() {
 }
 
 async function seedUsers() {
-  const passwordHash = await bcrypt.hash("ForwardLink!123", 10);
+  const passwordHash = await bcrypt.hash("LogisticsLink!123", 10);
   const users = [
-    ["admin@forward-link.co.kr", "admin", UserRole.ADMIN, "LogisticsLink Admin", "LogisticsLink 관리자"],
-    ["shipper@forward-link.co.kr", "shipper", UserRole.SHIPPER, "Demo Shipper", "데모 화주"],
-    ["forwarder@forward-link.co.kr", "forwarder", UserRole.FORWARDER, "Demo Forwarder", "데모 포워더"],
-    ["carrier@forward-link.co.kr", "carrier", UserRole.CARRIER, "Demo Carrier", "데모 선사"]
+    ["admin@logisticslink.co.kr", "admin", UserRole.ADMIN, "LogisticsLink Admin", "LogisticsLink 관리자"],
+    ["shipper@logisticslink.co.kr", "shipper", UserRole.SHIPPER, "Demo Shipper", "데모 화주"],
+    ["forwarder@logisticslink.co.kr", "forwarder", UserRole.FORWARDER, "Demo Forwarder", "데모 포워더"],
+    ["carrier@logisticslink.co.kr", "carrier", UserRole.CARRIER, "Demo Carrier", "데모 선사"]
   ] as const;
 
   for (const [email, username, role, companyNameEn, companyNameKr] of users) {
@@ -220,7 +220,7 @@ async function ensureDemoAuctionPool(poolId: number) {
       podCode: "USLGB",
       polCode: "KRPUS",
       scfiBaseRateUsd: 3180,
-      status: "AUCTION"
+      status: "AUCTION_LIVE"
     }
   });
 }
@@ -244,7 +244,7 @@ async function main() {
   });
 
   if (existingPool) {
-    const activeAuction = await prisma.coBuyPool.findFirst({ where: { status: "AUCTION" } });
+    const activeAuction = await prisma.coBuyPool.findFirst({ where: { status: "AUCTION_LIVE" } });
     await ensureDemoAuctionPool((activeAuction ?? existingPool).id);
     return;
   }
@@ -364,7 +364,7 @@ async function main() {
       podCode: auctionQuote.podCode,
       polCode: auctionQuote.polCode,
       scfiBaseRateUsd: auctionCeiling.appliedRateUsd,
-      status: "AUCTION",
+      status: "AUCTION_LIVE",
       targetEtd: auctionQuote.targetEtd,
       totalVolumeCbm: auctionVolumes.volumeCbm,
       totalVolumeTeu: auctionVolumes.volumeTeu,

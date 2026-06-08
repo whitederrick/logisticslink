@@ -33,7 +33,7 @@ test("isPoolMatch accepts compatible pools within plus or minus three days", () 
     isReefer: false,
     podCode: "USLGB",
     polCode: "KRPUS",
-    serviceCode: "forwardlink-ocean",
+    serviceCode: "logisticslink-ocean",
     targetEtd: new Date("2026-06-15T00:00:00.000Z")
   };
 
@@ -102,7 +102,7 @@ test("validateCarrierBid enforces auction window, SCFI ceiling, and current lowe
     now: new Date("2026-06-03T00:00:00.000Z"),
     proposedRateUsd: 2800,
     scfiBaseRateUsd: 3200,
-    status: "AUCTION"
+    status: "AUCTION_LIVE"
   };
 
   assert.equal(validateCarrierBid(base), null);
@@ -181,8 +181,8 @@ test("rate benchmark sync audit action distinguishes failed source syncs", () =>
 });
 
 test("shipment workflow advances awarded pools through in-progress and completed states", () => {
-  assert.equal(nextShipmentStatus("AWARDED"), "SHIPMENT_IN_PROGRESS");
-  assert.equal(nextShipmentStatus("SHIPMENT_IN_PROGRESS"), "COMPLETED");
+  assert.equal(nextShipmentStatus("AWARDED"), "IN_SHIPMENT");
+  assert.equal(nextShipmentStatus("IN_SHIPMENT"), "COMPLETED");
   assert.equal(nextShipmentStatus("COMPLETED"), null);
   assert.equal(shipmentProgress("AWARDED"), 33);
   assert.equal(shipmentProgress("COMPLETED"), 100);
@@ -197,8 +197,8 @@ test("API request contracts reject malformed ids and payloads", () => {
   assert.equal(bidRequestSchema.safeParse({ proposedRateUsd: -1 }).success, false);
   assert.equal(joinPoolRequestSchema.safeParse({ quoteId: 12 }).success, true);
   assert.equal(joinPoolRequestSchema.safeParse({ quoteId: 0 }).success, false);
-  assert.equal(shipmentStatusRequestSchema.safeParse({ status: "SHIPMENT_IN_PROGRESS" }).success, true);
-  assert.equal(shipmentStatusRequestSchema.safeParse({ status: "AUCTION" }).success, false);
+  assert.equal(shipmentStatusRequestSchema.safeParse({ status: "IN_SHIPMENT" }).success, true);
+  assert.equal(shipmentStatusRequestSchema.safeParse({ status: "AUCTION_LIVE" }).success, false);
   assert.equal(userStatusRequestSchema.safeParse({ status: "ACTIVE" }).success, true);
   assert.equal(userStatusRequestSchema.safeParse({ status: "DELETED" }).success, false);
 });
@@ -222,9 +222,9 @@ test("production environment check rejects placeholders and unsafe cron settings
     AUTH_COOKIE_SECURE: "false",
     AUTH_SECRET: "replace-with-a-long-random-production-secret",
     CRON_SECRET: "short",
-    DATABASE_URL: "postgresql://USER:PASSWORD@HOST:5432/forwardlink?schema=public",
+    DATABASE_URL: "postgresql://USER:PASSWORD@HOST:5432/logisticslink?schema=public",
     NEXT_PUBLIC_ENABLE_DEMO_LOGIN: "true",
-    NEXTAUTH_URL: "http://forwardlink.example.com",
+    NEXTAUTH_URL: "http://logisticslink.example.com",
     RATE_BENCHMARK_CSV_SOURCES: "SCFI=http://rates.example/scfi.csv;https://rates.example/fak.csv"
   });
 
@@ -248,9 +248,9 @@ test("production environment check accepts finalized HTTPS CSV sources", () => {
       AUTH_COOKIE_SECURE: "true",
       AUTH_SECRET: "12345678901234567890123456789012",
       CRON_SECRET: "abcdefghijklmnopqrstuvwxyz123456",
-      DATABASE_URL: "postgresql://forwardlink:secure@db.forwardlink.internal:5432/forwardlink?schema=public",
+      DATABASE_URL: "postgresql://logisticslink:secure@db.logisticslink.internal:5432/logisticslink?schema=public",
       NEXT_PUBLIC_ENABLE_DEMO_LOGIN: "false",
-      NEXTAUTH_URL: "https://forwardlink.example.com",
+      NEXTAUTH_URL: "https://logisticslink.example.com",
       RATE_BENCHMARK_CSV_SOURCES: "SCFI=https://secure.example.com/scfi.csv;CARRIER_FAK=https://secure.example.com/carrier-fak.csv;CARRIER_PUBLIC_TARIFF=https://secure.example.com/public-tariff.csv"
     }),
     []
@@ -272,7 +272,7 @@ test("validatePoolJoinRequest mirrors pool join API conflict and mismatch rules"
     isReefer: false,
     podCode: "USLGB",
     polCode: "KRPUS",
-    serviceCode: "forwardlink-ocean",
+    serviceCode: "logisticslink-ocean",
     status: "AGGREGATING"
   };
   const quote = {
@@ -282,7 +282,7 @@ test("validatePoolJoinRequest mirrors pool join API conflict and mismatch rules"
   };
 
   assert.equal(validatePoolJoinRequest({ existingParticipant: null, pool, quote, user }), null);
-  assert.equal(validatePoolJoinRequest({ existingParticipant: null, pool: { ...pool, status: "AUCTION" }, quote, user }), "POOL_NOT_AGGREGATING");
+  assert.equal(validatePoolJoinRequest({ existingParticipant: null, pool: { ...pool, status: "AUCTION_LIVE" }, quote, user }), "POOL_NOT_AGGREGATING");
   assert.equal(validatePoolJoinRequest({ existingParticipant: { id: 1 }, pool, quote, user }), "PARTICIPANT_ALREADY_IN_POOL");
   assert.equal(validatePoolJoinRequest({ existingParticipant: null, pool, quote: { ...quote, participants: [{ id: 1 }] }, user }), "QUOTE_ALREADY_IN_POOL");
   assert.equal(validatePoolJoinRequest({ existingParticipant: null, pool, quote: { ...quote, podCode: "USLAX" }, user }), "QUOTE_DOES_NOT_MATCH_POOL");
@@ -297,7 +297,7 @@ test("role access policy isolates shipper, forwarder, carrier, and admin data", 
   const admin = { id: 40, role: "ADMIN" as const };
   const quote = { requesterId: shipper.id };
   const aggregatingPool = { createdById: forwarder.id, participants: [{ userId: shipper.id }], status: "AGGREGATING" };
-  const auctionPool = { createdById: forwarder.id, participants: [], status: "AUCTION" };
+  const auctionPool = { createdById: forwarder.id, participants: [], status: "AUCTION_LIVE" };
   const awardedPool = { createdById: forwarder.id, participants: [], status: "AWARDED", winningCarrierId: carrier.id };
   const carrierBid = { carrierId: carrier.id };
 

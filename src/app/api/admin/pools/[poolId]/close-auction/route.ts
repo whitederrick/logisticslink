@@ -27,7 +27,7 @@ export async function POST(_request: Request, context: { params: Promise<{ poolI
     return NextResponse.json({ error: "POOL_NOT_FOUND" }, { status: 404 });
   }
 
-  if (pool.status !== "AUCTION") {
+  if (pool.status !== "AUCTION_LIVE") {
     return NextResponse.json({ error: "POOL_NOT_IN_AUCTION" }, { status: 409 });
   }
 

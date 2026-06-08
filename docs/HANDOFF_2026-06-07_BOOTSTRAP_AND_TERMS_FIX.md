@@ -49,7 +49,7 @@ main
 | 엔드포인트 | 응답 | 상태 |
 | --- | --- | --- |
 | `GET /api/signup/bootstrap` | `{"adminCount":0,"needsBootstrap":true}` | HTTP 200 |
-| `GET /api/health` | `{"ok":true,"platform":"LogisticsLink","service":"forwardlink-ocean"}` | HTTP 200 |
+| `GET /api/health` | `{"ok":true,"platform":"LogisticsLink","service":"logisticslink-ocean"}` | HTTP 200 |
 | `GET /signup` | HTML 페이지 | HTTP 200 |
 
 부트스트랩 상태(ADMIN 0명)는 변하지 않음. 사용자가 첫 가입을 완료하면 `adminCount`가 1로 올라가고, `/api/signup/bootstrap`이 `needsBootstrap: false`를 반환하게 됨.

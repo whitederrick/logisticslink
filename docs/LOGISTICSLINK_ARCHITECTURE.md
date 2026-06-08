@@ -3,17 +3,17 @@
 ## Naming Model
 
 - Platform brand: `LogisticsLink`
-- Active service: `ForwardLink Ocean`
-- Stable service code: `forwardlink-ocean`
+- Active service: `LogisticsLink Ocean`
+- Stable service code: `logisticslink-ocean`
 - Planned service families: air, inland transport, warehousing
 
-Customer-facing platform copy must use `LogisticsLink`. Ocean co-buying, time-lock, carrier auction, award, and shipment follow-up copy must use `ForwardLink Ocean`.
+Customer-facing platform copy must use `LogisticsLink`. Ocean co-buying, time-lock, carrier auction, award, and shipment follow-up copy must use `LogisticsLink Ocean`.
 
 `src/lib/product.ts` is the single source for platform and service catalog names. Do not scatter new brand literals through UI components.
 
 ## Domain Boundary
 
-The current Prisma `Quote`, `CoBuyPool`, `PoolParticipant`, and `AuctionBid` models belong to ForwardLink Ocean. `Quote.serviceCode` and `CoBuyPool.serviceCode` make that ownership explicit and must be included in list, count, matching, batch, and mutation boundaries.
+The current Prisma `Quote`, `CoBuyPool`, `PoolParticipant`, and `AuctionBid` models belong to LogisticsLink Ocean. `Quote.serviceCode` and `CoBuyPool.serviceCode` make that ownership explicit and must be included in list, count, matching, batch, and mutation boundaries.
 
 Future services should not force their data into the ocean model:
 
@@ -37,11 +37,11 @@ Ocean rate benchmarks remain service-specific until a normalized multi-mode rate
 ## Compatibility Rules
 
 - Keep existing PostgreSQL database and user names unless an infrastructure migration is separately scheduled.
-- Keep the physical Docker volume name `forwardlink_postgres-data` and mount it from the `logisticslink` Compose project so local PostgreSQL data is preserved.
+- Keep the physical Docker volume name `logisticslink_postgres-data` and mount it from the `logisticslink` Compose project so local PostgreSQL data is preserved.
 - Keep historical Prisma migrations immutable.
-- Keep existing demo emails and `ForwardLink!123` until demo credentials are deliberately rotated.
+- Keep existing demo emails and `LogisticsLink!123` until demo credentials are deliberately rotated.
 - Use `logisticslink_session` for new sessions.
-- Read `forwardlink_session` during the transition and delete both names on logout.
+- Read `logisticslink_legacy_session` during the transition and delete both names on logout.
 - Redirect old domains and repository URLs only after the new deployment is verified.
 
 ## Expansion Checklist

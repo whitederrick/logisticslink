@@ -9,13 +9,13 @@ export async function runGlobalTimelineBatch(now = new Date()) {
       status: PoolStatus.AGGREGATING,
       auctionStartUtc: { lte: now }
     },
-    data: { status: PoolStatus.AUCTION }
+    data: { status: PoolStatus.AUCTION_LIVE }
   });
 
   const failedPools = await prisma.coBuyPool.findMany({
     where: {
       serviceCode: activeService.code,
-      status: PoolStatus.AUCTION,
+      status: PoolStatus.AUCTION_LIVE,
       auctionEndUtc: { lte: now },
       winningCarrierId: null,
       bids: { none: {} }
@@ -36,7 +36,7 @@ export async function runGlobalTimelineBatch(now = new Date()) {
   const awardedCandidates = await prisma.coBuyPool.findMany({
     where: {
       serviceCode: activeService.code,
-      status: PoolStatus.AUCTION,
+      status: PoolStatus.AUCTION_LIVE,
       auctionEndUtc: { lte: now },
       winningCarrierId: null,
       bids: { some: {} }

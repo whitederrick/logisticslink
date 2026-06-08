@@ -11,7 +11,7 @@ type BidValidationInput = {
 };
 
 export function validateCarrierBid(input: BidValidationInput) {
-  if (input.status !== "AUCTION") {
+  if (input.status !== "AUCTION_LIVE") {
     return "POOL_NOT_IN_AUCTION";
   }
 

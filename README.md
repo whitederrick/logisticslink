@@ -2,19 +2,19 @@
 
 LogisticsLink는 해상, 항공, 내륙운송, 창고 서비스를 하나의 운영 체계로 연결하기 위한 통합 물류 플랫폼입니다.
 
-현재 구현된 첫 번째 서비스는 **ForwardLink Ocean**입니다. 화주와 포워더의 해상 화물을 블라인드 공동구매 풀로 모은 뒤, 포워더 또는 선사를 대상으로 역경매를 진행합니다.
+현재 구현된 첫 번째 서비스는 **LogisticsLink Ocean**입니다. 화주와 포워더의 해상 화물을 블라인드 공동구매 풀로 모은 뒤, 포워더 또는 선사를 대상으로 역경매를 진행합니다.
 
 ## 제품 구조
 
 | 계층 | 이름 | 현재 상태 |
 | --- | --- | --- |
 | 플랫폼 | LogisticsLink | 운영 기반 |
-| 해상 서비스 | ForwardLink Ocean | MVP 운영 |
+| 해상 서비스 | LogisticsLink Ocean | MVP 운영 |
 | 항공 서비스 | Air | 계획 |
 | 내륙운송 서비스 | Inland Transport | 계획 |
 | 창고 서비스 | Warehousing | 계획 |
 
-플랫폼 및 서비스 명칭의 단일 코드 원천은 `src/lib/product.ts`입니다. 현재 견적과 공동구매 풀은 `serviceCode=forwardlink-ocean`으로 분리되어 이후 서비스 데이터와 섞이지 않습니다. 확장 원칙은 `docs/LOGISTICSLINK_ARCHITECTURE.md`를 따릅니다.
+플랫폼 및 서비스 명칭의 단일 코드 원천은 `src/lib/product.ts`입니다. 현재 견적과 공동구매 풀은 `serviceCode=logisticslink-ocean`으로 분리되어 이후 서비스 데이터와 섞이지 않습니다. 확장 원칙은 `docs/LOGISTICSLINK_ARCHITECTURE.md`를 따릅니다.
 
 ## 로컬 실행
 
@@ -58,14 +58,14 @@ taskkill //PID <PID> //F
 
 ## 데모 계정
 
-모든 데모 계정의 비밀번호는 `ForwardLink!123`입니다.
+모든 데모 계정의 비밀번호는 `LogisticsLink!123`입니다.
 
 | 역할 | 이메일 | 화면 |
 | --- | --- | --- |
-| 화주 | `shipper@forward-link.co.kr` | `/shipper` |
-| 포워더 | `forwarder@forward-link.co.kr` | `/forwarder` |
-| 선사 | `carrier@forward-link.co.kr` | `/carrier` |
-| 관리자 | `admin@forward-link.co.kr` | `/admin` |
+| 화주 | `shipper@logisticslink.co.kr` | `/shipper` |
+| 포워더 | `forwarder@logisticslink.co.kr` | `/forwarder` |
+| 선사 | `carrier@logisticslink.co.kr` | `/carrier` |
+| 관리자 | `admin@logisticslink.co.kr` | `/admin` |
 
 ## 첫 가입자 부트스트랩
 
@@ -101,7 +101,7 @@ taskkill //PID <PID> //F
 - 선사 FAK 운임
 - 선사 홈페이지 공시 운임
 - Xeneta 같은 유료 스팟/계약 운임 벤치마크
-- ForwardLink Ocean 내부 기준 운임 마스터
+- LogisticsLink Ocean 내부 기준 운임 마스터
 
 운임 기준은 출처뿐 아니라 `sourceTier`와 `benchmarkType`으로 비교 축을 유지합니다. 예를 들어 기존 SCFI/FAK/공시 운임은 계속 남겨두고, 나중에 유료 계약 운임이 들어와도 같은 항로와 컨테이너 그룹에서 공개 지수, 파트너 자료, 유료 데이터, 내부 기준을 나란히 비교할 수 있습니다.
 
@@ -189,10 +189,10 @@ npm run build
 기본 PostgreSQL 연결 정보는 다음과 같습니다.
 
 ```text
-postgresql://forwardlink:forwardlink@localhost:5433/forwardlink?schema=public
+postgresql://logisticslink:logisticslink@localhost:5433/logisticslink?schema=public
 ```
 
-DB명, DB 사용자명, 기존 데모 이메일과 데모 비밀번호는 기존 로컬 데이터 및 배포 호환성을 위해 당분간 유지합니다. 이 값들은 고객에게 보이는 브랜드명이 아닙니다. 새 로그인 쿠키는 `logisticslink_session`을 사용하며, 전환 기간에는 기존 `forwardlink_session`도 읽고 로그아웃 시 함께 제거합니다.
+DB명, DB 사용자명, 기존 데모 이메일과 데모 비밀번호는 기존 로컬 데이터 및 배포 호환성을 위해 당분간 유지합니다. 이 값들은 고객에게 보이는 브랜드명이 아닙니다. 새 로그인 쿠키는 `logisticslink_session`을 사용하며, 전환 기간에는 기존 `logisticslink_legacy_session`도 읽고 로그아웃 시 함께 제거합니다.
 
 자주 쓰는 명령:
 
@@ -206,4 +206,4 @@ DB명, DB 사용자명, 기존 데모 이메일과 데모 비밀번호는 기존
 - `npm run env:check`: 운영 환경변수와 운임 CSV 소스 설정 검증
 - `npm run rate-sources:check`: 운영 운임 CSV URL fetch 및 파싱 검증
 
-해상 서비스 PRD는 `docs/ForwardLink_Development_PRD.md`, 플랫폼 확장 원칙은 `docs/LOGISTICSLINK_ARCHITECTURE.md`에 있습니다.
+해상 서비스 PRD는 `docs/LOGISTICSLINK_DEVELOPMENT_PRD.md`, 플랫폼 확장 원칙은 `docs/LOGISTICSLINK_ARCHITECTURE.md`에 있습니다.

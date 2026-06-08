@@ -206,7 +206,7 @@ export default async function AdminPage({ searchParams }: { searchParams: PageSe
   const usersById = new Map(users.map((user) => [user.id, user]));
 
   const shipmentFollowups = pools
-    .filter((pool) => ["AWARDED", "SHIPMENT_IN_PROGRESS", "COMPLETED"].includes(pool.status))
+    .filter((pool) => ["AWARDED", "IN_SHIPMENT", "COMPLETED"].includes(pool.status))
     .map((pool) => ({
       finalRateUsd: pool.finalRateUsd == null ? null : Number(pool.finalRateUsd),
       participantCount: pool.participants.length,
@@ -360,7 +360,7 @@ export default async function AdminPage({ searchParams }: { searchParams: PageSe
                       {t.startAuction}
                     </ActionButton>
                   ) : null}
-                  {pool.status === "AUCTION" ? (
+                  {pool.status === "AUCTION_LIVE" ? (
                     <ActionButton body={{ adminId: admin.id }} url={`/api/admin/pools/${pool.id}/close-auction`}>
                       {t.closeAuction}
                     </ActionButton>

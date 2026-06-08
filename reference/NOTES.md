@@ -6,7 +6,7 @@
 
 ## 프로젝트 개요
 
-- **공식 명칭**: LogisticsLink (구 ForwardLink에서 리브랜딩)
+- **공식 명칭**: LogisticsLink (구 LogisticsLink에서 리브랜딩)
 - **컨셉**: 화주의 *운임 공동구매* + 선사의 *운임 경쟁 입찰* 기반 **통합 국제 운송 중개 플랫폼** (Platforest)
 - **핵심 이해관계자**: 화주 / 포워더 / 선사
 - **언어/지역**: 다국어(ko/en/zh/es/vi/de/pt/hu/pl/sk), 국가 25개국
@@ -25,7 +25,7 @@
 3. `d062324` Seed core ocean ports
 4. `89e31a6` Rebrand platform as LogisticsLink
 5. `2af9ae5` Clarify MVP entry flow
-6. `221e478` Prepare ForwardLink MVP for Vercel deployment
+6. `221e478` Prepare LogisticsLink MVP for Vercel deployment
 7. `949c3bc` Stabilize dashboard workflow UI
 8. `f0b2be7` Add dashboard auction workflow UI
 9. `ed7221e` Add auction management APIs
@@ -57,7 +57,7 @@
 | `HANDOFF_2026-06-07_BOOTSTRAP_AND_TERMS_FIX.md` | 최신 핸드오프 (부트스트랩 + 약관) |
 | `CHAT_HANDOFF_2026-06-07.md` | 채팅 핸드오프 (최신) |
 | `CHAT_HANDOFF_2026-06-05.md` | 채팅 핸드오프 |
-| `ForwardLink_Development_PRD.md` | PRD (구 포워드링크) |
+| `LOGISTICSLINK_DEVELOPMENT_PRD.md` | PRD (구 포워드링크) |
 | `LOGISTICSLINK_ARCHITECTURE.md` | 아키텍처 |
 | `LAUNCH_CHECKLIST.md` | 런치 체크리스트 |
 | `WORK_HANDOFF_2026-05-28.md` | 5/28 핸드오프 |
@@ -67,7 +67,7 @@
 
 > **컨벤션**: 확정 = ✅, 진행 중 = 🟡, 미정 = ❓
 
-- ✅ 리브랜딩: ForwardLink → LogisticsLink
+- ✅ 리브랜딩: LogisticsLink → LogisticsLink
 - ✅ 로컬 포트: 3001
 - 🟡 부트스트랩 ADMIN 자동화 (브랜치 `feat/signup-bootstrap-admin`)
 - 🟡 약관 컨테이너 자동 언락 (HEAD 커밋)

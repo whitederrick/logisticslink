@@ -273,7 +273,7 @@ if (
 
 `.env` 파일에 정의됨 (보안상 표시 안 함):
 ```
-DATABASE_URL="postgresql://forwardlink:forwardlink@localhost:5433/forwardlink?schema=public"
+DATABASE_URL="postgresql://logisticslink:logisticslink@localhost:5433/logisticslink?schema=public"
 ```
 
 ### 5.4 Vercel 프로젝트 (예상)

@@ -116,5 +116,3 @@
 ## 6. 후속 작업
 
 - **Phase 3 마이그레이션**: `Invoice`, `AccessorialCharge` 모델 추가
-- **Anti-Sniping 비즈니스 로직**: `src/lib/auction/anti-sniping.ts`에 "최대 3회 제한" 로직 구현
-- **Price Ceiling 운영 정책**: 운영자 매뉴얼 또는 정책 문서 (`docs/OPERATIONS_POLICY.md`) 작성

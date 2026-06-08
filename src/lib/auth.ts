@@ -6,7 +6,7 @@ import { prisma } from "@/lib/prisma";
 import { Language } from "@/lib/i18n";
 
 const SESSION_COOKIE = "logisticslink_session";
-const LEGACY_SESSION_COOKIE = "forwardlink_session";
+const LEGACY_SESSION_COOKIE = "logisticslink_legacy_session";
 const SESSION_MAX_AGE_SECONDS = 60 * 60 * 8;
 
 type SessionPayload = {
@@ -22,7 +22,7 @@ function secret() {
     throw new Error("AUTH_SECRET_REQUIRED");
   }
 
-  return "forwardlink-local-dev-secret";
+  return "logisticslink-local-dev-secret";
 }
 
 function base64Url(input: string) {

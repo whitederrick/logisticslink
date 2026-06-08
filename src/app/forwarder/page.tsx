@@ -101,7 +101,7 @@ export default async function ForwarderPage({ searchParams }: { searchParams: Pa
       where: {
         serviceCode: activeService.code,
         OR: [{ createdById: user.id }, { participants: { some: { userId: user.id } } }],
-        status: { in: ["AWARDED", "SHIPMENT_IN_PROGRESS", "COMPLETED"] }
+        status: { in: ["AWARDED", "IN_SHIPMENT", "COMPLETED"] }
       },
       include: { participants: true, winningCarrier: true },
       orderBy: { updatedAt: "desc" },

@@ -20,7 +20,7 @@ const text = {
   en: {
     advance: {
       AWARDED: "Start shipment",
-      SHIPMENT_IN_PROGRESS: "Mark completed"
+      IN_SHIPMENT: "Mark completed"
     },
     empty: "No awarded shipments yet.",
     finalRate: "Final rate",
@@ -35,7 +35,7 @@ const text = {
   ko: {
     advance: {
       AWARDED: "운송 시작",
-      SHIPMENT_IN_PROGRESS: "완료 처리"
+      IN_SHIPMENT: "완료 처리"
     },
     empty: "아직 낙찰 이후 운송 건이 없습니다.",
     finalRate: "확정 운임",

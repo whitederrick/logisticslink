@@ -37,7 +37,7 @@ export async function POST(_request: Request, context: { params: Promise<{ poolI
 
   const updatedPool = await prisma.coBuyPool.update({
     where: { id: pool.id },
-    data: { status: "AUCTION" }
+    data: { status: "AUCTION_LIVE" }
   });
 
   await recordAuditLog({

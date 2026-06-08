@@ -169,7 +169,7 @@ export function RateBenchmarkForm({ language }: { language: Language }) {
       </label>
       <label className="grid gap-1 text-sm lg:col-span-2">
         {t.provider}
-        <input className="h-10 rounded-md border border-slate-300 px-3" defaultValue="ForwardLink Ocean" name="provider" />
+        <input className="h-10 rounded-md border border-slate-300 px-3" defaultValue="LogisticsLink Ocean" name="provider" />
       </label>
       <label className="grid gap-1 text-sm lg:col-span-2">
         {t.externalRef}

@@ -1,14 +1,14 @@
-# LogisticsLink / ForwardLink Ocean Launch Checklist
+# LogisticsLink / LogisticsLink Ocean Launch Checklist
 
 최종 갱신: 2026-06-07
 
 ## 브랜드 및 인프라 전환
 
 - [x] 애플리케이션 플랫폼명을 `LogisticsLink`로 변경
-- [x] 기존 해상 MVP를 `ForwardLink Ocean` 서비스로 분리
-- [x] `Quote`와 `CoBuyPool`에 `serviceCode=forwardlink-ocean` 적용
+- [x] 기존 해상 MVP를 `LogisticsLink Ocean` 서비스로 분리
+- [x] `Quote`와 `CoBuyPool`에 `serviceCode=logisticslink-ocean` 적용
 - [x] 로컬 PostgreSQL에 `20260607090000_add_service_boundaries` 마이그레이션 적용
-- [ ] GitHub 저장소명을 `whitederrick/forwardlink`에서 `whitederrick/logisticslink`로 변경
+- [ ] GitHub 저장소명을 `whitederrick/logisticslink`에서 `whitederrick/logisticslink`로 변경
   - GitHub 저장소 `Settings > General > Repository name`
   - 변경 후 기존 `forwardlink` 이름을 다른 저장소에 재사용하지 않음
 - [ ] 로컬 Git remote 변경
@@ -39,7 +39,7 @@ cd logisticslink
   - Vercel 환경변수 변경은 기존 deployment에 소급 적용되지 않음
 - [ ] 배포된 `/api/health`에서 아래 값 확인
   - `platform: LogisticsLink`
-  - `service: forwardlink-ocean`
+  - `service: logisticslink-ocean`
 
 ## 출시 판단
 
