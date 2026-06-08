@@ -19,7 +19,8 @@
                     "prisma:studio":  "prisma studio",
                     "seed":  "tsx prisma/seed-bootstrap.ts",
                     "seed:bootstrap":  "tsx prisma/seed-bootstrap.ts",
-                    "seed:demo":  "tsx prisma/seed.ts"
+                    "seed:demo":  "tsx prisma/seed.ts",
+                    "seed:scenario":  "tsx prisma/seed.ts"
                 },
     "dependencies":  {
                          "@prisma/client":  "^5.22.0",

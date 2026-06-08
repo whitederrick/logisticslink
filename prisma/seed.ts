@@ -183,19 +183,41 @@ async function seedRateBenchmarks() {
 async function seedUsers() {
   const passwordHash = await bcrypt.hash("LogisticsLink!123", 10);
   const users = [
-    ["admin@logisticslink.co.kr", "admin", UserRole.ADMIN, "LogisticsLink Admin", "LogisticsLink 관리자"],
-    ["shipper@logisticslink.co.kr", "shipper", UserRole.SHIPPER, "Demo Shipper", "데모 화주"],
-    ["forwarder@logisticslink.co.kr", "forwarder", UserRole.FORWARDER, "Demo Forwarder", "데모 포워더"],
-    ["carrier@logisticslink.co.kr", "carrier", UserRole.CARRIER, "Demo Carrier", "데모 선사"]
+    ["admin@logisticslink.co.kr", "admin", UserRole.ADMIN, "LogisticsLink Operations", "LogisticsLink 운영팀"],
+    ["shipper@logisticslink.co.kr", "shipper", UserRole.SHIPPER, "Busan Export Manufacturing", "부산수출제조"],
+    ["forwarder@logisticslink.co.kr", "forwarder", UserRole.FORWARDER, "Seoul Forwarding Partners", "서울포워딩파트너스"],
+    ["carrier@logisticslink.co.kr", "carrier", UserRole.CARRIER, "Pacific Container Line", "퍼시픽컨테이너라인"]
   ] as const;
 
   for (const [email, username, role, companyNameEn, companyNameKr] of users) {
-    await prisma.user.upsert({
-      where: { email },
-      update: { companyNameEn, companyNameKr, role, status: "ACTIVE" },
-      create: {
-        businessNumber: `${username}-demo`,
-        businessType: role === UserRole.CARRIER ? "물류" : "전기/전자",
+    const existingUser = await prisma.user.findFirst({
+      where: { OR: [{ email }, { username }] }
+    });
+
+    if (existingUser) {
+      await prisma.user.update({
+        where: { id: existingUser.id },
+        data: {
+          businessNumber: `LL-SCENARIO-${username.toUpperCase()}`,
+          businessType: role === UserRole.CARRIER ? "Ocean carrier" : "Export logistics",
+          companyNameEn,
+          companyNameKr,
+          companyRegion: "KOREA, REPUBLIC OF",
+          email,
+          logisticsModes: ["OCEAN"],
+          passwordHash,
+          role,
+          status: "ACTIVE",
+          username
+        }
+      });
+      continue;
+    }
+
+    await prisma.user.create({
+      data: {
+        businessNumber: `LL-SCENARIO-${username.toUpperCase()}`,
+        businessType: role === UserRole.CARRIER ? "Ocean carrier" : "Export logistics",
         companyNameEn,
         companyNameKr,
         companyRegion: "KOREA, REPUBLIC OF",
@@ -209,7 +231,7 @@ async function seedUsers() {
   }
 }
 
-async function ensureDemoAuctionPool(poolId: number) {
+async function ensureScenarioAuctionPool(poolId: number) {
   await prisma.coBuyPool.update({
     where: { id: poolId },
     data: {
@@ -245,7 +267,7 @@ async function main() {
 
   if (existingPool) {
     const activeAuction = await prisma.coBuyPool.findFirst({ where: { status: "AUCTION_LIVE" } });
-    await ensureDemoAuctionPool((activeAuction ?? existingPool).id);
+    await ensureScenarioAuctionPool((activeAuction ?? existingPool).id);
     return;
   }
 

@@ -8,16 +8,16 @@ import Link from "next/link";
 const text = {
   en: {
     nextAction: "Next action",
-    offlineNotice: "Live counters are unavailable until the production database and migrations are ready. The MVP scenario can still be reviewed below.",
+    offlineNotice: "Live counters are unavailable until the production database and migrations are ready. The operating workflow can still be reviewed below.",
     pipelineTitle: "Reverse-auction operating pipeline",
-    scenarioTitle: "MVP demo scenes",
+    scenarioTitle: "Service operating workflow",
     subtitle:
       "LogisticsLink Ocean collects shipper cargo demand, forms blind co-buy pools, and runs reverse auctions for forwarders or carriers.",
     title: "LogisticsLink Ocean operating overview",
     workspacesTitle: "Role workspaces",
     steps: {
       quotes: {
-        action: "Create or review shipper demand",
+        action: "Review new demand and pool matching",
         label: "Cargo demand registered",
         unit: "quotes"
       },
@@ -32,58 +32,58 @@ const text = {
         unit: "pools"
       },
       awarded: {
-        action: "Confirm award and start shipment follow-up",
+        action: "Confirm award and manage shipment execution",
         label: "Awarded or completed",
         unit: "pools"
       }
     },
     scenes: [
       {
-        action: "Use demo credentials or create a company account, then confirm the account state.",
-        actor: "Visitor / Admin",
+        action: "A company signs up, submits business identity, and enters only after account status allows operation.",
+        actor: "Company / Operations",
         proof: "Signup checks duplicate email and business number; inactive accounts see a status notice.",
-        title: "Entry and access control",
+        title: "Company onboarding and access control",
         workspace: "/signup, /login, /admin"
       },
       {
-        action: "Register route, ETD, cargo type, container, quantity, and weight for a shipment need.",
+        action: "A shipper or forwarder registers route, ETD, cargo type, container, quantity, and weight.",
         actor: "Shipper / Forwarder",
-        proof: "The quote is stored under the requester role and appears only in the allowed workspace.",
-        title: "Cargo demand registration",
+        proof: "The quote is stored under the requester role and appears only in an authorized workspace.",
+        title: "Cargo demand intake",
         workspace: "/shipper, /forwarder"
       },
       {
-        action: "Review recommended co-buy pools or create a new pool from the quote.",
+        action: "Operations and users review recommended co-buy pools or create a new pool from the quote.",
         actor: "Shipper / Forwarder",
         proof: "Matching keeps participant identities masked while aggregating compatible demand.",
         title: "Blind pool aggregation",
         workspace: "/shipper, /forwarder"
       },
       {
-        action: "Run the time-lock transition, then let carriers inspect auction-ready pools and bid lower.",
-        actor: "Admin / Carrier",
-        proof: "D-14 opens the auction, bid validation applies the benchmark ceiling and current lowest bid.",
-        title: "Time-lock and reverse auction",
+        action: "The time-lock transition opens auction-ready pools and carriers bid below validated benchmark ceilings.",
+        actor: "Operations / Carrier",
+        proof: "D-14 opens the auction; bid validation applies the benchmark ceiling and current lowest bid.",
+        title: "Time-lock reverse auction",
         workspace: "/admin, /carrier"
       },
       {
-        action: "Close the auction and award the lowest valid bid.",
-        actor: "Admin",
+        action: "Operations closes the auction and awards the lowest valid bid.",
+        actor: "Operations",
         proof: "The winning carrier is recorded and the pool moves from auction to awarded.",
         title: "Award confirmation",
         workspace: "/admin"
       },
       {
-        action: "Advance the awarded shipment through in-progress and completed states.",
-        actor: "Admin / All roles",
-        proof: "Operational users can see shipment follow-up status without exposing restricted data.",
-        title: "Shipment follow-up",
+        action: "Awarded shipments move through contracted, in-shipment, completed, failed, or disputed states.",
+        actor: "Operations / All roles",
+        proof: "Operational users can see shipment status without exposing restricted participant data.",
+        title: "Shipment execution and follow-up",
         workspace: "/admin, role workspaces"
       }
     ],
     workspaces: [
       {
-        body: "Enter with a demo or registered account. Each account lands on its role workspace.",
+        body: "Sign in with a registered or scenario account. Each account lands on its role workspace.",
         href: "/login",
         icon: LogIn,
         label: "Login"
@@ -113,7 +113,7 @@ const text = {
         label: "Auction board"
       },
       {
-        body: "Run time-lock transitions, inspect participants, and close auctions.",
+        body: "Run time-lock transitions, inspect participants, validate bids, close auctions, and update shipment status.",
         href: "/admin",
         icon: ShieldCheck,
         label: "Operations"
@@ -121,88 +121,88 @@ const text = {
     ]
   },
   ko: {
-    nextAction: "다음 액션",
-    offlineNotice: "운영 DB와 마이그레이션이 준비되기 전에는 실시간 지표를 불러오지 못할 수 있습니다. 아래 MVP 시나리오는 계속 확인할 수 있습니다.",
+    nextAction: "다음 조치",
+    offlineNotice: "운영 DB와 마이그레이션이 준비되기 전에는 실시간 지표를 불러오지 못할 수 있습니다. 아래 운영 흐름은 계속 확인할 수 있습니다.",
     pipelineTitle: "역경매 운영 파이프라인",
-    scenarioTitle: "MVP 데모 장면",
+    scenarioTitle: "서비스 운영 흐름",
     subtitle: "LogisticsLink Ocean은 화주의 해상 화물을 모아 블라인드 공동구매 풀을 만들고, 포워더 또는 선사를 대상으로 역경매를 진행합니다.",
     title: "LogisticsLink Ocean 운영 현황",
     workspacesTitle: "역할별 작업 화면",
     steps: {
       quotes: {
-        action: "화주 수요를 등록하거나 기존 견적을 확인",
+        action: "신규 수요와 풀 매칭 상태 확인",
         label: "등록된 화물 수요",
         unit: "건"
       },
       aggregating: {
-        action: "매칭 수요를 모으거나 D-14 타임락 대기",
+        action: "매칭 수요 초대 또는 D-14 대기",
         label: "집계 중인 블라인드 풀",
         unit: "개"
       },
       auction: {
-        action: "입찰 수와 최저가 변동 모니터링",
+        action: "선사 입찰과 최저가 변동 모니터링",
         label: "진행 중인 역경매",
         unit: "개"
       },
       awarded: {
-        action: "낙찰 확정 후 운송 후속 관리",
+        action: "낙찰 확정과 운송 실행 관리",
         label: "낙찰 또는 완료",
         unit: "개"
       }
     },
     scenes: [
       {
-        action: "데모 계정으로 로그인하거나 기업 계정을 신청한 뒤 계정 상태를 확인합니다.",
-        actor: "방문자 / 관리자",
-        proof: "회원가입에서 이메일과 사업자번호 중복을 확인하고, 비활성 계정은 상태 안내를 봅니다.",
-        title: "진입과 접근 제어",
+        action: "기업이 가입하고 사업자 정보를 제출하면, 계정 상태가 허용된 뒤 역할별 업무에 진입합니다.",
+        actor: "기업 / 운영자",
+        proof: "회원가입 시 이메일과 사업자번호 중복을 확인하고, 비활성 계정은 상태 안내를 표시합니다.",
+        title: "기업 온보딩과 접근 통제",
         workspace: "/signup, /login, /admin"
       },
       {
-        action: "운송 구간, ETD, 화물 유형, 컨테이너, 수량, 중량을 입력해 수요를 등록합니다.",
+        action: "화주 또는 포워더가 항로, ETD, 화물 유형, 컨테이너, 수량, 중량을 입력해 수요를 등록합니다.",
         actor: "화주 / 포워더",
-        proof: "견적은 요청자 역할로 저장되고 허용된 작업 화면에서만 보입니다.",
-        title: "화물 수요 등록",
+        proof: "견적은 요청자 역할에 귀속되고 허용된 작업 화면에서만 조회됩니다.",
+        title: "화물 수요 접수",
         workspace: "/shipper, /forwarder"
       },
       {
-        action: "추천 공동구매 풀을 확인하거나 해당 견적으로 새 풀을 만듭니다.",
+        action: "사용자는 추천 공동구매 풀을 확인하거나 해당 견적으로 새 풀을 만듭니다.",
         actor: "화주 / 포워더",
-        proof: "조건이 맞는 수요를 묶되 참여자 신원은 계속 마스킹됩니다.",
+        proof: "조건이 맞는 수요를 묶되 참여 기업의 정체성은 계속 마스킹됩니다.",
         title: "블라인드 풀 집계",
         workspace: "/shipper, /forwarder"
       },
       {
-        action: "타임락 전환을 실행한 뒤 선사가 경매 가능 풀을 보고 더 낮은 운임으로 입찰합니다.",
-        actor: "관리자 / 선사",
-        proof: "D-14에 경매가 열리고, 기준 운임 상한과 현재 최저가 검증이 적용됩니다.",
-        title: "타임락과 역경매",
+        action: "타임락 전환으로 입찰 가능한 풀을 열고, 선사는 검증된 운임 상한 아래에서 입찰합니다.",
+        actor: "운영자 / 선사",
+        proof: "D-14에 경매가 열리고, 운임 기준 상한과 현재 최저가 검증이 적용됩니다.",
+        title: "타임락 역경매",
         workspace: "/admin, /carrier"
       },
       {
-        action: "경매를 마감하고 최저 유효 입찰을 낙찰로 확정합니다.",
-        actor: "관리자",
+        action: "운영자가 경매를 마감하고 최저 유효 입찰을 낙찰로 확정합니다.",
+        actor: "운영자",
         proof: "낙찰 선사가 기록되고 풀 상태가 경매에서 낙찰로 전환됩니다.",
         title: "낙찰 확정",
         workspace: "/admin"
       },
       {
-        action: "낙찰된 운송 건을 진행 중, 완료 상태로 전환합니다.",
-        actor: "관리자 / 전체 역할",
-        proof: "역할별 사용자는 제한된 데이터만 보면서 운송 후속 상태를 확인합니다.",
-        title: "운송 후속 관리",
+        action: "낙찰 건은 계약, 운송 중, 완료, 유찰, 분쟁 상태로 후속 관리됩니다.",
+        actor: "운영자 / 전체 역할",
+        proof: "사용자는 권한이 허용한 범위 안에서 운송 상태를 확인합니다.",
+        title: "운송 실행과 후속 관리",
         workspace: "/admin, 역할별 화면"
       }
     ],
     workspaces: [
       {
-        body: "데모 계정 또는 가입 계정으로 로그인합니다. 로그인 후 역할에 맞는 작업 화면으로 이동합니다.",
+        body: "등록 계정 또는 시나리오 계정으로 로그인합니다. 각 계정은 역할에 맞는 작업 화면으로 이동합니다.",
         href: "/login",
         icon: LogIn,
         label: "로그인"
       },
       {
-        body: "이메일과 사업자번호 중복 확인, 약관 동의, 관리자 승인 상태까지 포함해 기업 계정을 신청합니다.",
+        body: "이메일과 사업자번호 중복 확인, 약관 동의, 관리자 승인 상태를 포함해 기업 계정을 신청합니다.",
         href: "/signup",
         icon: UserPlus,
         label: "회원가입"
@@ -211,22 +211,22 @@ const text = {
         body: "화물 수요를 등록하고, 내 견적과 추천 공동구매 풀 참여 흐름을 확인합니다.",
         href: "/shipper",
         icon: Boxes,
-        label: "화물 등록"
+        label: "화물 수요"
       },
       {
-        body: "고객 화물을 포워더 계정으로 등록하되, 다른 참여자의 신원은 마스킹됩니다.",
+        body: "고객 화물을 포워더 계정으로 등록하되, 다른 참여자의 정체성은 마스킹됩니다.",
         href: "/forwarder",
         icon: Building2,
         label: "포워더"
       },
       {
-        body: "타임락 구간 안에서 경매 풀을 확인하고 더 낮은 운임을 입찰합니다.",
+        body: "타임락 구간 안에서 경매 풀을 확인하고 운임 기준 아래로 입찰합니다.",
         href: "/carrier",
         icon: Gavel,
-        label: "역경매"
+        label: "입찰 보드"
       },
       {
-        body: "타임락 전환, 참여자 확인, 입찰 감사, 경매 마감을 실행합니다.",
+        body: "타임락 전환, 참여자 확인, 입찰 검증, 경매 마감, 운송 상태 변경을 수행합니다.",
         href: "/admin",
         icon: ShieldCheck,
         label: "운영 관리"

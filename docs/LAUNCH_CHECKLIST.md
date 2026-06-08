@@ -5,7 +5,7 @@
 ## 브랜드 및 인프라 전환
 
 - [x] 애플리케이션 플랫폼명을 `LogisticsLink`로 변경
-- [x] 기존 해상 MVP를 `LogisticsLink Ocean` 서비스로 분리
+- [x] 해상 운영 흐름을 `LogisticsLink Ocean` 서비스로 분리
 - [x] `Quote`와 `CoBuyPool`에 `serviceCode=logisticslink-ocean` 적용
 - [x] 로컬 PostgreSQL에 `20260607090000_add_service_boundaries` 마이그레이션 적용
 - [x] GitHub 저장소명을 `whitederrick/logisticslink`로 정리
@@ -66,7 +66,7 @@ git remote -v
   - `NEXT_PUBLIC_ENABLE_DEMO_LOGIN=false`
   - `RATE_BENCHMARK_CSV_SOURCES`
   - 실제 값 주입 후 `npm run env:check` 통과
-- 데모 계정/seed 데이터와 운영 데이터 분리
+- 시나리오 계정/seed 데이터와 운영 데이터 분리
 - 실제 SCFI/선사 FAK/공시 운임 CSV 또는 사내 파일 경로 연결
   - `SCFI=https://...`
   - `CARRIER_FAK=https://...`
@@ -101,17 +101,18 @@ git remote -v
 - cron query secret을 production에서 기본 비활성화
   - `ALLOW_CRON_SECRET_QUERY=true`일 때만 query string secret 허용
   - 기본 권장 방식은 `Authorization: Bearer <CRON_SECRET>`
-- 데모 로그인 UI를 환경변수로 숨길 수 있게 변경
-  - `NEXT_PUBLIC_ENABLE_DEMO_LOGIN=false`
+- 시나리오 로그인 UI를 환경변수로 숨길 수 있게 변경
+  - `NEXT_PUBLIC_ENABLE_SCENARIO_LOGIN=false`
+  - legacy `NEXT_PUBLIC_ENABLE_DEMO_LOGIN=false`
 - 비활성 계정 UX 개선
   - 승인 대기/제한/정지 상태에서 역할별 작업 화면 대신 계정 상태 안내 표시
   - 사용자가 버튼을 누른 뒤 API 오류를 보는 흐름을 줄임
 - 운영 환경 템플릿 추가
   - `.env.production.example`
-  - 운영 기본값: HTTPS cookie, cron bearer token, demo login hidden
+  - 운영 기본값: HTTPS cookie, cron bearer token, scenario login hidden
 - 운영 환경변수 검증 스크립트 추가
   - `npm run env:check`
-  - placeholder secret, insecure URL/cookie, cron query secret 허용, 데모 로그인 노출, 잘못된 운임 CSV URL 차단
+  - placeholder secret, insecure URL/cookie, cron query secret 허용, 시나리오 로그인 노출, 잘못된 운임 CSV URL 차단
 - 운임 CSV 연결 검증 스크립트 추가
   - `npm run rate-sources:check`
   - SCFI/선사 FAK/공시 운임 CSV fetch 및 파싱 검증

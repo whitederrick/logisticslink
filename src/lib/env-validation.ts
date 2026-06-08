@@ -89,8 +89,12 @@ export function validateProductionEnv(env: EnvMap) {
     issues.push("ALLOW_CRON_SECRET_QUERY must be false in production.");
   }
 
-  if (env.NEXT_PUBLIC_ENABLE_DEMO_LOGIN !== "false") {
-    issues.push("NEXT_PUBLIC_ENABLE_DEMO_LOGIN must be false in production.");
+  if (env.NEXT_PUBLIC_ENABLE_SCENARIO_LOGIN !== "false") {
+    issues.push("NEXT_PUBLIC_ENABLE_SCENARIO_LOGIN must be false in production.");
+  }
+
+  if (env.NEXT_PUBLIC_ENABLE_DEMO_LOGIN && env.NEXT_PUBLIC_ENABLE_DEMO_LOGIN !== "false") {
+    issues.push("Legacy NEXT_PUBLIC_ENABLE_DEMO_LOGIN must be false or removed in production.");
   }
 
   issues.push(...validateRateBenchmarkCsvSourceUrls(env.RATE_BENCHMARK_CSV_SOURCES));

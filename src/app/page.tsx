@@ -9,88 +9,90 @@ const text = {
   en: {
     cards: [
       {
-        body: "Visitors enter through login or signup, and admin controls which companies can operate.",
+        body: "Companies sign up, pass account review, and operate only inside their approved role.",
         icon: LockKeyhole,
-        title: "1. Entry control"
+        title: "1. Company onboarding"
       },
       {
-        body: "Shippers and forwarders register freight demand with route, ETD, cargo, and container details.",
+        body: "Shippers and forwarders register freight demand with route, ETD, cargo, container, quantity, and weight.",
         icon: ClipboardList,
-        title: "2. Register cargo"
+        title: "2. Demand intake"
       },
       {
         body: "Compatible demand is grouped into blind co-buy pools without exposing participant identities.",
         icon: Boxes,
-        title: "3. Aggregate pools"
+        title: "3. Blind aggregation"
       },
       {
-        body: "The time-lock opens auction windows so carriers can bid against validated benchmark ceilings.",
+        body: "Auction windows open under a time-lock policy, and bids are validated against freight benchmarks.",
         icon: Gavel,
-        title: "4. Time-lock auction"
+        title: "4. Reverse auction"
       },
       {
-        body: "Admin closes the auction and awards the shipment to the lowest valid bid.",
+        body: "Operations closes the auction, records the winning carrier, and confirms the awarded shipment.",
         icon: CheckCircle2,
-        title: "5. Award"
+        title: "5. Award control"
       },
       {
-        body: "Awarded shipments move through in-progress and completed follow-up states.",
+        body: "Awarded shipments move through contracted, in-shipment, completed, or exception states.",
         icon: PackageCheck,
-        title: "6. Follow-up"
+        title: "6. Shipment execution"
       }
     ],
-    cta: "View MVP scenes",
+    cta: "View service workflow",
     eyebrow: `${activeService.name} · Active service`,
-    headline: "One logistics platform, starting with ocean freight co-buying.",
+    headline: "A live operating platform for ocean freight procurement.",
     login: "Login",
+    operational: "Active",
     planned: "Planned",
     serviceCatalog: "Service portfolio",
     signup: "Create account",
     subtitle:
-      `${platform.name} connects multiple logistics services. ${activeService.name} is the first active service and is organized as six MVP scenes: entry control, cargo demand, blind aggregation, time-lock auction, award, and shipment follow-up.`
+      `${platform.name} connects logistics procurement, account governance, blind demand aggregation, carrier bidding, award control, and shipment follow-up. ${activeService.name} is the first active service in that operating model.`
   },
   ko: {
     cards: [
       {
-        body: "방문자는 로그인 또는 회원가입으로 진입하고, 관리자는 운영 가능한 업체를 제어합니다.",
+        body: "기업은 가입 후 계정 검토를 거치고, 승인된 역할 안에서만 업무를 진행합니다.",
         icon: LockKeyhole,
-        title: "1. 진입 제어"
+        title: "1. 기업 온보딩"
       },
       {
-        body: "화주와 포워더가 항로, ETD, 화물, 컨테이너 조건을 입력해 운송 수요를 등록합니다.",
+        body: "화주와 포워더가 항로, ETD, 화물, 컨테이너, 수량, 중량 기준으로 운송 수요를 등록합니다.",
         icon: ClipboardList,
-        title: "2. 화물 등록"
+        title: "2. 수요 접수"
       },
       {
-        body: "조건이 맞는 수요를 블라인드 공동구매 풀로 묶고 참여자 신원은 숨깁니다.",
+        body: "조건이 맞는 수요를 블라인드 공동구매 풀로 묶고 참여 기업 정보는 노출하지 않습니다.",
         icon: Boxes,
-        title: "3. 공동구매 집계"
+        title: "3. 블라인드 집계"
       },
       {
-        body: "타임락으로 경매 구간을 열고 선사는 기준 운임 상한 안에서 낮은 운임을 입찰합니다.",
+        body: "타임락 정책에 따라 입찰 구간을 열고, 운임 기준 대비 유효한 입찰만 검증합니다.",
         icon: Gavel,
-        title: "4. 타임락 경매"
+        title: "4. 역경매"
       },
       {
-        body: "관리자는 경매를 마감하고 최저 유효 입찰을 낙찰로 확정합니다.",
+        body: "운영자가 경매를 마감하고 낙찰 선사를 기록한 뒤 운송 건을 확정합니다.",
         icon: CheckCircle2,
-        title: "5. 낙찰 확정"
+        title: "5. 낙찰 통제"
       },
       {
-        body: "낙찰된 건은 운송 시작과 완료 상태로 후속 관리합니다.",
+        body: "낙찰 건은 계약, 운송 중, 완료, 예외 상태로 이어지며 후속 관리됩니다.",
         icon: PackageCheck,
-        title: "6. 운송 후속"
+        title: "6. 운송 실행"
       }
     ],
-    cta: "MVP 장면 보기",
-    eyebrow: `${activeService.name} · 운영 중인 서비스`,
-    headline: "하나의 물류 플랫폼, 해상 공동구매부터 시작합니다.",
+    cta: "서비스 흐름 보기",
+    eyebrow: `${activeService.name} · 운영 서비스`,
+    headline: "해상 운임 조달을 실제 운영으로 연결하는 물류 플랫폼",
     login: "로그인",
+    operational: "운영 중",
     planned: "준비 중",
     serviceCatalog: "서비스 포트폴리오",
-    signup: "회원가입",
+    signup: "계정 만들기",
     subtitle:
-      `${platform.name}는 여러 물류 서비스를 하나의 체계로 연결합니다. 첫 운영 서비스인 ${activeService.name}는 진입 제어, 화물 수요, 블라인드 집계, 타임락 경매, 낙찰, 운송 후속의 여섯 장면으로 MVP를 보여줍니다.`
+      `${platform.name}는 물류 조달, 계정 거버넌스, 블라인드 수요 집계, 선사 입찰, 낙찰 통제, 운송 후속 관리를 하나의 운영 체계로 연결합니다. ${activeService.name}은 이 운영 모델의 첫 번째 활성 서비스입니다.`
   }
 } as const;
 
@@ -183,7 +185,7 @@ export default async function Home({ searchParams }: { searchParams: PageSearchP
                       <Icon size={18} />
                     </span>
                     <span className={`rounded px-2 py-1 text-xs font-semibold ${isActive ? "bg-harbor text-white" : "bg-slate-100 text-slate-500"}`}>
-                      {isActive ? "MVP" : t.planned}
+                      {isActive ? t.operational : t.planned}
                     </span>
                   </div>
                   <h3 className="mt-4 font-semibold">{service.name}</h3>

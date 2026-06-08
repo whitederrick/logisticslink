@@ -224,6 +224,7 @@ test("production environment check rejects placeholders and unsafe cron settings
     CRON_SECRET: "short",
     DATABASE_URL: "postgresql://USER:PASSWORD@HOST:5432/logisticslink?schema=public",
     NEXT_PUBLIC_ENABLE_DEMO_LOGIN: "true",
+    NEXT_PUBLIC_ENABLE_SCENARIO_LOGIN: "true",
     NEXTAUTH_URL: "http://logisticslink.example.com",
     RATE_BENCHMARK_CSV_SOURCES: "SCFI=http://rates.example/scfi.csv;https://rates.example/fak.csv"
   });
@@ -234,6 +235,7 @@ test("production environment check rejects placeholders and unsafe cron settings
   assert.match(issues.join("\n"), /AUTH_COOKIE_SECURE/);
   assert.match(issues.join("\n"), /CRON_SECRET/);
   assert.match(issues.join("\n"), /ALLOW_CRON_SECRET_QUERY/);
+  assert.match(issues.join("\n"), /NEXT_PUBLIC_ENABLE_SCENARIO_LOGIN/);
   assert.match(issues.join("\n"), /NEXT_PUBLIC_ENABLE_DEMO_LOGIN/);
   assert.match(issues.join("\n"), /must use https/);
   assert.match(issues.join("\n"), /explicit label/);
@@ -250,6 +252,7 @@ test("production environment check accepts finalized HTTPS CSV sources", () => {
       CRON_SECRET: "abcdefghijklmnopqrstuvwxyz123456",
       DATABASE_URL: "postgresql://logisticslink:secure@db.logisticslink.internal:5432/logisticslink?schema=public",
       NEXT_PUBLIC_ENABLE_DEMO_LOGIN: "false",
+      NEXT_PUBLIC_ENABLE_SCENARIO_LOGIN: "false",
       NEXTAUTH_URL: "https://logisticslink.example.com",
       RATE_BENCHMARK_CSV_SOURCES: "SCFI=https://secure.example.com/scfi.csv;CARRIER_FAK=https://secure.example.com/carrier-fak.csv;CARRIER_PUBLIC_TARIFF=https://secure.example.com/public-tariff.csv"
     }),

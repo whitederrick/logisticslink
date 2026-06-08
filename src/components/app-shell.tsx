@@ -5,12 +5,12 @@ import { Language, withLanguage } from "@/lib/i18n";
 import { activeService, platform } from "@/lib/product";
 
 const roleNavItems = [
-  ["/dashboard", { en: "Overview", ko: "전체 현황" }],
+  ["/dashboard", { en: "Overview", ko: "운영 현황" }],
   ["/login", { en: "Login", ko: "로그인" }],
   ["/signup", { en: "Signup", ko: "회원가입" }],
-  ["/shipper", { en: "Cargo demand", ko: "화물 등록" }],
+  ["/shipper", { en: "Cargo demand", ko: "화물 수요" }],
   ["/forwarder", { en: "Forwarder", ko: "포워더" }],
-  ["/carrier", { en: "Auction board", ko: "역경매" }],
+  ["/carrier", { en: "Auction board", ko: "입찰 보드" }],
   ["/admin", { en: "Operations", ko: "운영 관리" }]
 ] as const;
 
@@ -24,43 +24,43 @@ const workflowItems = [
     href: "/login",
     icon: LockKeyhole,
     paths: ["/login", "/signup", "/admin"],
-    title: { en: "1. Entry control", ko: "1. 진입 제어" },
-    body: { en: "Account state decides who can operate.", ko: "계정 상태로 운영 가능 여부를 제어합니다." }
+    title: { en: "1. Onboarding", ko: "1. 기업 온보딩" },
+    body: { en: "Account status controls who can operate.", ko: "계정 상태로 업무 권한을 통제합니다." }
   },
   {
     href: "/shipper",
     icon: ClipboardList,
     paths: ["/shipper", "/forwarder"],
-    title: { en: "2. Register cargo", ko: "2. 화물 등록" },
+    title: { en: "2. Demand intake", ko: "2. 수요 접수" },
     body: { en: "Shipper or forwarder submits freight demand.", ko: "화주 또는 포워더가 운송 수요를 등록합니다." }
   },
   {
     href: "/shipper",
     icon: Users,
     paths: ["/shipper", "/forwarder"],
-    title: { en: "3. Aggregate pool", ko: "3. 공동구매 집계" },
-    body: { en: "Compatible cargo is grouped into blind pools.", ko: "조건이 맞는 화물을 블라인드 풀로 묶습니다." }
+    title: { en: "3. Blind pool", ko: "3. 블라인드 풀" },
+    body: { en: "Compatible cargo is grouped without exposing identities.", ko: "조건이 맞는 화물을 익명 집계합니다." }
   },
   {
     href: "/carrier",
     icon: Gavel,
     paths: ["/admin", "/carrier"],
-    title: { en: "4. Time-lock auction", ko: "4. 타임락 경매" },
-    body: { en: "D-14 opens bidding under rate ceilings.", ko: "D-14에 기준 운임 안에서 입찰을 엽니다." }
+    title: { en: "4. Reverse auction", ko: "4. 역경매" },
+    body: { en: "Carriers bid under benchmark guardrails.", ko: "운임 기준 안에서 선사가 입찰합니다." }
   },
   {
     href: "/admin",
     icon: CheckCircle2,
     paths: ["/admin"],
-    title: { en: "5. Award", ko: "5. 낙찰 확정" },
-    body: { en: "Admin confirms the winning bid and records outcome.", ko: "최저 유효 입찰을 낙찰로 확정합니다." }
+    title: { en: "5. Award", ko: "5. 낙찰" },
+    body: { en: "Operations confirms the winning bid.", ko: "운영자가 낙찰 결과를 확정합니다." }
   },
   {
     href: "/admin",
     icon: PackageCheck,
     paths: ["/admin"],
-    title: { en: "6. Shipment follow-up", ko: "6. 운송 후속 관리" },
-    body: { en: "Shipment status and exceptions are tracked.", ko: "운송 진행과 예외 상황을 추적합니다." }
+    title: { en: "6. Execution", ko: "6. 운송 실행" },
+    body: { en: "Shipment status and exceptions are tracked.", ko: "운송 상태와 예외를 추적합니다." }
   }
 ] as const;
 
@@ -89,7 +89,7 @@ export async function AppShell({
                 <Anchor size={16} />
                 {platform.name}
               </Link>
-              <p className="mt-2 text-xs font-semibold uppercase tracking-wide text-slate-500">{activeService.name} · Ocean MVP</p>
+              <p className="mt-2 text-xs font-semibold uppercase tracking-wide text-slate-500">{activeService.name} · Operating service</p>
               <h1 className="mt-1 text-3xl font-semibold">{title}</h1>
               <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-600">{subtitle}</p>
             </div>
@@ -149,7 +149,7 @@ export async function AppShell({
         <section className="mb-6 rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
           <div className="mb-3 flex items-center gap-2">
             <Boxes size={18} className="text-harbor" />
-            <h2 className="text-sm font-semibold">{language === "ko" ? "메인 비즈니스 절차" : "Core business flow"}</h2>
+            <h2 className="text-sm font-semibold">{language === "ko" ? "핵심 운영 흐름" : "Core operating flow"}</h2>
           </div>
           <nav className="grid gap-2 md:grid-cols-3 xl:grid-cols-6">
             {workflowItems.map((item) => {
