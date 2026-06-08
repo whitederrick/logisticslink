@@ -192,7 +192,7 @@ npm run build
 postgresql://logisticslink:logisticslink@localhost:5433/logisticslink?schema=public
 ```
 
-DB명, DB 사용자명, 기존 데모 이메일과 데모 비밀번호는 기존 로컬 데이터 및 배포 호환성을 위해 당분간 유지합니다. 이 값들은 고객에게 보이는 브랜드명이 아닙니다. 새 로그인 쿠키는 `logisticslink_session`을 사용하며, 전환 기간에는 기존 `logisticslink_legacy_session`도 읽고 로그아웃 시 함께 제거합니다.
+DB명, DB 사용자명, 데모 이메일과 데모 비밀번호는 LogisticsLink 기준으로 정리되어 있습니다. 새 로그인 쿠키는 `logisticslink_session`을 사용하며, 전환 기간에는 `logisticslink_legacy_session`도 읽고 로그아웃 시 함께 제거합니다.
 
 자주 쓰는 명령:
 

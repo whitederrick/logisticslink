@@ -2,11 +2,11 @@
 
 ## Current State
 
-- Platform rename from LogisticsLink to LogisticsLink is deployed.
+- Platform rename to LogisticsLink is deployed.
 - Active ocean service is named `LogisticsLink Ocean`.
 - GitHub repository: `whitederrick/logisticslink`
 - Vercel project and production domain: `https://logisticslink.vercel.app`
-- Old `logisticslink.vercel.app` domain was removed.
+- The previous project domain was removed.
 - Production deployment commit `89e31a6` is Ready.
 - Production page visually confirmed with LogisticsLink branding and six MVP scenes.
 
@@ -58,10 +58,7 @@
    - `platform: LogisticsLink`
    - `service: logisticslink-ocean`
 5. Perform production signup, login, and quote creation QA.
-6. Rename local folder last:
-   - `C:\myProjects\logisticslink`
-   - to `C:\myProjects\logisticslink`
-   This must be done after ending the current Codex workspace/thread.
+6. Local folder is now open at `C:\myProjects\logisticslink`.
 
 ## Operational Constraints
 

@@ -8,36 +8,29 @@
 - [x] 기존 해상 MVP를 `LogisticsLink Ocean` 서비스로 분리
 - [x] `Quote`와 `CoBuyPool`에 `serviceCode=logisticslink-ocean` 적용
 - [x] 로컬 PostgreSQL에 `20260607090000_add_service_boundaries` 마이그레이션 적용
-- [ ] GitHub 저장소명을 `whitederrick/logisticslink`에서 `whitederrick/logisticslink`로 변경
+- [x] GitHub 저장소명을 `whitederrick/logisticslink`로 정리
   - GitHub 저장소 `Settings > General > Repository name`
-  - 변경 후 기존 `forwardlink` 이름을 다른 저장소에 재사용하지 않음
-- [ ] 로컬 Git remote 변경
+- [x] 로컬 Git remote 변경
 
 ```bat
 git remote set-url origin https://github.com/whitederrick/logisticslink.git
 git remote -v
 ```
 
-- [ ] 현재 변경사항을 커밋하고 원격 `main`에 push
-- [ ] Codex 작업공간을 닫은 뒤 로컬 폴더명을 변경
+- [x] 현재 변경사항을 커밋하고 원격 `main`에 push
+- [x] Codex 작업공간을 `C:\myProjects\logisticslink`로 열기
 
-```bat
-cd /d C:\myProjects
-ren forwardlink logisticslink
-cd logisticslink
-```
-
-- [ ] Vercel 프로젝트명을 `logisticslink`로 변경
+- [x] Vercel 프로젝트명을 `logisticslink`로 변경
   - Vercel 프로젝트 `Settings > General > Project Name`
-- [ ] Vercel Git 연결이 `whitederrick/logisticslink`와 `main`을 가리키는지 확인
+- [x] Vercel Git 연결이 `whitederrick/logisticslink`와 `main`을 가리키는지 확인
   - 필요하면 `Settings > Git`에서 기존 연결을 갱신
-- [ ] Vercel 기본 도메인과 사용자 도메인 확인
+- [x] Vercel 기본 도메인과 사용자 도메인 확인
   - 프로젝트명 기반 `.vercel.app` 주소는 새 이름 기준으로 확인
-  - 기존 운영 주소는 전환 기간 동안 유지하거나 새 주소로 redirect
+  - 이전 운영 주소는 전환 기간 동안 유지하거나 새 주소로 redirect
 - [ ] Vercel Production/Preview 환경의 `NEXTAUTH_URL`을 최종 HTTPS 주소로 변경
 - [ ] 환경변수 변경 후 새 Production Deployment 실행
   - Vercel 환경변수 변경은 기존 deployment에 소급 적용되지 않음
-- [ ] 배포된 `/api/health`에서 아래 값 확인
+- [x] 배포된 `/api/health`에서 아래 값 확인
   - `platform: LogisticsLink`
   - `service: logisticslink-ocean`
 

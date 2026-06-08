@@ -36,13 +36,13 @@ Ocean rate benchmarks remain service-specific until a normalized multi-mode rate
 
 ## Compatibility Rules
 
-- Keep existing PostgreSQL database and user names unless an infrastructure migration is separately scheduled.
+- Keep PostgreSQL database and user names aligned with the deployed environment unless an infrastructure migration is separately scheduled.
 - Keep the physical Docker volume name `logisticslink_postgres-data` and mount it from the `logisticslink` Compose project so local PostgreSQL data is preserved.
 - Keep historical Prisma migrations immutable.
 - Keep existing demo emails and `LogisticsLink!123` until demo credentials are deliberately rotated.
 - Use `logisticslink_session` for new sessions.
 - Read `logisticslink_legacy_session` during the transition and delete both names on logout.
-- Redirect old domains and repository URLs only after the new deployment is verified.
+- Redirect previously published domains and repository URLs only after the new deployment is verified.
 
 ## Expansion Checklist
 
