@@ -4,7 +4,7 @@
     "private":  true,
     "scripts":  {
                     "dev":  "next dev -p 3001",
-                    "build":  "prisma generate && prisma migrate deploy && next build",
+                    "build":  "prisma generate && next build",
                     "env:check":  "tsx scripts/check-production-env.ts",
                     "rate-sources:check":  "tsx scripts/check-rate-sources.ts",
                     "start":  "next start -p 3001",

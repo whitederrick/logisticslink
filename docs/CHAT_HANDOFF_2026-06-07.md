@@ -37,8 +37,9 @@
 - Commit `89e31a6 Rebrand platform as LogisticsLink` was pushed to `main`.
 - The build command runs:
   - `prisma generate`
-  - `prisma migrate deploy`
   - `next build`
+- Production migrations should be applied separately with `npm run prisma:deploy`
+  before or between deployments, not inside the Vercel build command.
 - Service boundaries were added through migration
   `20260607090000_add_service_boundaries`.
 - A new uncommitted migration exists:
@@ -52,7 +53,8 @@
 ## Important Pending Work
 
 1. Review and commit `20260607150000_seed_core_ports`.
-2. Push `main`; Vercel build will apply the migration to Neon automatically.
+2. Push `main`; apply any pending Neon migration separately with
+   `npm run prisma:deploy` or the Neon/Vercel console workflow.
 3. Confirm the new Vercel deployment is Ready.
 4. Verify `https://logisticslink.vercel.app/api/health` returns:
    - `platform: LogisticsLink`

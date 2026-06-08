@@ -72,7 +72,8 @@ npx prisma generate
 핵심:
 - **Option A**: GitHub 연동 자동 배포 (별도 명령 불필요)
 - **Option B**: `vercel --prod --yes` (CLI 수동)
-- 빌드 명령: `prisma generate && prisma migrate deploy && next build` (자동 마이그레이션)
+- 빌드 명령: `prisma generate && next build`
+- 마이그레이션: `npm run prisma:deploy`로 배포 전후에 별도 실행
 - 환경 변수: `DATABASE_URL`, `AUTH_SECRET`, `NEXTAUTH_URL`, `CRON_SECRET` 등
 
 ---
@@ -166,9 +167,9 @@ if (
 - `search_files`로 grep한 결과: 0개 (사용되지 않음)
 - 안전: 마이그레이션 후에도 enum 이름이 변경되었고, 코드에서 직접 참조하지 않음
 
-### 3.3 Vercel 빌드 시 `prisma migrate deploy`
+### 3.3 Vercel 배포 시 마이그레이션
 
-- 빌드 명령에 포함되어 있으므로 배포 시 자동 마이그레이션
+- Vercel 빌드 명령에는 포함하지 않고, 배포 전후 별도 단계에서 실행
 - **주의**: Vercel Postgres 또는 외부 managed PG 사용 권장 (로컬 `localhost:5433`은 Vercel에서 접근 불가)
 - DB connection string 끝에 `?sslmode=require` 필요
 

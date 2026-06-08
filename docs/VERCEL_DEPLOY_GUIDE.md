@@ -128,12 +128,12 @@ Vercel 대시보드 → **Settings** → **General** → **Build & Development S
 | 항목 | 값 |
 |------|---|
 | **Framework Preset** | `Next.js` |
-| **Build Command** | `prisma generate && prisma migrate deploy && next build` |
+| **Build Command** | `prisma generate && next build` |
 | **Output Directory** | `.next` (Next.js 기본값) |
 | **Install Command** | `npm install` |
 | **Node.js Version** | 22.x (LTS) |
 
-> **중요**: `prisma migrate deploy`가 build command에 포함되어 있으므로, 배포 시 자동으로 A2 + A3 마이그레이션이 프로덕션 DB에 적용됩니다.
+> **중요**: `prisma migrate deploy`는 Vercel build command에 넣지 않습니다. Neon advisory lock이 잠깐 잡히면 앱 빌드까지 실패할 수 있으므로, 프로덕션 마이그레이션은 배포 전후에 `npm run prisma:deploy`로 별도 실행합니다.
 
 ---
 
